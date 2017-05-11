@@ -1,10 +1,10 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
+import './Header.css';
 
 class Header extends React.Component {
     render() {
         return (
-            <h1>{this.props.title} </h1>
+            <h1 className="Header">{this.props.title} </h1>
         );
         
     }
