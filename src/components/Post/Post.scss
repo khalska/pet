@@ -1,0 +1,19 @@
+.Post{
+    border: 1px solid black;
+    .Post_data{
+        margin-bottom: 20px;
+        h3{
+            &:first-letter{
+                text-transform: uppercase;
+            }
+        }
+        div{
+            &:first-letter{
+                text-transform: uppercase;
+            }
+        }
+    }
+    .Post_buttons{
+
+    }
+}

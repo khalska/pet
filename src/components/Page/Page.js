@@ -38,7 +38,7 @@ class Page extends React.Component {
 
   render() {
     return (
-      <div className="Page">
+      <div className="Page container">
         <div className="Page-header">
           
           <Logo src={logo} />
@@ -50,7 +50,7 @@ class Page extends React.Component {
         {/*<input type="text" placeholder="Search" onChange={this.filterList}/>*/}
 
         <div className="post-content">
-          <ul>
+          <ul className="list-group">
             { this.state.posts.map(
               post=> { return <Post key={post.id} postTitle={post.title} postContent={post.body} postSrc="#"/> }
               )}
