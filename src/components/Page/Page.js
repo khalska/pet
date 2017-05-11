@@ -6,6 +6,7 @@ import Logo from '../Logo/Logo';
 import Post from '../Post/Post';
 import Footer from '../Footer/Footer';
 import Search from '../Search/Search';
+var classNames = require('classnames');
 
 class Page extends React.Component {
   constructor() {
@@ -37,8 +38,9 @@ class Page extends React.Component {
   }
 
   render() {
+    
     return (
-      <div className="Page container">
+      <div className={classNames('Page', 'container')}>
         <div className="page-header">
           
           <Logo src={logo} />
