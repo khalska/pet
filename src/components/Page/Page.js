@@ -39,7 +39,7 @@ class Page extends React.Component {
   render() {
     return (
       <div className="Page container">
-        <div className="Page-header">
+        <div className="page-header">
           
           <Logo src={logo} />
           <Header title="Welcome to React" />
