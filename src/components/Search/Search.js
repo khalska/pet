@@ -2,38 +2,22 @@ import React from 'react';
 import './Search.css';
 
 class Search extends React.Component {
-    filterList(event){
-        var updatedList = this.props.posts;
-        //console.log(updatedList);
-        
-        updatedList = updatedList.filter(function(item){
-        return item.toLowerCase().search(
-            event.target.value.toLowerCase()) !== -1;
-        });
-        // now we need to set the state of the component
-        //this.setState({posts: updatedList});
-    }
-
-
-    handleChange(event) {
-        console.log('filter');
-    }
-
-    componentDidMount() {
-        //console.log(this.props.posts);
+    constructor() {
+        super();
+        this.state = { 
+            phrase: []
+        };
     }
 
     render() {
         return (
             <div className="Search input-group">
-                
-                <input type="text" className="form-control" placeholder="Search..." onChange={this.filterList}/>
+                <input type="text" className="form-control" placeholder="Search..." onChange={this.props.onChange}/>
                 <div className="input-group-btn">
                     <button className="btn btn-default">Go!</button>
                 </div>
             </div>
         );
-        
     }
 }
 export default Search;

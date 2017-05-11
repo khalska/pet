@@ -13,7 +13,6 @@ class Post extends React.Component {
                     <a href={this.props.postSrc} className="btn btn-block btn-sm btn-default">Open</a>
                     <button className="btn btn-block btn-sm btn-default">Delete</button>                   
                 </div>
-                
             </li>
         );
         

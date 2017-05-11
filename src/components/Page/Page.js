@@ -26,14 +26,14 @@ class Page extends React.Component {
   }
 
   filterList(event){
-      var updatedList = this.state.posts;
+      // var updatedList = this.state.posts;
       
-      updatedList = updatedList.filter(function(item){
-          return item.toLowerCase().search(
-          event.target.value.toLowerCase()) !== -1;
-      });
+      // updatedList = updatedList.filter(function(item){
+      //     return item.toLowerCase().search(
+      //     event.target.value.toLowerCase()) !== -1;
+      // });
       
-      this.setState({posts: updatedList});
+      // this.setState({posts: updatedList});
   }
 
   render() {
@@ -46,7 +46,7 @@ class Page extends React.Component {
           
         </div>
 
-        <Search posts={this.state.posts}/>
+        <Search posts={this.state.posts} onChange={this.filterList}/>
         {/*<input type="text" placeholder="Search" onChange={this.filterList}/>*/}
 
         <div className="post-content">
