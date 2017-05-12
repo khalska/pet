@@ -9,12 +9,39 @@ import Search from '../Search/Search';
 var classNames = require('classnames');
 
 class Page extends React.Component {
-  constructor() {
-      super();
+  constructor(props) {
+      super(props);
       this.state = { 
         posts: [],
-        filteredPosts: []
+        filteredPosts: [],
+        phrase: ''
       };
+
+      this.handleFilterTextInput = this.handleFilterTextInput.bind(this);
+  }
+
+  handleFilterTextInput(phrase) {
+    this.setState({
+      phrase: phrase
+    });
+    
+    var result = this.state.posts;
+    
+    var result = result.filter(function (post) {
+      if(post.title.toLowerCase().indexOf(phrase.toLowerCase()) >= 0) {
+        return true
+      } else {
+        return false;
+      }
+    });
+
+    this.setState({
+      filteredPosts: result
+    });  
+  }
+
+  handleFilterTextButton(phrase) {
+
   }
 
   componentDidMount() {
@@ -23,18 +50,8 @@ class Page extends React.Component {
                 return response.json() })   
                     .then( (json) => {
                         this.setState({posts: json});
+                        this.setState({filteredPosts: json});
                     });
-  }
-
-  filterList(event){
-      // var updatedList = this.state.posts;
-      
-      // updatedList = updatedList.filter(function(item){
-      //     return item.toLowerCase().search(
-      //     event.target.value.toLowerCase()) !== -1;
-      // });
-      
-      // this.setState({posts: updatedList});
   }
 
   render() {
@@ -47,13 +64,15 @@ class Page extends React.Component {
           <Header title="Welcome to React" />
           
         </div>
-
-        <Search posts={this.state.posts} onChange={this.filterList}/>
-        {/*<input type="text" placeholder="Search" onChange={this.filterList}/>*/}
-
+        <div>{this.state.phrase}</div>
+        <Search 
+          phrase={this.state.phrase}
+          onFilterTextInput={this.handleFilterTextInput}
+        />
+     
         <div className="post-content">
           <ul className="list-group">
-            { this.state.posts.map(
+            { this.state.filteredPosts.map(
               post=> { return <Post key={post.id} postTitle={post.title} postContent={post.body} postSrc="#"/> }
               )}
           </ul>
