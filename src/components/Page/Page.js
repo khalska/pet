@@ -18,13 +18,17 @@ class Page extends React.Component {
       };
 
       this.handleFilterTextInput = this.handleFilterTextInput.bind(this);
+      this.handleFilterTextButton = this.handleFilterTextButton.bind(this);
   }
 
   handleFilterTextInput(phrase) {
     this.setState({
       phrase: phrase
     });
-    
+  }
+
+  handleFilterTextButton() {
+    var phrase = this.state.phrase;
     var result = this.state.posts;
     
     var result = result.filter(function (post) {
@@ -37,11 +41,7 @@ class Page extends React.Component {
 
     this.setState({
       filteredPosts: result
-    });  
-  }
-
-  handleFilterTextButton(phrase) {
-
+    }); 
   }
 
   componentDidMount() {
@@ -68,6 +68,7 @@ class Page extends React.Component {
         <Search 
           phrase={this.state.phrase}
           onFilterTextInput={this.handleFilterTextInput}
+          onFilterTextButton={this.handleFilterTextButton}
         />
      
         <div className="post-content">

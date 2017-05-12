@@ -5,6 +5,7 @@ class Search extends React.Component {
     constructor(props) {
         super(props);
         this.handleFilterTextInputChange = this.handleFilterTextInputChange.bind(this);
+        this.handleFilterTextButton = this.handleFilterTextButton.bind(this);
         this.state = { 
             phrase: []
         };
@@ -12,6 +13,10 @@ class Search extends React.Component {
 
     handleFilterTextInputChange(e) {
         this.props.onFilterTextInput(e.target.value);
+    }
+
+    handleFilterTextButton() {
+        this.props.onFilterTextButton();
     }
 
     render() {
@@ -22,9 +27,14 @@ class Search extends React.Component {
                     className="form-control" 
                     placeholder="Search..." 
                     value={this.props.filterTwxt}
-                    onChange={this.handleFilterTextInputChange}/>
+                    onChange={this.handleFilterTextInputChange}
+                />
                 <div className="input-group-btn">
-                    <button className="btn btn-default">Go!</button>
+                    <button 
+                        className="btn btn-default"
+                        onClick={this.handleFilterTextButton}
+                    >
+                    Go!</button>
                 </div>
             </div>
         );
