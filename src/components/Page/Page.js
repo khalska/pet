@@ -16,9 +16,6 @@ class Page extends React.Component {
         filteredPosts: [],
         phrase: ''
       };
-
-      this.handleFilterTextInput = this.handleFilterTextInput.bind(this);
-      this.handleFilterTextButton = this.handleFilterTextButton.bind(this);
   }
 
   handleFilterTextInput(phrase) {
@@ -45,13 +42,13 @@ class Page extends React.Component {
   }
 
   componentDidMount() {
-        fetch("http://jsonplaceholder.typicode.com/posts")
-            .then( (response) => {
-                return response.json() })   
-                    .then( (json) => {
-                        this.setState({posts: json});
-                        this.setState({filteredPosts: json});
-                    });
+      fetch("http://jsonplaceholder.typicode.com/posts")
+        .then( (response) => {
+          return response.json() })   
+            .then( (json) => {
+              this.setState({posts: json});
+              this.setState({filteredPosts: json});
+            });
   }
 
   render() {
@@ -59,18 +56,16 @@ class Page extends React.Component {
     return (
       <div className={classNames('Page', 'container')}>
         <div className="page-header">
-          
           <Logo src={logo} />
           <Header title="Welcome to React" />
-          
         </div>
-        <div>{this.state.phrase}</div>
+        
         <Search 
           phrase={this.state.phrase}
-          onFilterTextInput={this.handleFilterTextInput}
-          onFilterTextButton={this.handleFilterTextButton}
+          onFilterTextInput={(e) => this.handleFilterTextInput(e)}
+          onFilterTextButton={(e) => this.handleFilterTextButton(e)}
         />
-     
+
         <div className="post-content">
           <ul className="list-group">
             { this.state.filteredPosts.map(

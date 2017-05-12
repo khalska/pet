@@ -2,15 +2,6 @@ import React from 'react';
 import './Search.css';
 
 class Search extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleFilterTextInputChange = this.handleFilterTextInputChange.bind(this);
-        this.handleFilterTextButton = this.handleFilterTextButton.bind(this);
-        this.state = { 
-            phrase: []
-        };
-    }
-
     handleFilterTextInputChange(e) {
         this.props.onFilterTextInput(e.target.value);
     }
@@ -27,12 +18,12 @@ class Search extends React.Component {
                     className="form-control" 
                     placeholder="Search..." 
                     value={this.props.filterTwxt}
-                    onChange={this.handleFilterTextInputChange}
+                    onChange={ (e) => this.handleFilterTextInputChange(e) }
                 />
                 <div className="input-group-btn">
                     <button 
                         className="btn btn-default"
-                        onClick={this.handleFilterTextButton}
+                        onClick={ (e) => this.handleFilterTextButton(e) }
                     >
                     Go!</button>
                 </div>
