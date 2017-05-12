@@ -6,6 +6,7 @@ import Logo from '../Logo/Logo';
 import Post from '../Post/Post';
 import Footer from '../Footer/Footer';
 import Search from '../Search/Search';
+import { config } from '../../config.js';
 var classNames = require('classnames');
 
 class Page extends React.Component {
@@ -25,15 +26,13 @@ class Page extends React.Component {
   }
 
   handleFilterTextButton() {
-    var phrase = this.state.phrase;
-    var result = this.state.posts;
+    const phrase = this.state.phrase.toLowerCase();
+    let result = this.state.posts;
     
-    var result = result.filter(function (post) {
-      if(post.title.toLowerCase().indexOf(phrase.toLowerCase()) >= 0) {
-        return true
-      } else {
-        return false;
-      }
+    result = result.filter(function (post) {
+      let title = post.title.toLowerCase();
+      let body = post.body.toLowerCase();
+      return ((title.indexOf(phrase) >= 0 || body.indexOf(phrase) >= 0) ? true : false);
     });
 
     this.setState({
@@ -42,40 +41,50 @@ class Page extends React.Component {
   }
 
   componentDidMount() {
-      fetch("http://jsonplaceholder.typicode.com/posts")
-        .then( (response) => {
-          return response.json() })   
-            .then( (json) => {
-              this.setState({posts: json});
-              this.setState({filteredPosts: json});
-            });
+    fetch(config.url)
+      .then( (response) => {
+        return response.json() })   
+          .then( (json) => {
+            this.setState({posts: json, filteredPosts: json});
+          });
+  }
+
+  renderHeader() {
+    return(
+      <div className="page-header">
+        <Logo src={logo} />
+        <Header title="Welcome to React" />
+      </div>
+    );
+  }
+
+  renderPosts() {
+    return(
+      <div className="post-content">
+        <ul className="list-group">
+          { this.state.filteredPosts.map(
+            post => <Post key={post.id} postTitle={post.title} postContent={post.body} postSrc="#"/>
+          )}
+        </ul>
+      </div>
+    );
   }
 
   render() {
     
     return (
       <div className={classNames('Page', 'container')}>
-        <div className="page-header">
-          <Logo src={logo} />
-          <Header title="Welcome to React" />
-        </div>
+        {this.renderHeader()}
         
         <Search 
           phrase={this.state.phrase}
-          onFilterTextInput={(e) => this.handleFilterTextInput(e)}
-          onFilterTextButton={(e) => this.handleFilterTextButton(e)}
+          onFilterTextInput={ (e) => this.handleFilterTextInput(e) }
+          onFilterTextButton={ (e) => this.handleFilterTextButton(e) }
         />
 
-        <div className="post-content">
-          <ul className="list-group">
-            { this.state.filteredPosts.map(
-              post=> { return <Post key={post.id} postTitle={post.title} postContent={post.body} postSrc="#"/> }
-              )}
-          </ul>
-        </div>
+        {this.renderPosts()}
 
         <Footer />
-				
       </div>
     );
   }

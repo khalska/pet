@@ -8,7 +8,6 @@ class Logo extends React.Component {
                 <img src={this.props.src}/>
             </div>
         );
-        
     }
 }
 export default Logo;

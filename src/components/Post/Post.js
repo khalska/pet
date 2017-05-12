@@ -16,7 +16,6 @@ class Post extends React.Component {
                 </div>
             </li>
         );
-        
     }
 }
 export default Post;
