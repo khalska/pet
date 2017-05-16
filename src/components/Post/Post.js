@@ -1,6 +1,7 @@
 import React from 'react';
 import './Post.css';
-var classNames = require('classnames');
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 class Post extends React.Component {
     render() {
@@ -23,3 +24,9 @@ class Post extends React.Component {
     }
 }
 export default Post;
+
+Post.propTypes = {
+    postTitle: PropTypes.string,
+    postContent: PropTypes.string,
+    postSrc: PropTypes.string
+}

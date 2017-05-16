@@ -7,7 +7,8 @@ import Post from '../Post/Post';
 import Footer from '../Footer/Footer';
 import Search from '../Search/Search';
 import { config } from '../../config.js';
-var classNames = require('classnames');
+import classNames from 'classnames';
+import fetch from 'isomorphic-fetch'
 
 class Page extends React.Component {
   constructor(props) {
