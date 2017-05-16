@@ -11,8 +11,12 @@ class Post extends React.Component {
                     <div>{this.props.postContent}</div>
                 </div>
                 <div className={classNames('Post_buttons', 'col-md-3', 'text-center')}>
-                    <a href={this.props.postSrc} className={classNames('btn', 'btn-block', 'btn-sm', 'btn-default')}>Open</a>
-                    <button className={classNames('btn', 'btn-block', 'btn-sm', 'btn-default')}>Delete</button>                   
+                    <a href={this.props.postSrc} className={classNames('btn', 'btn-block', 'btn-sm', 'btn-default')}>
+                        Open
+                    </a>
+                    <button className={classNames('btn', 'btn-block', 'btn-sm', 'btn-default')}>
+                        Delete
+                    </button>                   
                 </div>
             </li>
         );
