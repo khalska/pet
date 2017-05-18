@@ -1,11 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import logo from './logo.svg';
 import './Page.css';
-import Header from '../Header/Header';
-import Logo from '../Logo/Logo';
 import Post from '../Post/Post';
-import Footer from '../Footer/Footer';
 import Search from '../Search/Search';
 import { config } from '../../config.js';
 import classNames from 'classnames';
@@ -51,15 +47,6 @@ class Page extends React.Component {
           });
   }
 
-  renderHeader() {
-    return(
-      <div className="page-header">
-        <Logo src={logo} />
-        <Header title="Welcome to React" />
-      </div>
-    );
-  }
-
   renderPosts() {
     return(
       <div className="post-content">
@@ -84,8 +71,7 @@ class Page extends React.Component {
 
   render() {
     return (
-      <div className={classNames('Page', 'container')}>
-        {this.renderHeader()}
+      <div className={classNames('Page')}>
         {this.renderAddPostButton()}
 
         <Search 
@@ -95,8 +81,6 @@ class Page extends React.Component {
         />
 
         {this.renderPosts()}
-
-        <Footer />
       </div>
     );
   }
