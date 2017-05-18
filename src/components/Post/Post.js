@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import './Post.css';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -12,9 +13,9 @@ class Post extends React.Component {
                     <div>{this.props.postContent}</div>
                 </div>
                 <div className={classNames('Post_buttons', 'col-md-3', 'text-center')}>
-                    <a href={this.props.postSrc} className={classNames('btn', 'btn-block', 'btn-sm', 'btn-default')}>
-                        Open
-                    </a>
+                    <Link to={this.props.postSrc} className={classNames('btn', 'btn-block', 'btn-sm', 'btn-default')}>
+                        Edit
+                    </Link>
                     <button className={classNames('btn', 'btn-block', 'btn-sm', 'btn-default')}>
                         Delete
                     </button>                   
