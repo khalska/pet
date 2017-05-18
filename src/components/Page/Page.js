@@ -31,8 +31,8 @@ class Page extends React.Component {
     let result = this.state.posts;
     
     result = result.filter(function (post) {
-      let title = post.title.toLowerCase();
-      let body = post.body.toLowerCase();
+      const title = post.title.toLowerCase();
+      const body = post.body.toLowerCase();
       return ((title.indexOf(phrase) >= 0 || body.indexOf(phrase) >= 0) ? true : false);
     });
 
@@ -72,7 +72,6 @@ class Page extends React.Component {
   }
 
   render() {
-    
     return (
       <div className={classNames('Page', 'container')}>
         {this.renderHeader()}
