@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import logo from './logo.svg';
 import './Page.css';
 import Header from '../Header/Header';
@@ -71,11 +72,22 @@ class Page extends React.Component {
     );
   }
 
+  renderAddPostButton() {
+    return(
+      <div className="addPostButton pull-right">
+        <Link to="add-post" className={classNames('btn', 'pull-right', 'btn-sm', 'btn-default')}>
+          Add new post
+        </Link>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className={classNames('Page', 'container')}>
         {this.renderHeader()}
-        
+        {this.renderAddPostButton()}
+
         <Search 
           phrase={this.state.phrase}
           onFilterTextInput={ (e) => this.handleFilterTextInput(e) }
