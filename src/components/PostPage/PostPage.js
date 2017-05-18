@@ -21,10 +21,18 @@ class PostPage extends React.Component {
     this.setState({inputTitleValue: event.target.value});
   }
 
+  renderTitle() {
+    const postId = this.props.match.params.postId;
+    let title = postId ? ("Edit post #" + postId) : "Add new post";
+    return (
+      <h3>{title}</h3>
+    );
+  }
+
   render() {
     return (
       <div>
-        <h3>Edit/Insert post</h3>
+        {this.renderTitle()}
         <form onSubmit={this.handleSumbit}>
           <label>
             Title:
@@ -39,5 +47,5 @@ class PostPage extends React.Component {
 export default PostPage;
 
 PostPage.propTypes = {
-    
+    params: PropTypes.object
 }
