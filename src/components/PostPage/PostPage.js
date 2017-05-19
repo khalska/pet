@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import fetch from 'isomorphic-fetch';
 import { config } from '../../config.js';
 import Comment from '../Comment/Comment';
+import User from '../User/User';
 import './PostPage.css';
 
 class PostPage extends React.Component {
@@ -19,7 +20,8 @@ class PostPage extends React.Component {
     this.state = {
       inputTitleValue: '',
       textareaBodyValue: '',
-      comments: []
+      comments: [],
+      userValue: ''
     };
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -50,7 +52,7 @@ class PostPage extends React.Component {
     let data = {
       title: this.state.inputTitleValue,
       body: this.state.textareaBodyValue,
-      userId: 1
+      userId: this.state.userValue
     }
 
     let fetchData = { 
@@ -71,7 +73,7 @@ class PostPage extends React.Component {
       id: postId,
       title: this.state.inputTitleValue,
       body: this.state.textareaBodyValue,
-      userId: 1
+      userId: this.state.userValue
     }
 
     let fetchData = { 
@@ -97,11 +99,30 @@ class PostPage extends React.Component {
     this.setState({textareaBodyValue: event.target.value});
   }
 
+  handleUserChange(event) {
+    this.setState({
+       userValue: event.target.value
+     });
+  }
+
   renderTitle() {
     const postId = this.props.match.params.postId;
     let title = postId ? ('Edit post #' + postId) : 'Add new post';
     return (
       <h3>{title}</h3>
+    );
+  }
+
+  renderUsers() {
+    return(
+      <div className="users_container">
+        <h5>User</h5>
+        <ul onChange={ (e) => this.handleUserChange(e)}>    
+          {config.users.map(
+            user => <User key={user.id} user={user} />
+          )}
+        </ul>
+      </div>
     );
   }
 
@@ -130,6 +151,7 @@ class PostPage extends React.Component {
           <div>
             <textarea value={this.state.textareaBodyValue} onChange={this.handleBodyChange} placeholder="Body" />
           </div>
+          {this.renderUsers()}
           <div>
             <input type="submit" value="Save changes" />
             <Link to='/' >

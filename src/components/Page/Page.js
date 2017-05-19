@@ -52,7 +52,7 @@ class Page extends React.Component {
       <div className="post-content">
         <ul className="list-group">
           { this.state.filteredPosts.map(
-            post => <Post key={post.id} postTitle={post.title} postContent={post.body} postSrc={"update-post/" + post.id}/>
+            post => <Post key={post.id} postTitle={post.title} postContent={post.body} postSrc={'update-post/' + post.id}/>
           )}
         </ul>
       </div>
