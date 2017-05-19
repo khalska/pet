@@ -5,6 +5,11 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 class Post extends React.Component {
+    static propTypes = {
+        postTitle: PropTypes.string,
+        postContent: PropTypes.string,
+        postSrc: PropTypes.string
+    }
     render() {
         return (
             <li className={classNames('Post', 'list-group-item', 'panel', 'row')}>
@@ -25,9 +30,3 @@ class Post extends React.Component {
     }
 }
 export default Post;
-
-Post.propTypes = {
-    postTitle: PropTypes.string,
-    postContent: PropTypes.string,
-    postSrc: PropTypes.string
-}

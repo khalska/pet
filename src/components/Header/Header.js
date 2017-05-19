@@ -3,6 +3,9 @@ import './Header.css';
 import PropTypes from 'prop-types';
 
 class Header extends React.Component {
+  static propTypes = {
+    title: PropTypes.string
+  }
   render() {
     return (
       <h1 className="Header">
@@ -12,7 +15,3 @@ class Header extends React.Component {
   }
 }
 export default Header;
-
-Header.propTypes = {
-  title: PropTypes.string
-};

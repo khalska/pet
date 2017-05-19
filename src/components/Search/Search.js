@@ -3,6 +3,12 @@ import './Search.css';
 import PropTypes from 'prop-types';
 
 class Search extends React.Component {
+    static propTypes = {
+        filterTwxt: PropTypes.string,
+        onFilterTextButton: PropTypes.func,
+        onFilterTextInput: PropTypes.func
+    }
+
     handleFilterTextInputChange(e) {
         this.props.onFilterTextInput(e.target.value);
     }
@@ -33,9 +39,3 @@ class Search extends React.Component {
     }
 }
 export default Search;
-
-Search.propTypes = {
-    filterTwxt: PropTypes.string,
-    onFilterTextButton: PropTypes.func,
-    onFilterTextInput: PropTypes.func
-}
