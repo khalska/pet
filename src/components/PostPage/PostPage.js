@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 class PostPage extends React.Component {
+  propTypes = {
+    params: PropTypes.object
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -69,7 +72,3 @@ class PostPage extends React.Component {
   }
 }
 export default PostPage;
-
-PostPage.propTypes = {
-    params: PropTypes.object
-}

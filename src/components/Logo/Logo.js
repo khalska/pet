@@ -3,6 +3,9 @@ import './Logo.css';
 import PropTypes from 'prop-types';
 
 class Logo extends React.Component {
+    propTypes = {
+        src: PropTypes.string
+    }
     render() {
         return (
             <div className="Logo">
@@ -12,7 +15,3 @@ class Logo extends React.Component {
     }
 }
 export default Logo;
-
-Logo.propTypes = {
-    src: PropTypes.string
-};
