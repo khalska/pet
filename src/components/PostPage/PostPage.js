@@ -9,6 +9,7 @@ class PostPage extends React.Component {
   static propTypes = {
     params: PropTypes.object
   }
+  
   constructor(props) {
     super(props);
     this.state = {
