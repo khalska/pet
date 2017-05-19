@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { browserHistory } from 'react-router'
 import './PostPage.css';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -9,7 +8,7 @@ import { config } from '../../config.js';
 
 class PostPage extends React.Component {
   static propTypes = {
-    params: PropTypes.object
+    match: PropTypes.object
   }
 
   constructor(props) {
@@ -26,7 +25,8 @@ class PostPage extends React.Component {
   }
 
   handleSubmit() {
-    this.addNewPost();
+    const postId = this.props.match.params.postId;
+    postId ? this.updatePost(postId) : this.addNewPost();
   }
 
   addNewPost() {
@@ -46,6 +46,29 @@ class PostPage extends React.Component {
     }
 
     fetch(config.url, fetchData)
+    .then(response => (response.ok ? response : null));
+  }
+
+  updatePost(postId) {
+    let data = {
+      id: postId,
+      title: this.state.inputTitleValue,
+      body: this.state.textareaBodyValue,
+      userId: 1
+    }
+
+    let fetchData = { 
+      method: 'PUT', 
+      body: data,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }
+
+    const url = `${config.url}/${postId}`;
+
+    fetch(url, fetchData)
     .then(response => (response.ok ? response : null));
   }
 
