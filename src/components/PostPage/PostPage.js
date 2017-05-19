@@ -4,17 +4,20 @@ import { browserHistory } from 'react-router'
 import './PostPage.css';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import fetch from 'isomorphic-fetch';
+import { config } from '../../config.js';
 
 class PostPage extends React.Component {
   static propTypes = {
     params: PropTypes.object
   }
-  
+
   constructor(props) {
     super(props);
     this.state = {
       inputTitleValue: '',
-      textareaBodyValue: ''
+      textareaBodyValue: '',
+      newData: {}
     };
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -22,9 +25,28 @@ class PostPage extends React.Component {
     this.handleBodyChange = this.handleBodyChange.bind(this);
   }
 
-  handleSubmit(event) {
-    alert('Submit');
-    event.preventDefault();
+  handleSubmit() {
+    this.addNewPost();
+  }
+
+  addNewPost() {
+    let data = {
+      title: this.state.inputTitleValue,
+      body: this.state.textareaBodyValue,
+      userId: 1
+    }
+
+    let fetchData = { 
+      method: 'POST', 
+      body: data,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }
+
+    fetch(config.url, fetchData)
+    .then(response => (response.ok ? response : null));
   }
 
   handleTitleChange(event) {
