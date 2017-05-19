@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 class Search extends React.Component {
     static propTypes = {
-        filterTwxt: PropTypes.string.isRequired,
+        filterTwxt: PropTypes.string,
         onFilterTextButton: PropTypes.func.isRequired,
         onFilterTextInput: PropTypes.func.isRequired
     }

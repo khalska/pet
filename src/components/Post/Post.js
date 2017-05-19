@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import fetch from 'isomorphic-fetch';
 import { config } from '../../config.js';
+import Modal from '../Modal/Modal';
 
 class Post extends React.Component {
     static propTypes = {
@@ -12,6 +13,11 @@ class Post extends React.Component {
         postContent: PropTypes.string.isRequired,
         postSrc: PropTypes.string.isRequired,
         postId: PropTypes.number.isRequired
+    }
+
+    constructor(props) {
+      super(props)
+      this.state = { isModalOpen: false }
     }
 
     deletePost(postId) {
@@ -34,7 +40,7 @@ class Post extends React.Component {
                     <button onClick={() => this.deletePost(this.props.postId)} className={classNames('btn btn-block btn-sm btn-default')}>
                         Delete
                     </button>                   
-                </div>
+                </div>               
             </li>
         );
     }

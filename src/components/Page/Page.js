@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import './Page.css';
 import Post from '../Post/Post';
+import Modal from '../Modal/Modal';
 import Search from '../Search/Search';
 import { config } from '../../config.js';
 import classNames from 'classnames';
@@ -49,6 +50,13 @@ class Page extends React.Component {
       );
   }
 
+  openModal() {
+    this.setState({ isModalOpen: true })
+  }
+
+  closeModal() {
+    this.setState({ isModalOpen: false })
+  }
 
   renderPosts() {
     return(
@@ -82,6 +90,13 @@ class Page extends React.Component {
           onFilterTextInput={ (e) => this.handleFilterTextInput(e) }
           onFilterTextButton={ (e) => this.handleFilterTextButton(e) }
         />
+
+        <button onClick={() => this.openModal()}>Open modal</button>
+        <Modal isOpen={this.state.isModalOpen} onClose={() => this.closeModal()}>
+        <h1>Modal title</h1>
+        <p>hello</p>
+        <p><button onClick={() => this.closeModal()}>Close</button></p>
+        </Modal>
 
         {this.renderPosts()}
       </div>
