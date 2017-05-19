@@ -1,6 +1,7 @@
 import React from 'react';
 import './Search.css';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 class Search extends React.Component {
     static propTypes = {
@@ -19,7 +20,7 @@ class Search extends React.Component {
 
     render() {
         return (
-            <div className="Search input-group">
+            <div className={classNames('Search input-group')}>
                 <input 
                     type="text" 
                     className="form-control" 

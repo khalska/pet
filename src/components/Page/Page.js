@@ -62,7 +62,7 @@ class Page extends React.Component {
   renderAddPostButton() {
     return(
       <div className="addPostButton pull-right">
-        <Link to="add-post" className={classNames('btn', 'pull-right', 'btn-sm', 'btn-default')}>
+        <Link to="add-post" className={classNames('btn pull-right btn-sm btn-default')}>
           Add new post
         </Link>
       </div>
