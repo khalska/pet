@@ -126,6 +126,10 @@ class PostPage extends React.Component {
      });
   }
 
+  validateForm() {
+    return !(this.state.inputTitleValue && this.state.textareaBodyValue && this.state.userValue)
+  }
+
   renderTitle() {
     const postId = this.props.match.params.postId;
     let title = postId ? ('Edit post #' + postId) : 'Add new post';
@@ -138,7 +142,7 @@ class PostPage extends React.Component {
     return(
       <div className="users_container">
         <h5>User</h5>
-        <ul onChange={ (e) => this.handleUserChange(e)}>    
+        <ul onChange={ (e) => this.handleUserChange(e)} >    
           {config.users.map(
             user => <User key={user.id} user={user} />
           )}
@@ -166,15 +170,15 @@ class PostPage extends React.Component {
     return(
       <div>
         <form onSubmit={this.handleSumbit}>
-          <div>
-            <input type="text" value={this.state.inputTitleValue} onChange={this.handleTitleChange} placeholder="Title"/>
+          <div>All:
+            <input type="text" value={this.state.inputTitleValue} onChange={this.handleTitleChange} placeholder="Title" required/>
           </div>
           <div>
-            <textarea value={this.state.textareaBodyValue} onChange={this.handleBodyChange} placeholder="Body" />
+            <textarea value={this.state.textareaBodyValue} onChange={this.handleBodyChange} placeholder="Body" required/>
           </div>
           {this.renderUsers()}
-          <div>
-            <input type="submit" value="Save changes" />
+          <div className="form_buttons">
+            <input type="submit" value="Save changes" disabled={this.validateForm()} className="button_save"/>
             <Link to='/' >
               Cancel
             </Link>

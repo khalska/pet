@@ -8,3 +8,11 @@
 textarea{
   width: 100%;
 }
+
+.form_buttons{
+  .button_save{
+    &:disabled{
+      color: grey
+    }
+  }
+}
