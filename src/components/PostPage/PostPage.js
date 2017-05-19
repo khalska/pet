@@ -99,7 +99,7 @@ class PostPage extends React.Component {
 
   renderTitle() {
     const postId = this.props.match.params.postId;
-    let title = postId ? ("Edit post #" + postId) : "Add new post";
+    let title = postId ? ('Edit post #' + postId) : 'Add new post';
     return (
       <h3>{title}</h3>
     );
