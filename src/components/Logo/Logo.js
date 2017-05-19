@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class Logo extends React.Component {
     static propTypes = {
-        src: PropTypes.string
+        src: PropTypes.string.isRequired
     }
     render() {
         return (

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 class Search extends React.Component {
     static propTypes = {
-        filterTwxt: PropTypes.string,
-        onFilterTextButton: PropTypes.func,
-        onFilterTextInput: PropTypes.func
+        filterTwxt: PropTypes.string.isRequired,
+        onFilterTextButton: PropTypes.func.isRequired,
+        onFilterTextInput: PropTypes.func.isRequired
     }
 
     handleFilterTextInputChange(e) {

@@ -5,8 +5,8 @@ import './Comment.css';
 
 class Comment extends React.Component {
   static propTypes = {
-    name: PropTypes.string,
-    body: PropTypes.string
+    name: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired
   }
 
   render() {

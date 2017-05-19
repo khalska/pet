@@ -6,9 +6,9 @@ import classNames from 'classnames';
 
 class Post extends React.Component {
     static propTypes = {
-        postTitle: PropTypes.string,
-        postContent: PropTypes.string,
-        postSrc: PropTypes.string
+        postTitle: PropTypes.string.isRequired,
+        postContent: PropTypes.string.isRequired,
+        postSrc: PropTypes.string.isRequired
     }
     render() {
         return (
