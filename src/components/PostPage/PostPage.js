@@ -23,10 +23,6 @@ class PostPage extends React.Component {
       comments: [],
       userValue: ''
     };
-
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBodyChange = this.handleBodyChange.bind(this);
   }
 
   componentDidMount() {
@@ -169,12 +165,18 @@ class PostPage extends React.Component {
   renderForm() {
     return(
       <div>
-        <form onSubmit={this.handleSumbit}>
-          <div>All:
-            <input type="text" value={this.state.inputTitleValue} onChange={this.handleTitleChange} placeholder="Title" required/>
+        <form onSubmit={ (e) => this.handleSubmit(e) }>
+          <div>
+            <input type="text" required
+              value={this.state.inputTitleValue} 
+              onChange={ (e) => this.handleTitleChange(e) } 
+              placeholder="Title" />
           </div>
           <div>
-            <textarea value={this.state.textareaBodyValue} onChange={this.handleBodyChange} placeholder="Body" required/>
+            <textarea required
+              value={this.state.textareaBodyValue} 
+              onChange={ (e) => this.handleBodyChange(e) } 
+              placeholder="Body" />
           </div>
           {this.renderUsers()}
           <div className="form_buttons">
