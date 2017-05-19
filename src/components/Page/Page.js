@@ -40,19 +40,22 @@ class Page extends React.Component {
 
   componentDidMount() {
     fetch(config.url)
-      .then( (response) => {
-        return response.json() })   
-          .then( (json) => {
-            this.setState({posts: json, filteredPosts: json});
-          });
+      .then( (response) => response.json() )   
+      .then( (json) =>  
+        this.setState({
+          posts: json, 
+          filteredPosts: json
+        }) 
+      );
   }
+
 
   renderPosts() {
     return(
       <div className="post-content">
         <ul className="list-group">
           { this.state.filteredPosts.map(
-            post => <Post key={post.id} postTitle={post.title} postContent={post.body} postSrc={'update-post/' + post.id}/>
+            post => <Post key={post.id} postTitle={post.title} postContent={post.body} postSrc={'update-post/' + post.id} postId={post.id}/>
           )}
         </ul>
       </div>

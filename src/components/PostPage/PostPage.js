@@ -37,27 +37,21 @@ class PostPage extends React.Component {
   getPostData(postId) {
     const url = `${config.url}/${postId}`;
     fetch(url)
-      .then( (response) => {
-        return response.json() 
-      })   
-      .then( (json) => {
+      .then( (response) => response.json() )   
+      .then( (json) => 
         this.setState({
           inputTitleValue: json.title,
           textareaBodyValue: json.body,
           userValue: json.userId
-        });
-      });
+        })
+      );
   }
 
   getComments(postId) {
     const url = `${config.url}/${postId}/comments`;
     fetch(url)
-      .then( (response) => {
-        return response.json() 
-      })   
-      .then( (json) => {
-        this.setState({comments: json});
-      });
+      .then( (response) => response.json() )   
+      .then( (json) => this.setState({comments: json}) );
   }
 
   handleSubmit() {
@@ -186,7 +180,6 @@ class PostPage extends React.Component {
             </Link>
           </div>
         </form>
-        {this.renderComments()}
       </div>
     );
   }
@@ -196,7 +189,7 @@ class PostPage extends React.Component {
       <div>
         {this.renderTitle()}
         {this.renderForm()}
-        
+        {this.renderComments()}
       </div>
     );
   }
