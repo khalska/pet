@@ -31,16 +31,37 @@ class PostPage extends React.Component {
 
   componentDidMount() {
     const postId = this.props.match.params.postId;
-    const url = `${config.url}/${postId}/comments`;
 
     if (postId) {
-      fetch(url)
-      .then( (response) => {
-        return response.json() })   
-          .then( (json) => {
-            this.setState({comments: json});
-          });
+      this.getPostData(postId);
+      this.getComments(postId);
     }
+  }
+
+  getPostData(postId) {
+    const url = `${config.url}/${postId}`;
+    fetch(url)
+      .then( (response) => {
+        return response.json() 
+      })   
+      .then( (json) => {
+        this.setState({
+          inputTitleValue: json.title,
+          textareaBodyValue: json.body,
+          userValue: json.userId
+        });
+      });
+  }
+
+  getComments(postId) {
+    const url = `${config.url}/${postId}/comments`;
+    fetch(url)
+      .then( (response) => {
+        return response.json() 
+      })   
+      .then( (json) => {
+        this.setState({comments: json});
+      });
   }
 
   handleSubmit() {
