@@ -107,18 +107,11 @@ class Page extends React.Component {
           onFilterTextButton={ (e) => this.handleFilterTextButton(e) }
         />
       
-        <Modal isOpen={this.state.isModalOpen} onClose={() => this.closeModal()}>
+        <Modal 
+          isOpen={this.state.isModalOpen} 
+          onClose={ () => this.closeModal() } 
+          onConfirm={ () => this.onConfirmDelete(this.state.postToDelete) } >
           <p>Are you sure to delete post #{this.state.postToDelete}?</p>
-          <div className="btn-group">
-            <button type="button" className="btn btn-default btn-sm" onClick={ () => this.onConfirmDelete(this.state.postToDelete) }>
-              <span className="glyphicon glyphicon-ok"></span> Yes
-            </button>
-
-            <button type="button" className="btn btn-default btn-sm" onClick={ () => this.closeModal() }>
-              <span className="glyphicon glyphicon-remove"></span> No
-            </button>
-
-          </div>
         </Modal>
 
         {this.renderPosts()}
