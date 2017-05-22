@@ -1,10 +1,12 @@
+@import '../../style/_base.scss';
+
 .Modal{
   .modal_container{
     position: fixed;
     top: 50%;
     left: 50%;
     z-index: 9999;
-    padding: 20px;
+    padding: $padding * 2;
     background: #fff;
     transform: translate(-50%, -50%);
     text-align: center;

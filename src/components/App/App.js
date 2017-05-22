@@ -20,10 +20,7 @@ const Main = () => (
 class App extends React.Component {
     renderHeader() {
       return(
-        <div className="page-header">
-          <Logo src={logo} />
-          <Header title="Welcome to React" />
-        </div>
+        <Header title="Welcome to React" />
       );
     }
 

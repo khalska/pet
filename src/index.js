@@ -2,10 +2,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import App from './components/App/App';
-import PostPage from './components/PostPage/PostPage';
-import './index.css';
+import './style/index.css';
 
 /*ReactDOM.render((
   <BrowserRouter>

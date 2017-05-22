@@ -132,7 +132,7 @@ class PostPage extends React.Component {
     return(
       <div className="users_container">
         <h5>User</h5>
-        <ul onChange={ (e) => this.handleUserChange(e)} >    
+        <ul className="panel" onChange={ (e) => this.handleUserChange(e)} >    
           {config.users.map(
             user => <User key={user.id} user={user} />
           )}
@@ -160,22 +160,24 @@ class PostPage extends React.Component {
     return(
       <div>
         <form onSubmit={ (e) => this.handleSubmit(e) }>
-          <div>
-            <input type="text" required
+          <div className="form_title_input">
+            <input type="text" required className="form-control"
               value={this.state.inputTitleValue} 
               onChange={ (e) => this.handleTitleChange(e) } 
               placeholder="Title" />
           </div>
-          <div>
-            <textarea required
+          <div className="form_body_textarea">
+            <textarea required className="form-control"
               value={this.state.textareaBodyValue} 
               onChange={ (e) => this.handleBodyChange(e) } 
               placeholder="Body" />
           </div>
           {this.renderUsers()}
           <div className="form_buttons">
-            <input type="submit" value="Save changes" disabled={this.validateForm()} className="button_save"/>
-            <Link to='/' >
+            <input type="submit" value="Save changes" 
+              disabled={ this.validateForm() } 
+              className={'btn btn-success button_save'}/>
+            <Link to='/' className={'btn btn-default button_cancel'}>
               Cancel
             </Link>
           </div>
@@ -186,7 +188,7 @@ class PostPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="PostPage">
         {this.renderTitle()}
         {this.renderForm()}
         {this.renderComments()}

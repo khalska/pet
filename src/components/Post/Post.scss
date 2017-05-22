@@ -1,9 +1,11 @@
+@import '../../style/_base.scss';
+
 .Post{
-    border: 1px solid grey;
+    border: $baseBorder;
     margin-left: 0;
     margin-right: 0;
     .Post_data{
-        margin-bottom: 20px;
+        margin-bottom: $margin;
         h3{
             &:first-letter{
                 text-transform: uppercase;

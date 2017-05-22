@@ -1,18 +1,50 @@
-.comments_container{
-  margin-top: 50px;
-  ul{
-    padding: 0
-  }
-}
+@import '../../style/_base.scss';
 
-textarea{
-  width: 100%;
-}
+.PostPage{
+  form{
+    div{
+      margin-bottom: $margin/2;
 
-.form_buttons{
-  .button_save{
-    &:disabled{
-      color: grey
+      &.form_title_input{
+        input{
+          width: 100%;
+          padding: $padding;
+        }
+      }
+
+      &.form_body_textarea{
+        textarea{
+          width: 100%;
+          height: $margin * 6;
+          padding: $padding;
+        }
+      }
+
+      &.users_container{
+        ul{
+          padding: $padding;
+          border: $baseBorder;
+          list-style-type: none;
+        }
+      }
+
+      &.form_buttons{
+        .button_save{
+          margin-right: $margin;
+        }
+
+        .button_cancel{
+
+        }
+      }
+
+
     }
   }
+  .comments_container{
+      margin-top: $margin * 2;
+      ul{
+        padding: 0
+      }
+    }
 }

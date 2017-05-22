@@ -1,4 +1,6 @@
+@import '../../style/_base.scss';
+
 .Search{
     max-width: 400px;
-    padding: 20px 0;
+    padding: $padding * 2 0;
 }

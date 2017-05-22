@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import fetch from 'isomorphic-fetch';
 import { config } from '../../config.js';
-import Modal from '../Modal/Modal';
 
 class Post extends React.Component {
     static propTypes = {
@@ -27,15 +26,19 @@ class Post extends React.Component {
     render() {
         return (
             <li className={classNames('Post list-group-item panel row')}>
-                <div className={classNames('Post_data col-md-9')}>
+                <div className={classNames('Post_data col-md-10')}>
                     <h3>{this.props.post.title}</h3>
                     <div>{this.props.post.body}</div>
                 </div>
-                <div className={classNames('Post_buttons col-md-3 text-center')}>
-                    <Link to={`update-post/${this.props.post.id}`} className={classNames('btn btn-block btn-sm btn-default')}>
+                <div className={classNames('Post_buttons col-md-2 text-center')}>
+                    <Link 
+                        to={`update-post/${this.props.post.id}`} 
+                        className={classNames('btn btn-block btn-default')}>
                         Edit
                     </Link>
-                    <button onClick={() => this.props.handleDelete()} className={classNames('btn btn-block btn-sm btn-default')}>
+                    <button 
+                        onClick={() => this.props.handleDelete()} 
+                        className={classNames('btn btn-block btn-default')}>
                         Delete
                     </button>                   
                 </div>               

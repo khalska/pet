@@ -30,9 +30,8 @@ class Search extends React.Component {
                 />
                 <div className="input-group-btn">
                     <button 
-                        className="btn btn-default"
-                        onClick={ (e) => this.handleFilterTextButton(e) }
-                    >
+                        className="btn btn-success"
+                        onClick={ (e) => this.handleFilterTextButton(e) } >
                     Go!</button>
                 </div>
             </div>
