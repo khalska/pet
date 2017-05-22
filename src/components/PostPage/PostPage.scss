@@ -1,6 +1,15 @@
 @import '../../style/_base.scss';
 
 .PostPage{
+  .breadcrumbs{
+    text-align: right;
+    ul{
+      li{
+        display: inline-block;
+        padding: 0 5px;
+      }
+    }
+  }
   form{
     div{
       margin-bottom: $margin/2;

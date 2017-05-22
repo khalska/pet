@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import './PostPage.css';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -8,11 +8,13 @@ import Comment from '../Comment/Comment';
 import User from '../User/User';
 import './PostPage.css';
 import fetch from 'isomorphic-fetch';
+import { IndexLink } from 'react-router'
 
 class PostPage extends React.Component {
   static propTypes = {
-    match: PropTypes.object,
-    comments: PropTypes.array
+    params: PropTypes.object,
+    comments: PropTypes.array,
+    location: PropTypes.object
   }
 
   constructor(props) {
@@ -21,12 +23,13 @@ class PostPage extends React.Component {
       inputTitleValue: '',
       textareaBodyValue: '',
       comments: [],
-      userValue: ''
+      userValue: '',
+      title: ''
     };
   }
 
   componentDidMount() {
-    const postId = this.props.match.params.postId;
+    const postId = this.props.params.postId;
 
     if (postId) {
       this.getPostData(postId);
@@ -121,8 +124,9 @@ class PostPage extends React.Component {
   }
 
   renderTitle() {
-    const postId = this.props.match.params.postId;
+    const postId = this.props.params.postId;
     let title = postId ? ('Edit post #' + postId) : 'Add new post';
+
     return (
       <h3>{title}</h3>
     );
@@ -142,7 +146,7 @@ class PostPage extends React.Component {
   }
 
   renderComments() {
-    if (this.props.match.params.postId) {
+    if (this.props.params.postId) {
       return(
         <div className="comments_container">
           <h4>Comments</h4>
@@ -186,9 +190,25 @@ class PostPage extends React.Component {
     );
   }
 
+  renderBreadcrumbs() {
+    return(
+      <div className="breadcrumbs">
+        <ul>
+          <li>
+            <IndexLink to="/" activeClassName="active">Posts</IndexLink>
+          </li> > 
+          <li>
+            <IndexLink to={this.props.location.pathname} activeClassName="active">Post (#{this.props.params.postId})</IndexLink>
+          </li>
+        </ul>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="PostPage">
+        {this.renderBreadcrumbs()}
         {this.renderTitle()}
         {this.renderForm()}
         {this.renderComments()}
