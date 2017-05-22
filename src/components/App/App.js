@@ -1,19 +1,17 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import logo from './logo.svg';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import Header from '../Header/Header';
-import Logo from '../Logo/Logo';
 import Footer from '../Footer/Footer';
 import PostPage from '../PostPage/PostPage';
 import Page from '../Page/Page';
 
 const Main = () => (
   <main>
-    <Switch>
+    <Router history={browserHistory}>
       <Route exact path='/' component={Page}/>
       <Route path='/add-post' component={PostPage}/>
       <Route path='/update-post/:postId' component={PostPage}/>
-    </Switch>
+    </Router>
   </main>
 )
 

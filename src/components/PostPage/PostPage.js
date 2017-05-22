@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import './PostPage.css';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import fetch from 'isomorphic-fetch';
 import { config } from '../../config.js';
 import Comment from '../Comment/Comment';
 import User from '../User/User';
 import './PostPage.css';
+import fetch from 'isomorphic-fetch';
 
 class PostPage extends React.Component {
   static propTypes = {

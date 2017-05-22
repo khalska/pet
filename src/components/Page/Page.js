@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router';
 import './Page.css';
 import Post from '../Post/Post';
 import Modal from '../Modal/Modal';
 import Search from '../Search/Search';
 import { config } from '../../config.js';
 import classNames from 'classnames';
-import fetch from 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch';
 
 class Page extends React.Component {
   constructor(props) {
