@@ -9,10 +9,8 @@ import Modal from '../Modal/Modal';
 
 class Post extends React.Component {
     static propTypes = {
-        postTitle: PropTypes.string.isRequired,
-        postContent: PropTypes.string.isRequired,
-        postSrc: PropTypes.string.isRequired,
-        postId: PropTypes.number.isRequired
+        post: PropTypes.object.isRequired,
+        handleDelete: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -30,14 +28,14 @@ class Post extends React.Component {
         return (
             <li className={classNames('Post list-group-item panel row')}>
                 <div className={classNames('Post_data col-md-9')}>
-                    <h3>{this.props.postTitle}</h3>
-                    <div>{this.props.postContent}</div>
+                    <h3>{this.props.post.title}</h3>
+                    <div>{this.props.post.body}</div>
                 </div>
                 <div className={classNames('Post_buttons col-md-3 text-center')}>
-                    <Link to={this.props.postSrc} className={classNames('btn btn-block btn-sm btn-default')}>
+                    <Link to={`update-post/${this.props.post.id}`} className={classNames('btn btn-block btn-sm btn-default')}>
                         Edit
                     </Link>
-                    <button onClick={() => this.deletePost(this.props.postId)} className={classNames('btn btn-block btn-sm btn-default')}>
+                    <button onClick={() => this.props.handleDelete()} className={classNames('btn btn-block btn-sm btn-default')}>
                         Delete
                     </button>                   
                 </div>               

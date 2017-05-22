@@ -14,7 +14,9 @@ class Page extends React.Component {
       this.state = { 
         posts: [],
         filteredPosts: [],
-        phrase: ''
+        phrase: '',
+        isModalOpen: false,
+        postToDelete: 0
       };
   }
 
@@ -50,12 +52,26 @@ class Page extends React.Component {
       );
   }
 
-  openModal() {
-    this.setState({ isModalOpen: true })
+  openModal(postId) {
+    this.setState({ 
+      isModalOpen: true,
+      postToDelete: postId
+    })
   }
 
   closeModal() {
     this.setState({ isModalOpen: false })
+  }
+
+  onConfirmDelete(postId) {
+    this.deletePost(postId);
+    this.closeModal();
+  }
+
+  deletePost(postId) {
+    const url = `${config.url}/${postId}`;
+    fetch(url, {method: 'DELETE'})
+    .then();
   }
 
   renderPosts() {
@@ -63,7 +79,7 @@ class Page extends React.Component {
       <div className="post-content">
         <ul className="list-group">
           { this.state.filteredPosts.map(
-            post => <Post key={post.id} postTitle={post.title} postContent={post.body} postSrc={'update-post/' + post.id} postId={post.id}/>
+            post => <Post key={post.id} post={post} handleDelete={ () => this.openModal(post.id)}/>
           )}
         </ul>
       </div>
@@ -90,12 +106,19 @@ class Page extends React.Component {
           onFilterTextInput={ (e) => this.handleFilterTextInput(e) }
           onFilterTextButton={ (e) => this.handleFilterTextButton(e) }
         />
-
-        <button onClick={() => this.openModal()}>Open modal</button>
+      
         <Modal isOpen={this.state.isModalOpen} onClose={() => this.closeModal()}>
-        <h1>Modal title</h1>
-        <p>hello</p>
-        <p><button onClick={() => this.closeModal()}>Close</button></p>
+          <p>Are you sure to delete post #{this.state.postToDelete}?</p>
+          <div className="btn-group">
+            <button type="button" className="btn btn-default btn-sm" onClick={ () => this.onConfirmDelete(this.state.postToDelete) }>
+              <span className="glyphicon glyphicon-ok"></span> Yes
+            </button>
+
+            <button type="button" className="btn btn-default btn-sm" onClick={ () => this.closeModal() }>
+              <span className="glyphicon glyphicon-remove"></span> No
+            </button>
+
+          </div>
         </Modal>
 
         {this.renderPosts()}
