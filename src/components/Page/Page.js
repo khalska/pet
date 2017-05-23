@@ -7,6 +7,7 @@ import Search from '../Search/Search';
 import { config } from '../../config.js';
 import classNames from 'classnames';
 import fetch from 'isomorphic-fetch';
+import {debounce} from 'throttle-debounce';
 
 class Page extends React.Component {
   constructor(props) {
@@ -103,7 +104,7 @@ class Page extends React.Component {
 
         <Search 
           phrase={this.state.phrase}
-          onFilterTextInput={ (e) => this.handleFilterTextInput(e) }
+          onFilterTextInput={ (e) => debounce(500, this.handleFilterTextInput(e)) }
           onFilterTextButton={ (e) => this.handleFilterTextButton(e) }
         />
       

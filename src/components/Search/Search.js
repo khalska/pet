@@ -12,6 +12,7 @@ class Search extends React.Component {
 
     handleFilterTextInputChange(e) {
         this.props.onFilterTextInput(e.target.value);
+        this.props.onFilterTextButton();
     }
 
     handleFilterTextButton() {
@@ -39,3 +40,4 @@ class Search extends React.Component {
     }
 }
 export default Search;
+
