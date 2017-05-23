@@ -10,8 +10,8 @@ class User extends React.Component {
   render() {
     return (
       <li className="User">
-        <input type="radio" id={`input${this.props.user.name}`} value={this.props.user.id} name="userRadio" /> 
-        <label htmlFor={`input${this.props.user.name}`}>{this.props.user.name}</label>
+        <input type="radio" id={`input${this.props.name}`} value={this.props.id} name="userRadio" /> 
+        <label htmlFor={`input${this.props.name}`}>{this.props.name}</label>
       </li>
     );
   }

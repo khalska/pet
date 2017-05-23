@@ -27,12 +27,12 @@ class Post extends React.Component {
         return (
             <li className={classNames('Post list-group-item panel row')}>
                 <div className={classNames('Post_data col-md-10')}>
-                    <h3>{this.props.post.title}</h3>
-                    <div>{this.props.post.body}</div>
+                    <h3>{this.props.title}</h3>
+                    <div>{this.props.body}</div>
                 </div>
                 <div className={classNames('Post_buttons col-md-2 text-center')}>
                     <Link 
-                        to={`update-post/${this.props.post.id}`} 
+                        to={`update-post/${this.props.id}`} 
                         className={classNames('btn btn-block btn-default')}>
                         Edit
                     </Link>

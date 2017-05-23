@@ -138,7 +138,7 @@ class PostPage extends React.Component {
         <h5>User</h5>
         <ul className="panel" onChange={ (e) => this.handleUserChange(e)} >    
           {config.users.map(
-            user => <User key={user.id} user={user} />
+            user => <User key={user.id} {...user} />
           )}
         </ul>
       </div>
