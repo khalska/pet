@@ -32,9 +32,11 @@ class Page extends React.Component {
     let result = this.state.posts;
     
     result = result.filter(function (post) {
-      const title = post.title.toLowerCase();
-      const body = post.body.toLowerCase();
-      return ((title.indexOf(phrase) >= 0 || body.indexOf(phrase) >= 0) ? true : false);
+      if (post.hasOwnProperty('title') && post.hasOwnProperty('body')) {
+        const title = post.title.toLowerCase();
+        const body = post.body.toLowerCase();
+        return ((title.indexOf(phrase) >= 0 || body.indexOf(phrase) >= 0) ? true : false);
+      }
     });
 
     this.setState({
@@ -103,7 +105,7 @@ class Page extends React.Component {
         {this.renderAddPostButton()}
 
         <Search 
-          phrase={this.state.phrase}
+          phrase={this.state.phrase.toLowerCase()}
           onFilterTextInput={ (e) => debounce(500, this.handleFilterTextInput(e)) }
           onFilterTextButton={ (e) => this.handleFilterTextButton(e) }
         />
