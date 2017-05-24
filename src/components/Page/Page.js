@@ -36,7 +36,7 @@ class Page extends React.Component {
         const title = post.title.toLowerCase();
         const body = post.body.toLowerCase();
         return ((title.indexOf(phrase) >= 0 || body.indexOf(phrase) >= 0) ? true : false);
-      }
+      } 
     });
 
     this.setState({
@@ -45,6 +45,10 @@ class Page extends React.Component {
   }
 
   componentDidMount() {
+    this.getPosts();
+  }
+
+  getPosts() {
     fetch(config.url)
       .then( (response) => response.json() )   
       .then( (json) =>  
@@ -75,6 +79,7 @@ class Page extends React.Component {
     const url = `${config.url}/${postId}`;
     fetch(url, {method: 'DELETE'})
     .then();
+    this.getPosts();
   }
 
   renderPosts() {
@@ -93,7 +98,7 @@ class Page extends React.Component {
     return(
       <div className="addPostButton pull-right">
         <Link to="add-post" className={classNames('btn pull-right btn-success')}>
-          Add new post
+          Add new post 
         </Link>
       </div>
     );

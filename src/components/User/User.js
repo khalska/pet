@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class User extends React.Component {
   static propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object
   }
 
   render() {

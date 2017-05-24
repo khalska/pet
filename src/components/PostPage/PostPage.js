@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router'
 import './PostPage.css';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { config } from '../../config.js';
 import Comment from '../Comment/Comment';
 import User from '../User/User';
@@ -24,7 +23,8 @@ class PostPage extends React.Component {
       textareaBodyValue: '',
       comments: [],
       userValue: '',
-      title: ''
+      title: '',
+      info: ''
     };
   }
 
@@ -57,19 +57,19 @@ class PostPage extends React.Component {
       .then( (json) => this.setState({comments: json}) );
   }
 
-  handleSubmit() {
-    const postId = this.props.match.params.postId;
+  handleSubmit(event) {
+    const postId = this.props.params.postId;
     postId ? this.updatePost(postId) : this.addNewPost();
   }
 
   addNewPost() {
-    let data = {
+    const data = {
       title: this.state.inputTitleValue,
       body: this.state.textareaBodyValue,
       userId: this.state.userValue
     }
 
-    let fetchData = { 
+    const fetchData = { 
       method: 'POST', 
       body: data,
       headers: {
@@ -79,18 +79,21 @@ class PostPage extends React.Component {
     }
 
     fetch(config.url, fetchData)
-    .then(response => (response.ok ? response : null));
+      .then( (response) => response.json() )   
+      .then( (json) => {
+        this.setState({info: `Post #${json.id} was saved.`})
+      });
   }
 
   updatePost(postId) {
-    let data = {
+    const data = {
       id: postId,
       title: this.state.inputTitleValue,
       body: this.state.textareaBodyValue,
       userId: this.state.userValue
     }
 
-    let fetchData = { 
+    const fetchData = { 
       method: 'PUT', 
       body: data,
       headers: {
@@ -102,7 +105,10 @@ class PostPage extends React.Component {
     const url = `${config.url}/${postId}`;
 
     fetch(url, fetchData)
-    .then(response => (response.ok ? response : null));
+      .then( (response) => response.json() )   
+      .then( (json) => {
+        this.setState({info: `Changes in post #${json.id} was saved.`})
+      });
   }
 
   handleTitleChange(event) {
@@ -126,9 +132,8 @@ class PostPage extends React.Component {
   renderTitle() {
     const postId = this.props.params.postId;
     let title = postId ? ('Edit post #' + postId) : 'Add new post';
-
     return (
-      <h3>{title}</h3>
+      <h3>{title}</h3> 
     );
   }
 
@@ -163,7 +168,7 @@ class PostPage extends React.Component {
   renderForm() {
     return(
       <div>
-        <form onSubmit={ (e) => this.handleSubmit(e) }>
+        <form onSubmit={ () => this.handleSubmit() }>
           <div className="form_title_input">
             <input type="text" required className="form-control"
               value={this.state.inputTitleValue} 
@@ -177,15 +182,18 @@ class PostPage extends React.Component {
               placeholder="Body" />
           </div>
           {this.renderUsers()}
+        </form>
           <div className="form_buttons">
-            <input type="submit" value="Save changes" 
-              disabled={ this.validateForm() } 
-              className={'btn btn-success button_save'}/>
+            <button onClick={ () => this.handleSubmit() } 
+              className={'btn btn-success button_save'}
+              disabled={ this.validateForm() } >
+              Save changes
+            </button>
             <Link to='/' className={'btn btn-default button_cancel'}>
               Cancel
             </Link>
           </div>
-        </form>
+        
       </div>
     );
   }
@@ -208,9 +216,13 @@ class PostPage extends React.Component {
   render() {
     return (
       <div className="PostPage">
+        
         {this.renderBreadcrumbs()}
         {this.renderTitle()}
         {this.renderForm()}
+
+        {this.state.info}
+
         {this.renderComments()}
       </div>
     );

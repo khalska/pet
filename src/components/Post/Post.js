@@ -8,7 +8,7 @@ import { config } from '../../config.js';
 
 class Post extends React.Component {
     static propTypes = {
-        post: PropTypes.object.isRequired,
+        post: PropTypes.object,
         handleDelete: PropTypes.func.isRequired
     }
 

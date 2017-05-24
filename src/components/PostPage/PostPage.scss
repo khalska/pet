@@ -36,17 +36,14 @@
           list-style-type: none;
         }
       }
+    }
+  }
+  .form_buttons{
+    .button_save{
+      margin-right: $margin;
+    }
 
-      &.form_buttons{
-        .button_save{
-          margin-right: $margin;
-        }
-
-        .button_cancel{
-
-        }
-      }
-
+    .button_cancel{
 
     }
   }
