@@ -1,23 +1,23 @@
 @import '../../style/_base.scss';
 
 .Post{
-    border: $baseBorder;
-    margin-left: 0;
-    margin-right: 0;
-    .Post_data{
-        margin-bottom: $margin;
-        h3{
-            &:first-letter{
-                text-transform: uppercase;
-            }
-        }
-        div{
-            &:first-letter{
-                text-transform: uppercase;
-            }
-        }
+  border: $baseBorder;
+  margin-left: 0;
+  margin-right: 0;
+  .Post_data{
+    margin-bottom: $margin;
+    h3{
+      &:first-letter{
+        text-transform: uppercase;
+      }
     }
-    .Post_buttons{
+    div{
+      &:first-letter{
+        text-transform: uppercase;
+      }
+    }
+  }
+  .Post_buttons{
 
-    }
+  }
 }

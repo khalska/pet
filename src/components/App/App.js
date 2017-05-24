@@ -16,20 +16,14 @@ const Main = () => (
 )
 
 class App extends React.Component {
-    renderHeader() {
-      return(
+  render() {
+    return (
+      <div className="container">
         <Header title="Welcome to React" />
-      );
-    }
-
-    render() {
-        return (
-            <div className="container">
-              {this.renderHeader()}
-              <Main />
-              <Footer />
-            </div>
-        );
-    }
+        <Main />
+        <Footer />
+      </div>
+    );
+  }
 }
 export default App;

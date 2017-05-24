@@ -39,12 +39,9 @@
     }
   }
   .form_buttons{
+    margin-bottom: $margin;
     .button_save{
       margin-right: $margin;
-    }
-
-    .button_cancel{
-
     }
   }
   .comments_container{

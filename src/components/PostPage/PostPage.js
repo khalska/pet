@@ -16,6 +16,10 @@ class PostPage extends React.Component {
     location: PropTypes.object
   }
 
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -57,7 +61,7 @@ class PostPage extends React.Component {
       .then( (json) => this.setState({comments: json}) );
   }
 
-  handleSubmit(event) {
+  handleSubmit() {
     const postId = this.props.params.postId;
     postId ? this.updatePost(postId) : this.addNewPost();
   }
@@ -82,6 +86,7 @@ class PostPage extends React.Component {
       .then( (response) => response.json() )   
       .then( (json) => {
         this.setState({info: `Post #${json.id} was saved.`})
+        //this.context.router.push(`/update-post/${json.id}`)
       });
   }
 
@@ -91,7 +96,7 @@ class PostPage extends React.Component {
       title: this.state.inputTitleValue,
       body: this.state.textareaBodyValue,
       userId: this.state.userValue
-    }
+    };
 
     const fetchData = { 
       method: 'PUT', 
@@ -105,9 +110,9 @@ class PostPage extends React.Component {
     const url = `${config.url}/${postId}`;
 
     fetch(url, fetchData)
-      .then( (response) => response.json() )   
-      .then( (json) => {
-        this.setState({info: `Changes in post #${json.id} was saved.`})
+      .then( (response) => {
+        let info = (response.ok) ? 'Changes in post was saved.' : 'Error!'
+        this.setState({info: info})
       });
   }
 
@@ -213,16 +218,21 @@ class PostPage extends React.Component {
     );
   }
 
+  renderInfo() {
+    return (
+      <div className={ (this.state.info) ? 'info alert alert-success' : 'info'}>
+        {this.state.info}
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="PostPage">
-        
         {this.renderBreadcrumbs()}
         {this.renderTitle()}
         {this.renderForm()}
-
-        {this.state.info}
-
+        {this.renderInfo()}
         {this.renderComments()}
       </div>
     );

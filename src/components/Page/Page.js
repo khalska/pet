@@ -7,18 +7,18 @@ import Search from '../Search/Search';
 import { config } from '../../config.js';
 import classNames from 'classnames';
 import fetch from 'isomorphic-fetch';
-import {debounce} from 'throttle-debounce';
+import { debounce } from 'throttle-debounce';
 
 class Page extends React.Component {
   constructor(props) {
-      super(props);
-      this.state = { 
-        posts: [],
-        filteredPosts: [],
-        phrase: '',
-        isModalOpen: false,
-        postToDelete: 0
-      };
+    super(props);
+    this.state = {
+      posts: [],
+      filteredPosts: [],
+      phrase: '',
+      isModalOpen: false,
+      postToDelete: 0
+    };
   }
 
   handleFilterTextInput(phrase) {
@@ -35,7 +35,7 @@ class Page extends React.Component {
       if (post.hasOwnProperty('title') && post.hasOwnProperty('body')) {
         const title = post.title.toLowerCase();
         const body = post.body.toLowerCase();
-        return ((title.indexOf(phrase) >= 0 || body.indexOf(phrase) >= 0) ? true : false);
+        return (title.indexOf(phrase) >= 0 || body.indexOf(phrase) >= 0);
       } 
     });
 
