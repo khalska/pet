@@ -79,7 +79,23 @@ class Page extends React.Component {
     const url = `${config.url}/${postId}`;
     fetch(url, {method: 'DELETE'})
     .then();
-    this.getPosts();
+
+    this.deletePostLocally(postId);
+    // this.getPosts();
+  }
+
+  deletePostLocally(postId) {
+    let newPosts = this.state.posts;
+
+    for (let i = 0; i < newPosts.length; i++)
+      if (newPosts[i].id === postId) {
+        newPosts.splice(i,1);
+        break;
+      }
+
+    this.setState({
+      posts: newPosts
+    })
   }
 
   renderPosts() {

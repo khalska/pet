@@ -198,7 +198,6 @@ class PostPage extends React.Component {
               Cancel
             </Link>
           </div>
-        
       </div>
     );
   }
@@ -209,7 +208,7 @@ class PostPage extends React.Component {
         <ul>
           <li>
             <IndexLink to="/" activeClassName="active">Posts</IndexLink>
-          </li> > 
+          </li> >
           <li>
             <IndexLink to={this.props.location.pathname} activeClassName="active">Post (#{this.props.params.postId})</IndexLink>
           </li>
