@@ -111,8 +111,8 @@ class PostPage extends React.Component {
 
     fetch(url, fetchData)
       .then( (response) => {
-        let info = (response.ok) ? 'Changes in post was saved.' : 'Error!'
-        this.setState({info: info})
+        const info = (response.ok) ? 'Changes in post was saved.' : 'Error!'
+        this.setState({info})
       });
   }
 
@@ -136,7 +136,7 @@ class PostPage extends React.Component {
 
   renderTitle() {
     const postId = this.props.params.postId;
-    let title = postId ? ('Edit post #' + postId) : 'Add new post';
+    const title = postId ? (`Edit post #${postId}`) : 'Add new post';
     return (
       <h3>{title}</h3> 
     );

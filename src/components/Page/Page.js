@@ -23,15 +23,15 @@ class Page extends React.Component {
 
   handleFilterTextInput(phrase) {
     this.setState({
-      phrase: phrase
+      phrase
     });
   }
 
   handleFilterTextButton() {
     const phrase = this.state.phrase.toLowerCase();
-    let result = this.state.posts;
-    
-    result = result.filter(function (post) {
+    let filteredPosts = this.state.posts;
+
+    filteredPosts = filteredPosts.filter( (post) => {
       if (post.hasOwnProperty('title') && post.hasOwnProperty('body')) {
         const title = post.title.toLowerCase();
         const body = post.body.toLowerCase();
@@ -40,7 +40,7 @@ class Page extends React.Component {
     });
 
     this.setState({
-      filteredPosts: result
+      filteredPosts
     }); 
   }
 
@@ -78,23 +78,20 @@ class Page extends React.Component {
   deletePost(postId) {
     const url = `${config.url}/${postId}`;
     fetch(url, {method: 'DELETE'})
-    .then();
-
-    this.deletePostLocally(postId);
-    // this.getPosts();
+    .then(this.deletePostLocally(postId));
   }
 
   deletePostLocally(postId) {
-    let newPosts = this.state.posts;
+    let posts = this.state.posts;
 
-    for (let i = 0; i < newPosts.length; i++)
-      if (newPosts[i].id === postId) {
-        newPosts.splice(i,1);
-        break;
+    posts.forEach((item, index) => {
+      if (item.id === postId) {
+        posts.splice(index,1);
       }
+    });
 
     this.setState({
-      posts: newPosts
+      posts
     })
   }
 
