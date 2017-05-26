@@ -45,10 +45,10 @@ class Page extends React.Component {
   }
 
   componentDidMount() {
-    this.getPosts();
+    this.__getPosts();
   }
 
-  getPosts() {
+  __getPosts() {
     fetch(config.url)
       .then( (response) => response.json() )   
       .then( (json) =>  
@@ -95,7 +95,7 @@ class Page extends React.Component {
     })
   }
 
-  renderPosts() {
+  __renderPosts() {
     return(
       <div className="post-content">
         <ul className="list-group">
@@ -107,7 +107,7 @@ class Page extends React.Component {
     );
   }
 
-  renderAddPostButton() {
+  __renderAddPostButton() {
     return(
       <div className="addPostButton pull-right">
         <Link to="add-post" className={classNames('btn pull-right btn-success')}>
@@ -120,7 +120,7 @@ class Page extends React.Component {
   render() {
     return (
       <div className={classNames('Page')}>
-        {this.renderAddPostButton()}
+        {this.__renderAddPostButton()}
 
         <Search 
           phrase={this.state.phrase.toLowerCase()}
@@ -138,7 +138,7 @@ class Page extends React.Component {
           <p>Are you sure to delete post #{this.state.postToDelete}?</p>
         </Modal>
 
-        {this.renderPosts()}
+        {this.__renderPosts()}
       </div>
     );
   }

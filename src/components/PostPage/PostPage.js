@@ -36,12 +36,12 @@ class PostPage extends React.Component {
     const postId = this.props.params.postId;
 
     if (postId) {
-      this.getPostData(postId);
-      this.getComments(postId);
+      this.__getPostData(postId);
+      this.__getComments(postId);
     }
   }
 
-  getPostData(postId) {
+  __getPostData(postId) {
     const url = `${config.url}/${postId}`;
     fetch(url)
       .then( (response) => response.json() )   
@@ -54,7 +54,7 @@ class PostPage extends React.Component {
       );
   }
 
-  getComments(postId) {
+  __getComments(postId) {
     const url = `${config.url}/${postId}/comments`;
     fetch(url)
       .then( (response) => response.json() )   
@@ -63,10 +63,10 @@ class PostPage extends React.Component {
 
   handleSubmit() {
     const postId = this.props.params.postId;
-    postId ? this.updatePost(postId) : this.addNewPost();
+    postId ? this.__updatePost(postId) : this.__addNewPost();
   }
 
-  addNewPost() {
+  __addNewPost() {
     const data = {
       title: this.state.inputTitleValue,
       body: this.state.textareaBodyValue,
@@ -90,7 +90,7 @@ class PostPage extends React.Component {
       });
   }
 
-  updatePost(postId) {
+  __updatePost(postId) {
     const data = {
       id: postId,
       title: this.state.inputTitleValue,
@@ -130,11 +130,11 @@ class PostPage extends React.Component {
      });
   }
 
-  validateForm() {
+  __validateForm() {
     return !(this.state.inputTitleValue && this.state.textareaBodyValue && this.state.userValue)
   }
 
-  renderTitle() {
+  __renderTitle() {
     const postId = this.props.params.postId;
     const title = postId ? (`Edit post #${postId}`) : 'Add new post';
     return (
@@ -142,7 +142,7 @@ class PostPage extends React.Component {
     );
   }
 
-  renderUsers() {
+  __renderUsers() {
     return(
       <div className="users_container">
         <h5>User</h5>
@@ -155,7 +155,7 @@ class PostPage extends React.Component {
     );
   }
 
-  renderComments() {
+  __renderComments() {
     if (this.props.params.postId) {
       return(
         <div className="comments_container">
@@ -170,7 +170,7 @@ class PostPage extends React.Component {
     }
   }
 
-  renderForm() {
+  __renderForm() {
     return(
       <div>
         <form onSubmit={ () => this.handleSubmit() }>
@@ -186,12 +186,12 @@ class PostPage extends React.Component {
               onChange={ (e) => this.handleBodyChange(e) } 
               placeholder="Body" />
           </div>
-          {this.renderUsers()}
+          {this.__renderUsers()}
         </form>
           <div className="form_buttons">
             <button onClick={ () => this.handleSubmit() } 
               className={'btn btn-success button_save'}
-              disabled={ this.validateForm() } >
+              disabled={ this.__validateForm() } >
               Save changes
             </button>
             <Link to='/' className={'btn btn-default button_cancel'}>
@@ -202,7 +202,7 @@ class PostPage extends React.Component {
     );
   }
 
-  renderBreadcrumbs() {
+  __renderBreadcrumbs() {
     return(
       <div className="breadcrumbs">
         <ul>
@@ -217,7 +217,7 @@ class PostPage extends React.Component {
     );
   }
 
-  renderInfo() {
+  __renderInfo() {
     return (
       <div className={ (this.state.info) ? 'info alert alert-success' : 'info'}>
         {this.state.info}
@@ -228,11 +228,11 @@ class PostPage extends React.Component {
   render() {
     return (
       <div className="PostPage">
-        {this.renderBreadcrumbs()}
-        {this.renderTitle()}
-        {this.renderForm()}
-        {this.renderInfo()}
-        {this.renderComments()}
+        {this.__renderBreadcrumbs()}
+        {this.__renderTitle()}
+        {this.__renderForm()}
+        {this.__renderInfo()}
+        {this.__renderComments()}
       </div>
     );
   }

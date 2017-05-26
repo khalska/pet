@@ -3,8 +3,6 @@ import { Link } from 'react-router';
 import './Post.css';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import fetch from 'isomorphic-fetch';
-import { config } from '../../config.js';
 
 class Post extends React.Component {
   static propTypes = {
