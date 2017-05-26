@@ -7,9 +7,11 @@ class Modal extends React.Component {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
+    buttonCloseLabel: PropTypes.string.isRequired,
+    buttonConfirmLabel: PropTypes.string.isRequired,
     children: PropTypes.node
   }
-  
+
   render() {
     if (this.props.isOpen === false) {
       return null
@@ -22,10 +24,10 @@ class Modal extends React.Component {
 
           <div className="btn-group">
             <button type="button" className="btn btn-default btn-sm" onClick={ () => this.props.onConfirm() }>
-              <span className="glyphicon glyphicon-ok"></span> Yes
+              <span className="glyphicon glyphicon-ok"></span> {this.props.buttonConfirmLabel}
             </button>
             <button type="button" className="btn btn-default btn-sm" onClick={ () => this.props.onClose() }>
-              <span className="glyphicon glyphicon-remove"></span> No
+              <span className="glyphicon glyphicon-remove"></span> {this.props.buttonCloseLabel}
             </button>
           </div>
 

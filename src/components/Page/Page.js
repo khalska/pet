@@ -131,7 +131,10 @@ class Page extends React.Component {
         <Modal 
           isOpen={this.state.isModalOpen} 
           onClose={ () => this.closeModal() } 
-          onConfirm={ () => this.onConfirmDelete(this.state.postToDelete) } >
+          onConfirm={ () => this.onConfirmDelete(this.state.postToDelete) }
+          buttonCloseLabel="No"
+          buttonConfirmLabel="Yes"
+        >
           <p>Are you sure to delete post #{this.state.postToDelete}?</p>
         </Modal>
 
