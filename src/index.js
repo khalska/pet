@@ -6,27 +6,22 @@ import App from './components/App/App';
 import './style/index.css';
 import {createStore} from 'redux';
 import {Provider} from "react-redux";
-import reducer from './reducers';
+import configureStore from './store/configureStore';
 
-let store = createStore(reducer,
-  {
-    counter: 0,
-    posts: [{
-      "userId": 2,
-      "id": 15,
-      "title": "eveniet",
-      "body": "itae"
-    }],
-    filteredPosts: [{
-      "userId": 2,
-      "id": 15,
-      "title": "eveniet",
-      "body": "itae"
-    }]
-  });
+
+const initialState = {
+  counter: 0,
+  posts: [],
+  filteredPosts: []
+}
+
+const store = configureStore(initialState);
 
 ReactDOM.render((
   <Provider store={store}>
+    <div>
+
     <App />
+    </div>
   </Provider>
 ), document.getElementById('root'));

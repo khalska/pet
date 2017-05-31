@@ -14,7 +14,8 @@ import {
   actionIncrement,
   actionChangeSearch,
   actionGetPosts,
-  actionFilterPosts
+  actionFilterPosts,
+  postsFetchData
 } from '../../actions/actions';
 
 class Page extends React.Component {
@@ -29,7 +30,11 @@ class Page extends React.Component {
 
     onChangeSearch: PropTypes.func,
     getPosts: PropTypes.func,
-    filterPosts: PropTypes.func
+    filterPosts: PropTypes.func,
+
+    fetchData: PropTypes.func.isRequired,
+    hasErrored: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired
   }
 
   constructor(props) {
@@ -44,7 +49,8 @@ class Page extends React.Component {
   }
 
   componentDidMount() {
-    this.__getPosts();
+    //this.__getPosts();
+    this.props.fetchData(config.url);
   }
 
   __getPosts() {
@@ -92,6 +98,14 @@ class Page extends React.Component {
   }
 
   __renderPosts() {
+    if (this.props.hasErrored) {
+      return <p>Sorry! There was an error loading the items</p>;
+    }
+
+    if (this.props.isLoading) {
+      return <p>Loading…</p>;
+    }
+
     return(
       <div className="post-content">
         <ul className="list-group">
@@ -121,6 +135,8 @@ class Page extends React.Component {
 
     return (
       <div className={classNames('Page')}>
+
+
         {this.__renderAddPostButton()}
         {}
         <div>
@@ -154,22 +170,27 @@ class Page extends React.Component {
 
 //export default Page;
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     posts: state.posts,
-    filteredPosts: state.filteredPosts,
+    filteredPosts: state.posts,
     searchedPhrase: state.searchedPhrase,
-    counter: state.counter
+    counter: state.counter,
+
+    hasErrored: state.postsHasErrored,
+    isLoading: state.postsIsLoading
   };
 }
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     onIncrement: () => dispatch(actionIncrement()),
     onDecrement: () => dispatch({ type: 'DECREMENT' }),
+
     onChangeSearch: (a) => dispatch(actionChangeSearch(a)),
     getPosts: (a) => dispatch(actionGetPosts(a)),
-    filterPosts: (a) => dispatch(actionFilterPosts(a))
+    filterPosts: (a) => dispatch(actionFilterPosts(a)),
+    fetchData: (url) => dispatch(postsFetchData(url))
   };
 }
 

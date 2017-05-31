@@ -13,8 +13,9 @@
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.5",
-    "throttle-debounce": "latest",
-    "redux": "latest"
+    "redux": "latest",
+    "redux-thunk": "^2.2.0",
+    "throttle-debounce": "latest"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

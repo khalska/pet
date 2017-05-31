@@ -1,6 +1,4 @@
-import { combineReducers } from 'redux'
-
-const reducer = (state, action) => {
+export function postsReducer (state = [], action) {
   switch (action.type) {
     case 'INCREMENT':
       return { ...state, counter: state.counter + 1 };
@@ -35,11 +33,32 @@ const reducer = (state, action) => {
   }
 };
 
-const myApp = combineReducers({
-  //visibilityFilter,
-  //todos,
+export function postsHasErrored(state = false, action) {
+  switch (action.type) {
+    case 'POSTS_HAS_ERRORED':
+      return action.hasErrored;
 
-  reducer
-})
+    default:
+      return state;
+  }
+}
 
-export default reducer
+export function postsIsLoading(state = false, action) {
+  switch (action.type) {
+    case 'POSTS_IS_LOADING':
+      return action.isLoading;
+
+    default:
+      return state;
+  }
+}
+
+export function posts(state = [], action) {
+  switch (action.type) {
+    case 'POSTS_FETCH_DATA_SUCCESS':
+      return action.posts;
+
+    default:
+      return state;
+  }
+}
