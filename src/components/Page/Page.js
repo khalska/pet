@@ -8,8 +8,28 @@ import { config } from '../../config.js';
 import classNames from 'classnames';
 import fetch from 'isomorphic-fetch';
 import { debounce } from 'throttle-debounce';
+import PropTypes from 'prop-types';
+import { connect } from "react-redux";
+import {
+  actionIncrement,
+  actionChangeSearch,
+  actionGetPosts
+} from '../../actions/actions';
 
 class Page extends React.Component {
+  static propTypes = {
+    posts: PropTypes.array.isRequired,
+    filteredPosts: PropTypes.array.isRequired,
+    searchedPhrase: PropTypes.string,
+
+    counter: PropTypes.Number,
+    onIncrement: PropTypes.func,
+    onDecrement: PropTypes.func,
+
+    onChangeSearch: PropTypes.func,
+    getPosts: PropTypes.func
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -19,12 +39,6 @@ class Page extends React.Component {
       isModalOpen: false,
       postToDelete: 0
     };
-  }
-
-  handleFilterTextInput(phrase) {
-    this.setState({
-      phrase
-    });
   }
 
   handleFilterTextButton() {
@@ -41,7 +55,7 @@ class Page extends React.Component {
 
     this.setState({
       filteredPosts
-    }); 
+    });
   }
 
   componentDidMount() {
@@ -50,12 +64,9 @@ class Page extends React.Component {
 
   __getPosts() {
     fetch(config.url)
-      .then( (response) => response.json() )   
-      .then( (json) =>  
-        this.setState({
-          posts: json, 
-          filteredPosts: json
-        }) 
+      .then( (response) => response.json() )
+      .then( (json) =>
+        this.props.getPosts(json)
       );
   }
 
@@ -99,7 +110,10 @@ class Page extends React.Component {
     return(
       <div className="post-content">
         <ul className="list-group">
-          { this.state.filteredPosts.map(
+          {/*{ this.state.filteredPosts.map(*/}
+            {/*post => <Post key={post.id} {...post} handleDelete={ () => this.openModal(post.id)}/>*/}
+          {/*)}*/}
+          { this.props.filteredPosts.map(
             post => <Post key={post.id} {...post} handleDelete={ () => this.openModal(post.id)}/>
           )}
         </ul>
@@ -118,16 +132,25 @@ class Page extends React.Component {
   }
 
   render() {
+    const { counter, onDecrement, onIncrement, onChangeSearch, searchedPhrase } = this.props;
+
     return (
       <div className={classNames('Page')}>
         {this.__renderAddPostButton()}
+        {}
+        <div>
+          <div>{counter}</div>
+          <button onClick={onDecrement}>-</button>
+          <button onClick={onIncrement}>+</button>
+        </div>
 
-        <Search 
-          phrase={this.state.phrase.toLowerCase()}
-          onFilterTextInput={ (e) => debounce(500, this.handleFilterTextInput(e)) }
+        { searchedPhrase }
+        <Search
+          phrase={ searchedPhrase }
+          onFilterTextInput={ (e) => debounce(500, onChangeSearch(e)) }
           onFilterTextButton={ (e) => this.handleFilterTextButton(e) }
         />
-      
+
         <Modal 
           isOpen={this.state.isModalOpen} 
           onClose={ () => this.closeModal() } 
@@ -144,4 +167,27 @@ class Page extends React.Component {
   }
 }
 
-export default Page;
+//export default Page;
+
+function mapStateToProps(state) {
+  return {
+    posts: state.posts,
+    filteredPosts: state.filteredPosts,
+    searchedPhrase: state.searchedPhrase,
+    counter: state.counter
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onIncrement: () => dispatch(actionIncrement()),
+    onDecrement: () => dispatch({ type: 'DECREMENT' }),
+    onChangeSearch: (a) => dispatch(actionChangeSearch(a)),
+    getPosts: (a) => dispatch(actionGetPosts(a))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Page);

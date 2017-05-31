@@ -4,15 +4,17 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "classnames": "latest",
     "es6-promise": "^4.1.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.2.1",
+    "prop-types": "latest",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
-    "classnames": "latest",
+    "react-redux": "^5.0.5",
     "throttle-debounce": "latest",
-    "prop-types": "latest"
+    "redux": "latest"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

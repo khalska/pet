@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 class Search extends React.Component {
   static propTypes = {
-    filterTwxt: PropTypes.string,
+    phrase: PropTypes.string,
     onFilterTextButton: PropTypes.func.isRequired,
     onFilterTextInput: PropTypes.func.isRequired
   }
@@ -26,7 +26,7 @@ class Search extends React.Component {
           type="text"
           className="form-control"
           placeholder="Search..."
-          value={this.props.filterTwxt}
+          value={this.props.phrase}
           onChange={ (e) => this.handleFilterTextInputChange(e) }
         />
         <div className="input-group-btn">
