@@ -13,7 +13,8 @@ import { connect } from "react-redux";
 import {
   actionIncrement,
   actionChangeSearch,
-  actionGetPosts
+  actionGetPosts,
+  actionFilterPosts
 } from '../../actions/actions';
 
 class Page extends React.Component {
@@ -27,7 +28,8 @@ class Page extends React.Component {
     onDecrement: PropTypes.func,
 
     onChangeSearch: PropTypes.func,
-    getPosts: PropTypes.func
+    getPosts: PropTypes.func,
+    filterPosts: PropTypes.func
   }
 
   constructor(props) {
@@ -39,23 +41,6 @@ class Page extends React.Component {
       isModalOpen: false,
       postToDelete: 0
     };
-  }
-
-  handleFilterTextButton() {
-    const phrase = this.state.phrase.toLowerCase();
-    let filteredPosts = this.state.posts;
-
-    filteredPosts = filteredPosts.filter( (post) => {
-      if (post.hasOwnProperty('title') && post.hasOwnProperty('body')) {
-        const title = post.title.toLowerCase();
-        const body = post.body.toLowerCase();
-        return (title.indexOf(phrase) >= 0 || body.indexOf(phrase) >= 0);
-      } 
-    });
-
-    this.setState({
-      filteredPosts
-    });
   }
 
   componentDidMount() {
@@ -132,7 +117,7 @@ class Page extends React.Component {
   }
 
   render() {
-    const { counter, onDecrement, onIncrement, onChangeSearch, searchedPhrase } = this.props;
+    const { counter, onDecrement, onIncrement, onChangeSearch, searchedPhrase, filterPosts } = this.props;
 
     return (
       <div className={classNames('Page')}>
@@ -148,7 +133,7 @@ class Page extends React.Component {
         <Search
           phrase={ searchedPhrase }
           onFilterTextInput={ (e) => debounce(500, onChangeSearch(e)) }
-          onFilterTextButton={ (e) => this.handleFilterTextButton(e) }
+          onFilterTextButton={ (e) => filterPosts(e) }
         />
 
         <Modal 
@@ -183,7 +168,8 @@ function mapDispatchToProps(dispatch) {
     onIncrement: () => dispatch(actionIncrement()),
     onDecrement: () => dispatch({ type: 'DECREMENT' }),
     onChangeSearch: (a) => dispatch(actionChangeSearch(a)),
-    getPosts: (a) => dispatch(actionGetPosts(a))
+    getPosts: (a) => dispatch(actionGetPosts(a)),
+    filterPosts: (a) => dispatch(actionFilterPosts(a))
   };
 }
 
