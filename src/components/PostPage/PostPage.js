@@ -14,7 +14,8 @@ import {
   setPostBody,
   setPostUser,
   getPostData,
-  getPostComments
+  getPostComments,
+  addPost
 } from '../../actions/postPage';
 
 class PostPage extends React.Component {
@@ -25,12 +26,13 @@ class PostPage extends React.Component {
 
     inputTitleValue: PropTypes.string,
     textareaBodyValue: PropTypes.string,
-    userValue: PropTypes.string,
+   // userValue: PropTypes.number,
     setBody: PropTypes.func.isRequired,
     setTitle: PropTypes.func.isRequired,
     setUser: PropTypes.func.isRequired,
     getPostData: PropTypes.func.isRequired,
-    getPostComments: PropTypes.func.isRequired
+    getPostComments: PropTypes.func.isRequired,
+    addPost: PropTypes.func.isRequired
   }
 
   static contextTypes = {
@@ -51,13 +53,12 @@ class PostPage extends React.Component {
     if (postId) {
       this.props.getPostData(postId);
       this.props.getPostComments(postId);
-      //this.__getComments(postId);
     }
   }
 
   handleSubmit() {
     const postId = this.props.params.postId;
-    postId ? this.__updatePost(postId) : this.__addNewPost();
+    postId ? this.__updatePost(postId) : this.props.addPost();
   }
 
   __addNewPost() {
@@ -244,7 +245,8 @@ const mapDispatchToProps = (dispatch) => {
     setBody: (body) => dispatch(setPostBody(body)),
     setUser: (user) => dispatch(setPostUser(user)),
     getPostData: (postId) => dispatch(getPostData(postId)),
-    getPostComments: (postId) => dispatch(getPostComments(postId))
+    getPostComments: (postId) => dispatch(getPostComments(postId)),
+    addPost: () => dispatch(addPost())
   };
 }
 

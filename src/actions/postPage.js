@@ -44,7 +44,7 @@ export function setPostComments(comments) {
   };
 }
 
-export  function getPostComments(postId) {
+export function getPostComments(postId) {
   return (dispatch) => {
     const url = `${config.url}/${postId}/comments`;
     fetch(url)
@@ -56,3 +56,51 @@ export  function getPostComments(postId) {
       );
   }
 }
+
+export function setPostsAfterAdding(posts) {
+  return {
+    type: 'SET_POSTS',
+    posts
+  }
+}
+
+export function setFilteredPosts(filteredPosts) {
+  return {
+    type: 'SET_FILTERED_POSTS',
+    filteredPosts
+  }
+}
+
+export function addPost() {
+  return (dispatch, getState) => {
+
+    const data = {
+      title: getState().title,
+      body: getState().body,
+      userId: getState().userId
+    }
+
+    const fetchData = {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }
+
+    fetch(config.url, fetchData)
+      .then( (response) => response.json() )
+      .then( (json) => {
+        dispatch(setPostsAfterAdding([]));
+        dispatch(setFilteredPosts([]))
+        console.log('dodano')
+        //this.setState({info: `Post #${json.id} was saved.`})
+      });
+
+  }
+}
+
+
+
+

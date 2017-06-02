@@ -22,7 +22,7 @@ export function textareaBodyValue(state = '', action) {
   }
 }
 
-export function userValue(state = '', action) {
+export function userValue(state = -1, action) {
   switch (action.type) {
     case 'SET_POST_USER':
       return action.user;

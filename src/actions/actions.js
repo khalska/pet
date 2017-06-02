@@ -26,6 +26,7 @@ export function postsFetchDataSuccess(posts) {
 }
 
 export function postsFetchData(url) {
+  console.log('getting posts');
   return (dispatch) => {
     dispatch(postsIsLoading(true));
 
