@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { posts, postsHasErrored, postsIsLoading, searchedPhrase, filteredPosts, postToDelete } from './posts';
+import { inputTitleValue, textareaBodyValue, userValue } from './postPage';
 
 export default combineReducers({
   posts,
@@ -7,5 +8,8 @@ export default combineReducers({
   postsIsLoading,
   searchedPhrase,
   filteredPosts,
-  postToDelete
+  postToDelete,
+  inputTitleValue,
+  textareaBodyValue,
+  userValue
 });

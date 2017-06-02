@@ -6,14 +6,10 @@ import Modal from '../Modal/Modal';
 import Search from '../Search/Search';
 import { config } from '../../config.js';
 import classNames from 'classnames';
-import fetch from 'isomorphic-fetch';
 import { debounce } from 'throttle-debounce';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import {
-  actionIncrement,
-  actionGetPosts,
-  actionFilterPosts,
   postsFetchData,
   changeSearchedPhrase,
   getFilteredPosts,
@@ -150,7 +146,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPosts: (a) => dispatch(actionGetPosts(a)),
     fetchData: (url) => dispatch(postsFetchData(url)),
     changePhrase: (phrase) => dispatch(changeSearchedPhrase(phrase)),
     getSearchedPosts: (searchedPhrase) => dispatch(getFilteredPosts(searchedPhrase)),

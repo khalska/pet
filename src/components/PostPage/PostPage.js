@@ -8,12 +8,27 @@ import User from '../User/User';
 import './PostPage.css';
 import fetch from 'isomorphic-fetch';
 import { IndexLink } from 'react-router'
+import {connect} from "react-redux";
+import {
+  setPostTitle,
+  setPostBody,
+  setPostUser,
+  getPostData
+} from '../../actions/postPage';
 
 class PostPage extends React.Component {
   static propTypes = {
     params: PropTypes.object,
     comments: PropTypes.array,
-    location: PropTypes.object
+    location: PropTypes.object,
+
+    inputTitleValue: PropTypes.string,
+    textareaBodyValue: PropTypes.string,
+    userValue: PropTypes.string,
+    setBody: PropTypes.func.isRequired,
+    setTitle: PropTypes.func.isRequired,
+    setUser: PropTypes.func.isRequired,
+    getPostData: PropTypes.func.isRequired
   }
 
   static contextTypes = {
@@ -23,10 +38,7 @@ class PostPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputTitleValue: '',
-      textareaBodyValue: '',
       comments: [],
-      userValue: '',
       title: '',
       info: ''
     };
@@ -36,22 +48,9 @@ class PostPage extends React.Component {
     const postId = this.props.params.postId;
 
     if (postId) {
-      this.__getPostData(postId);
+      this.props.getPostData(postId);
       this.__getComments(postId);
     }
-  }
-
-  __getPostData(postId) {
-    const url = `${config.url}/${postId}`;
-    fetch(url)
-      .then( (response) => response.json() )   
-      .then( (json) => 
-        this.setState({
-          inputTitleValue: json.title,
-          textareaBodyValue: json.body,
-          userValue: json.userId
-        })
-      );
   }
 
   __getComments(postId) {
@@ -117,21 +116,19 @@ class PostPage extends React.Component {
   }
 
   handleTitleChange(event) {
-    this.setState({inputTitleValue: event.target.value});
+    this.props.setTitle(event.target.value);
   }
 
   handleBodyChange(event) {
-    this.setState({textareaBodyValue: event.target.value});
+    this.props.setBody(event.target.value);
   }
 
   handleUserChange(event) {
-    this.setState({
-       userValue: event.target.value
-     });
+    this.props.setUser(event.target.value);
   }
 
   __validateForm() {
-    return !(this.state.inputTitleValue && this.state.textareaBodyValue && this.state.userValue)
+    return !(this.props.inputTitleValue && this.props.textareaBodyValue && this.props.userValue)
   }
 
   __renderTitle() {
@@ -175,14 +172,14 @@ class PostPage extends React.Component {
       <div>
         <form onSubmit={ () => this.handleSubmit() }>
           <div className="form_title_input">
-            <input type="text" required className="form-control"
-              value={this.state.inputTitleValue} 
+             <input type="text" required className="form-control"
+              value={this.props.inputTitleValue}
               onChange={ (e) => this.handleTitleChange(e) } 
               placeholder="Title" />
           </div>
           <div className="form_body_textarea">
             <textarea required className="form-control"
-              value={this.state.textareaBodyValue} 
+              value={this.props.textareaBodyValue}
               onChange={ (e) => this.handleBodyChange(e) } 
               placeholder="Body" />
           </div>
@@ -237,4 +234,24 @@ class PostPage extends React.Component {
     );
   }
 }
-export default PostPage;
+const mapStateToProps = (state) => {
+  return {
+    inputTitleValue: state.inputTitleValue,
+    textareaBodyValue: state.textareaBodyValue,
+    userValue: state.userValue
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setTitle: (title) => dispatch(setPostTitle(title)),
+    setBody: (body) => dispatch(setPostBody(body)),
+    setUser: (user) => dispatch(setPostUser(user)),
+    getPostData: (postId) => dispatch(getPostData(postId))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PostPage);
