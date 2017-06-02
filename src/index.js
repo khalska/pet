@@ -9,7 +9,6 @@ import configureStore from './store/configureStore';
 
 
 const initialState = {
-  counter: 0,
   posts: [],
   filteredPosts: [],
   searchedPhrase: '',

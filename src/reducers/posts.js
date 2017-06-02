@@ -1,18 +1,3 @@
-export function postsReducer (state = [], action) {
-  switch (action.type) {
-    case 'INCREMENT':
-      return { ...state, counter: state.counter + 1 };
-    case 'DECREMENT':
-      return { ...state, counter: state.counter - 1 };
-
-    case 'CHANGE_SEARCH':
-      return { ...state, searchedPhrase: action.searchedPhrase };
-
-    default:
-      return state;
-  }
-};
-
 export function postsHasErrored(state = false, action) {
   switch (action.type) {
     case 'POSTS_HAS_ERRORED':

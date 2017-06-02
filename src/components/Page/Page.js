@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import {
   actionIncrement,
-  actionChangeSearch,
   actionGetPosts,
   actionFilterPosts,
   postsFetchData,
@@ -27,22 +26,16 @@ class Page extends React.Component {
     posts: PropTypes.array.isRequired,
     filteredPosts: PropTypes.array.isRequired,
     searchedPhrase: PropTypes.string,
-
-    counter: PropTypes.Number,
-    onIncrement: PropTypes.func,
-    onDecrement: PropTypes.func,
-
-    onChangeSearch: PropTypes.func,
-    getPosts: PropTypes.func,
-    filterPosts: PropTypes.func,
-
-    fetchData: PropTypes.func.isRequired,
-    changePhrase: PropTypes.func.isRequired,
-    hasErrored: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    getSearchedPosts: PropTypes.func.isRequired,
     postToDelete: PropTypes.number.isRequired,
 
+    hasErrored: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+
+    getPosts: PropTypes.func,
+    fetchData: PropTypes.func.isRequired,
+    changePhrase: PropTypes.func.isRequired,
+    getSearchedPosts: PropTypes.func.isRequired,
+    setPostToDelete: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired
   }
 
@@ -107,7 +100,7 @@ class Page extends React.Component {
   }
 
   render() {
-    const { counter, onDecrement, onIncrement, searchedPhrase, getSearchedPosts, changePhrase, filterPosts } = this.props;
+    const { searchedPhrase, getSearchedPosts, changePhrase } = this.props;
 
     return (
       <div className={classNames('Page')}>
@@ -115,11 +108,6 @@ class Page extends React.Component {
 
         {this.__renderAddPostButton()}
         <div>post to delete: {this.props.postToDelete} , number of posts: {this.props.posts.length}</div>
-        <div>
-          <div>{counter}</div>
-          <button onClick={onDecrement}>-</button>
-          <button onClick={onIncrement}>+</button>
-        </div>
 
         searhced phrase:{ searchedPhrase }
         <Search
@@ -162,13 +150,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onIncrement: () => dispatch(actionIncrement()),
-    onDecrement: () => dispatch({ type: 'DECREMENT' }),
-
     getPosts: (a) => dispatch(actionGetPosts(a)),
-    filterPosts: (a) => dispatch(actionFilterPosts(a)),
     fetchData: (url) => dispatch(postsFetchData(url)),
-
     changePhrase: (phrase) => dispatch(changeSearchedPhrase(phrase)),
     getSearchedPosts: (searchedPhrase) => dispatch(getFilteredPosts(searchedPhrase)),
     deletePost: (postId) => dispatch(deletePostAction(postId)),
