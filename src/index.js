@@ -12,7 +12,8 @@ const initialState = {
   counter: 0,
   posts: [],
   filteredPosts: [],
-  searchedPhrase: ''
+  searchedPhrase: '',
+  postToDelete: -1
 }
 
 const store = configureStore(initialState);

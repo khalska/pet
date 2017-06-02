@@ -38,6 +38,9 @@ export function posts(state = [], action) {
     case 'POSTS_FETCH_DATA_SUCCESS':
       return action.posts;
 
+    case 'GET_POSTS_AFTER_DELETE':
+      return action.posts
+
     default:
       return state;
   }
@@ -57,6 +60,16 @@ export function filteredPosts(state = [], action) {
   switch (action.type) {
     case 'POSTS_FILTER':
       return action.filteredPosts;
+
+    default:
+      return state
+  }
+}
+
+export function postToDelete(state = -1, action) {
+  switch (action.type) {
+    case 'CHOOSE_POST_TO_DELETE':
+      return action.postToDelete;
 
     default:
       return state

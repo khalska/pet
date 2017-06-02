@@ -17,7 +17,9 @@ import {
   actionFilterPosts,
   postsFetchData,
   changeSearchedPhrase,
-  getFilteredPosts
+  getFilteredPosts,
+  deletePostAction,
+  choosePostToDelete
 } from '../../actions/actions';
 
 class Page extends React.Component {
@@ -38,37 +40,27 @@ class Page extends React.Component {
     changePhrase: PropTypes.func.isRequired,
     hasErrored: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    getSearchedPosts: PropTypes.func.isRequired
+    getSearchedPosts: PropTypes.func.isRequired,
+    postToDelete: PropTypes.number.isRequired,
+
+    deletePost: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],
-      filteredPosts: [],
-      phrase: '',
-      isModalOpen: false,
-      postToDelete: 0
+      isModalOpen: false
     };
   }
 
   componentDidMount() {
-    //this.__getPosts();
     this.props.fetchData(config.url);
   }
 
-  __getPosts() {
-    fetch(config.url)
-      .then( (response) => response.json() )
-      .then( (json) =>
-        this.props.getPosts(json)
-      );
-  }
-
   openModal(postId) {
+    this.props.setPostToDelete(postId);
     this.setState({ 
-      isModalOpen: true,
-      postToDelete: postId
+      isModalOpen: true
     })
   }
 
@@ -77,28 +69,8 @@ class Page extends React.Component {
   }
 
   onConfirmDelete(postId) {
-    this.deletePost(postId);
+    this.props.deletePost(postId);
     this.closeModal();
-  }
-
-  deletePost(postId) {
-    const url = `${config.url}/${postId}`;
-    fetch(url, {method: 'DELETE'})
-    .then(this.deletePostLocally(postId));
-  }
-
-  deletePostLocally(postId) {
-    let posts = this.state.posts;
-
-    posts.forEach((item, index) => {
-      if (item.id === postId) {
-        posts.splice(index,1);
-      }
-    });
-
-    this.setState({
-      posts
-    })
   }
 
   __renderPosts() {
@@ -142,7 +114,7 @@ class Page extends React.Component {
 
 
         {this.__renderAddPostButton()}
-        {}
+        <div>post to delete: {this.props.postToDelete} , number of posts: {this.props.posts.length}</div>
         <div>
           <div>{counter}</div>
           <button onClick={onDecrement}>-</button>
@@ -160,11 +132,11 @@ class Page extends React.Component {
         <Modal 
           isOpen={this.state.isModalOpen} 
           onClose={ () => this.closeModal() } 
-          onConfirm={ () => this.onConfirmDelete(this.state.postToDelete) }
+          onConfirm={ () => this.onConfirmDelete(this.props.postToDelete) }
           buttonCloseLabel="No"
           buttonConfirmLabel="Yes"
         >
-          <p>Are you sure to delete post #{this.state.postToDelete}?</p>
+          <p>Are you sure to delete post #{this.props.postToDelete}?</p>
         </Modal>
 
         {this.__renderPosts()}
@@ -183,7 +155,8 @@ const mapStateToProps = (state) => {
     counter: state.counter,
 
     hasErrored: state.postsHasErrored,
-    isLoading: state.postsIsLoading
+    isLoading: state.postsIsLoading,
+    postToDelete: state.postToDelete,
   };
 }
 
@@ -197,7 +170,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchData: (url) => dispatch(postsFetchData(url)),
 
     changePhrase: (phrase) => dispatch(changeSearchedPhrase(phrase)),
-    getSearchedPosts: (searchedPhrase) => dispatch(getFilteredPosts(searchedPhrase))
+    getSearchedPosts: (searchedPhrase) => dispatch(getFilteredPosts(searchedPhrase)),
+    deletePost: (postId) => dispatch(deletePostAction(postId)),
+    setPostToDelete: (postId) => dispatch(choosePostToDelete(postId))
   };
 }
 

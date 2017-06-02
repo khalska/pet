@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-
+import { config } from '../config.js';
 /*
  * action creators
  */
@@ -99,3 +99,40 @@ export function changeSearchedPhrase(searchedPhrase) {
     searchedPhrase
   };
 }
+
+export function deletePostAction(postId) {
+  return (dispatch, getState) => {
+    const url = `${config.url}/${postId}`;
+
+    fetch(url, {method: 'DELETE'})
+      .then( () => {
+        postId = getState().postToDelete;
+
+        let posts = getState().posts;
+
+        posts.forEach((item, index) => {
+          if (item.id === postId) {
+            posts.splice(index,1);
+          }
+        });
+
+        dispatch(postsFilter(posts));
+        dispatch(getPostsAfterDelete(posts));
+      });
+  }
+}
+
+export function getPostsAfterDelete(posts) {
+  return {
+    type: 'GET_POSTS_AFTER_DELETE',
+    posts
+  };
+}
+
+export function choosePostToDelete(postToDelete) {
+  return {
+    type: 'CHOOSE_POST_TO_DELETE',
+    postToDelete
+  };
+}
+
