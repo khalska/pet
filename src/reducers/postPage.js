@@ -31,3 +31,13 @@ export function userValue(state = '', action) {
       return state;
   }
 }
+
+export function comments(state = [], action) {
+  switch (action.type) {
+    case 'SET_POST_COMMENTS':
+      return action.comments;
+
+    default:
+      return state;
+  }
+}

@@ -36,40 +36,23 @@ export  function getPostData(postId) {
       );
   }
 }
-//
-// export function postsFetchData(url) {
-//   return (dispatch) => {
-//     dispatch(postsIsLoading(true));
-//
-//     fetch(url)
-//       .then((response) => {
-//
-//         if (!response.ok) {
-//           throw Error(response.statusText);
-//         }
-//
-//         dispatch(postsIsLoading(false));
-//         return response;
-//       })
-//       .then((response) => response.json())
-//       .then((posts) => {
-//         dispatch(postsFetchDataSuccess(posts))
-//         dispatch(postsFilter(posts))
-//       })
-//       .catch(() => dispatch(postsHasErrored(true)));
-//   };
-// }
 
+export function setPostComments(comments) {
+  return {
+    type: 'SET_POST_COMMENTS',
+    comments
+  };
+}
 
-// __getPostData(postId) {
-//   const url = `${config.url}/${postId}`;
-//   fetch(url)
-//     .then( (response) => response.json() )
-//     .then( (json) =>
-//       this.setState({
-//         inputTitleValue: json.title,
-//         textareaBodyValue: json.body,
-//         userValue: json.userId
-//       })
-//     );
-// }
+export  function getPostComments(postId) {
+  return (dispatch) => {
+    const url = `${config.url}/${postId}/comments`;
+    fetch(url)
+      .then( (response) => response.json() )
+      .then( (json) =>
+        {
+          dispatch(setPostComments(json));
+        }
+      );
+  }
+}

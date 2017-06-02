@@ -13,7 +13,8 @@ import {
   setPostTitle,
   setPostBody,
   setPostUser,
-  getPostData
+  getPostData,
+  getPostComments
 } from '../../actions/postPage';
 
 class PostPage extends React.Component {
@@ -28,7 +29,8 @@ class PostPage extends React.Component {
     setBody: PropTypes.func.isRequired,
     setTitle: PropTypes.func.isRequired,
     setUser: PropTypes.func.isRequired,
-    getPostData: PropTypes.func.isRequired
+    getPostData: PropTypes.func.isRequired,
+    getPostComments: PropTypes.func.isRequired
   }
 
   static contextTypes = {
@@ -38,7 +40,6 @@ class PostPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      comments: [],
       title: '',
       info: ''
     };
@@ -49,7 +50,8 @@ class PostPage extends React.Component {
 
     if (postId) {
       this.props.getPostData(postId);
-      this.__getComments(postId);
+      this.props.getPostComments(postId);
+      //this.__getComments(postId);
     }
   }
 
@@ -158,7 +160,7 @@ class PostPage extends React.Component {
         <div className="comments_container">
           <h4>Comments</h4>
           <ul>
-            {this.state.comments.map(
+            {this.props.comments.map(
               comment => <Comment key={comment.id} name={comment.name} body={comment.body}/>
             )}
           </ul>
@@ -238,7 +240,8 @@ const mapStateToProps = (state) => {
   return {
     inputTitleValue: state.inputTitleValue,
     textareaBodyValue: state.textareaBodyValue,
-    userValue: state.userValue
+    userValue: state.userValue,
+    comments: state.comments
   };
 }
 
@@ -247,7 +250,8 @@ const mapDispatchToProps = (dispatch) => {
     setTitle: (title) => dispatch(setPostTitle(title)),
     setBody: (body) => dispatch(setPostBody(body)),
     setUser: (user) => dispatch(setPostUser(user)),
-    getPostData: (postId) => dispatch(getPostData(postId))
+    getPostData: (postId) => dispatch(getPostData(postId)),
+    getPostComments: (postId) => dispatch(getPostComments(postId))
   };
 }
 
