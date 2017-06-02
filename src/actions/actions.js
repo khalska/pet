@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+
 /*
  * action creators
  */
@@ -58,8 +59,43 @@ export function postsFetchData(url) {
         return response;
       })
       .then((response) => response.json())
-      .then((posts) => dispatch(postsFetchDataSuccess(posts)))
+      .then((posts) => {
+        dispatch(postsFetchDataSuccess(posts))
+        dispatch(postsFilter(posts))
+      })
       .catch(() => dispatch(postsHasErrored(true)));
   };
 }
 
+export function postsFilter(filteredPosts) {
+  return {
+    type: 'POSTS_FILTER',
+    filteredPosts
+  };
+}
+
+export function getFilteredPosts() {
+  return ( dispatch, getState ) => {
+    const searchedPhrase = getState().searchedPhrase.toLowerCase();
+    let filteredPosts = getState().posts;
+
+    if (searchedPhrase !== '') {
+      filteredPosts = filteredPosts.filter( (post) => {
+        if (post.hasOwnProperty('title') && post.hasOwnProperty('body')) {
+          const title = post.title.toLowerCase();
+          const body = post.body.toLowerCase();
+          return (title.indexOf(searchedPhrase) >= 0 || body.indexOf(searchedPhrase) >= 0);
+        }
+      });
+    }
+
+    dispatch(postsFilter(filteredPosts));
+  }
+}
+
+export function changeSearchedPhrase(searchedPhrase) {
+  return {
+    type: 'CHANGE_SEARCHED_PHRASE',
+    searchedPhrase
+  };
+}

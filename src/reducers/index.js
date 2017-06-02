@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
-import { postsReducer, posts, postsHasErrored, postsIsLoading } from './posts';
+import { postsReducer, posts, postsHasErrored, postsIsLoading, searchedPhrase, filteredPosts } from './posts';
 
 export default combineReducers({
   postsReducer,
   posts,
   postsHasErrored,
   postsIsLoading,
+  searchedPhrase,
+  filteredPosts
 });

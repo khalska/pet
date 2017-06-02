@@ -32,7 +32,7 @@ class Search extends React.Component {
         <div className="input-group-btn">
           <button
           className="btn btn-success"
-          onClick={ (e) => this.handleFilterTextButton(e) } >
+          onClick={ () => this.handleFilterTextButton() } >
           Go!</button>
         </div>
       </div>

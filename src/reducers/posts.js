@@ -7,26 +7,6 @@ export function postsReducer (state = [], action) {
 
     case 'CHANGE_SEARCH':
       return { ...state, searchedPhrase: action.searchedPhrase };
-    case 'CHANGE_SEARCH2':
-      return { ...state, searchedPhrase: action.searchedPhrase };
-
-    case 'GET_POSTS':
-      return { ...state, posts: action.posts, filteredPosts: action.posts }
-
-    case 'FILTER_POSTS': {
-      const phrase = state.searchedPhrase.toLowerCase();
-      let filteredPosts = state.posts;
-
-      filteredPosts = filteredPosts.filter( (post) => {
-        if (post.hasOwnProperty('title') && post.hasOwnProperty('body')) {
-          const title = post.title.toLowerCase();
-          const body = post.body.toLowerCase();
-          return (title.indexOf(phrase) >= 0 || body.indexOf(phrase) >= 0);
-        }
-      });
-
-      return { ...state, filteredPosts }
-    }
 
     default:
       return state;
@@ -60,5 +40,25 @@ export function posts(state = [], action) {
 
     default:
       return state;
+  }
+}
+
+export function searchedPhrase(state = '', action) {
+  switch (action.type) {
+    case 'CHANGE_SEARCHED_PHRASE':
+      return action.searchedPhrase;
+
+    default:
+      return state;
+  }
+}
+
+export function filteredPosts(state = [], action) {
+  switch (action.type) {
+    case 'POSTS_FILTER':
+      return action.filteredPosts;
+
+    default:
+      return state
   }
 }

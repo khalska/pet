@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App/App';
 import './style/index.css';
-import {createStore} from 'redux';
 import {Provider} from "react-redux";
 import configureStore from './store/configureStore';
 
@@ -12,7 +11,8 @@ import configureStore from './store/configureStore';
 const initialState = {
   counter: 0,
   posts: [],
-  filteredPosts: []
+  filteredPosts: [],
+  searchedPhrase: ''
 }
 
 const store = configureStore(initialState);

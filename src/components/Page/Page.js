@@ -15,7 +15,9 @@ import {
   actionChangeSearch,
   actionGetPosts,
   actionFilterPosts,
-  postsFetchData
+  postsFetchData,
+  changeSearchedPhrase,
+  getFilteredPosts
 } from '../../actions/actions';
 
 class Page extends React.Component {
@@ -33,8 +35,10 @@ class Page extends React.Component {
     filterPosts: PropTypes.func,
 
     fetchData: PropTypes.func.isRequired,
+    changePhrase: PropTypes.func.isRequired,
     hasErrored: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    getSearchedPosts: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -131,7 +135,7 @@ class Page extends React.Component {
   }
 
   render() {
-    const { counter, onDecrement, onIncrement, onChangeSearch, searchedPhrase, filterPosts } = this.props;
+    const { counter, onDecrement, onIncrement, searchedPhrase, getSearchedPosts, changePhrase, filterPosts } = this.props;
 
     return (
       <div className={classNames('Page')}>
@@ -145,11 +149,12 @@ class Page extends React.Component {
           <button onClick={onIncrement}>+</button>
         </div>
 
-        { searchedPhrase }
+        searhced phrase:{ searchedPhrase }
         <Search
           phrase={ searchedPhrase }
-          onFilterTextInput={ (e) => debounce(500, onChangeSearch(e)) }
-          onFilterTextButton={ (e) => filterPosts(e) }
+
+          onFilterTextInput={ (e) => debounce(500, changePhrase(e)) }
+          onFilterTextButton={ (e) => getSearchedPosts(e) }
         />
 
         <Modal 
@@ -173,7 +178,7 @@ class Page extends React.Component {
 const mapStateToProps = (state) => {
   return {
     posts: state.posts,
-    filteredPosts: state.posts,
+    filteredPosts: state.filteredPosts,
     searchedPhrase: state.searchedPhrase,
     counter: state.counter,
 
@@ -187,10 +192,12 @@ const mapDispatchToProps = (dispatch) => {
     onIncrement: () => dispatch(actionIncrement()),
     onDecrement: () => dispatch({ type: 'DECREMENT' }),
 
-    onChangeSearch: (a) => dispatch(actionChangeSearch(a)),
     getPosts: (a) => dispatch(actionGetPosts(a)),
     filterPosts: (a) => dispatch(actionFilterPosts(a)),
-    fetchData: (url) => dispatch(postsFetchData(url))
+    fetchData: (url) => dispatch(postsFetchData(url)),
+
+    changePhrase: (phrase) => dispatch(changeSearchedPhrase(phrase)),
+    getSearchedPosts: (searchedPhrase) => dispatch(getFilteredPosts(searchedPhrase))
   };
 }
 
