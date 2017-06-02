@@ -55,13 +55,6 @@ class PostPage extends React.Component {
     }
   }
 
-  __getComments(postId) {
-    const url = `${config.url}/${postId}/comments`;
-    fetch(url)
-      .then( (response) => response.json() )   
-      .then( (json) => this.setState({comments: json}) );
-  }
-
   handleSubmit() {
     const postId = this.props.params.postId;
     postId ? this.__updatePost(postId) : this.__addNewPost();
@@ -161,7 +154,7 @@ class PostPage extends React.Component {
           <h4>Comments</h4>
           <ul>
             {this.props.comments.map(
-              comment => <Comment key={comment.id} name={comment.name} body={comment.body}/>
+              comment => <Comment key={comment.id} {...comment} />
             )}
           </ul>
         </div>
