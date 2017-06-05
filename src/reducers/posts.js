@@ -23,15 +23,6 @@ export function posts(state = [], action) {
     case 'SET_POSTS':
       return action.posts
 
-    case 'POSTS_FETCH_DATA_SUCCESS':
-      return action.posts;
-
-    case 'GET_POSTS_AFTER_DELETE':
-      return action.posts;
-
-    case 'SET_POSTS_AFTER_ADDING':
-      return action.posts
-
     default:
       return state;
   }
@@ -51,9 +42,6 @@ export function filteredPosts(state = [], action) {
   switch (action.type) {
     case 'SET_FILTERED_POSTS':
       return action.filteredPosts
-
-    case 'POSTS_FILTER':
-      return action.filteredPosts;
 
     default:
       return state

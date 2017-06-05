@@ -18,9 +18,9 @@ export function postsIsLoading(bool) {
   };
 }
 
-export function postsFetchDataSuccess(posts) {
+export function setPosts(posts) {
   return {
-    type: 'POSTS_FETCH_DATA_SUCCESS',
+    type: 'SET_POSTS',
     posts
   };
 }
@@ -41,7 +41,7 @@ export function postsFetchData(url) {
       })
       .then((response) => response.json())
       .then((posts) => {
-        dispatch(postsFetchDataSuccess(posts))
+        dispatch(setPosts(posts))
         dispatch(postsFilter(posts))
         dispatch({ type: 'SET_LAST_POST_ID', lastPostId: 100 })
       })
@@ -51,7 +51,7 @@ export function postsFetchData(url) {
 
 export function postsFilter(filteredPosts) {
   return {
-    type: 'POSTS_FILTER',
+    type: 'SET_FILTERED_POSTS',
     filteredPosts
   };
 }
@@ -99,23 +99,7 @@ export function deletePostAction(postId) {
         });
 
         dispatch(postsFilter(posts));
-        dispatch(getPostsAfterDelete(posts));
+        dispatch(setPosts(posts));
       });
   }
 }
-
-export function getPostsAfterDelete(posts) {
-  return {
-    type: 'GET_POSTS_AFTER_DELETE',
-    posts
-  };
-}
-
-export function choosePostToDelete(postToDelete) {
-  return {
-    type: 'CHOOSE_POST_TO_DELETE',
-    postToDelete
-  };
-}
-
-
