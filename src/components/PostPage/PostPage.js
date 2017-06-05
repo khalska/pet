@@ -32,7 +32,8 @@ class PostPage extends React.Component {
     setUser: PropTypes.func.isRequired,
     getPostData: PropTypes.func.isRequired,
     getPostComments: PropTypes.func.isRequired,
-    addPost: PropTypes.func.isRequired
+    addPost: PropTypes.func.isRequired,
+
   }
 
   constructor(props) {

@@ -77,9 +77,6 @@ class Page extends React.Component {
     return(
       <div className="post-content">
         <ul className="list-group">
-          {/*{ this.state.filteredPosts.map(*/}
-            {/*post => <Post key={post.id} {...post} handleDelete={ () => this.openModal(post.id)}/>*/}
-          {/*)}*/}
           { this.props.filteredPosts.map(
             post => <Post key={post.id} {...post} handleDelete={ () => this.openModal(post.id)}/>
           )}

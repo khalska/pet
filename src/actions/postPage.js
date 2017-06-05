@@ -100,9 +100,16 @@ export function addPost() {
         dispatch(setFilteredPosts(posts))
         dispatch({ type: 'INCREMENT_LAST_POST_ID' })
 
+        clearForm(dispatch);
+
         //this.setState({info: `Post #${json.id} was saved.`})
       });
 
   }
 }
 
+function clearForm(dispatch) {
+  dispatch(setPostTitle(''));
+  dispatch(setPostBody(''));
+  dispatch(setPostUser(''));
+}
