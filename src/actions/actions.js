@@ -26,7 +26,6 @@ export function postsFetchDataSuccess(posts) {
 }
 
 export function postsFetchData(url) {
-  console.log('getting posts');
   return (dispatch) => {
     dispatch(postsIsLoading(true));
 
@@ -44,6 +43,7 @@ export function postsFetchData(url) {
       .then((posts) => {
         dispatch(postsFetchDataSuccess(posts))
         dispatch(postsFilter(posts))
+        dispatch({ type: 'SET_LAST_POST_ID', lastPostId: 100 })
       })
       .catch(() => dispatch(postsHasErrored(true)));
   };
@@ -117,4 +117,5 @@ export function choosePostToDelete(postToDelete) {
     postToDelete
   };
 }
+
 

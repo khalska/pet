@@ -41,3 +41,17 @@ export function comments(state = [], action) {
       return state;
   }
 }
+
+export function lastPostId(state = -1, action) {
+  switch (action.type) {
+    case 'INCREMENT_LAST_POST_ID':
+      return  state + 1;
+
+    case 'SET_LAST_POST_ID':
+      return  action.lastPostId;
+
+    default:
+      return state;
+  }
+}
+

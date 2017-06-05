@@ -43,7 +43,10 @@ class Page extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchData(config.url);
+    if (this.props.posts.length == 0) {
+      this.props.fetchData(config.url);
+    }
+
   }
 
   openModal(postId) {

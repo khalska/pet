@@ -75,9 +75,10 @@ export function addPost() {
   return (dispatch, getState) => {
 
     const data = {
-      title: getState().title,
-      body: getState().body,
-      userId: getState().userId
+      title: getState().inputTitleValue,
+      body: getState().textareaBodyValue,
+      userId: getState().userValue,
+      id: getState().lastPostId + 1
     }
 
     const fetchData = {
@@ -92,15 +93,16 @@ export function addPost() {
     fetch(config.url, fetchData)
       .then( (response) => response.json() )
       .then( (json) => {
-        dispatch(setPostsAfterAdding([]));
-        dispatch(setFilteredPosts([]))
-        console.log('dodano')
+        const posts = getState().posts;
+        posts.push(fetchData.body);
+
+        dispatch(setPostsAfterAdding(posts));
+        dispatch(setFilteredPosts(posts))
+        dispatch({ type: 'INCREMENT_LAST_POST_ID' })
+
         //this.setState({info: `Post #${json.id} was saved.`})
       });
 
   }
 }
-
-
-
 

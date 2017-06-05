@@ -35,10 +35,6 @@ class PostPage extends React.Component {
     addPost: PropTypes.func.isRequired
   }
 
-  static contextTypes = {
-    router: PropTypes.object.isRequired
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -59,30 +55,6 @@ class PostPage extends React.Component {
   handleSubmit() {
     const postId = this.props.params.postId;
     postId ? this.__updatePost(postId) : this.props.addPost();
-  }
-
-  __addNewPost() {
-    const data = {
-      title: this.state.inputTitleValue,
-      body: this.state.textareaBodyValue,
-      userId: this.state.userValue
-    }
-
-    const fetchData = { 
-      method: 'POST', 
-      body: data,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    }
-
-    fetch(config.url, fetchData)
-      .then( (response) => response.json() )   
-      .then( (json) => {
-        this.setState({info: `Post #${json.id} was saved.`})
-        //this.context.router.push(`/update-post/${json.id}`)
-      });
   }
 
   __updatePost(postId) {
