@@ -113,3 +113,41 @@ function clearForm(dispatch) {
   dispatch(setPostBody(''));
   dispatch(setPostUser(''));
 }
+
+export function updatePost(postId) {
+  return (dispatch, getState) => {
+    const data = {
+      id: postId,
+      title: getState().inputTitleValue,
+      body: getState().textareaBodyValue,
+      userId: getState().userValue,
+    };
+
+    const fetchData = {
+      method: 'PUT',
+      body: data,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }
+
+    const url = `${config.url}/${postId}`;
+
+    fetch(url, fetchData)
+      .then( (response) => {
+        let posts = getState().posts;
+
+        posts = posts.filter( (post) => {
+          if (post.id == postId) {
+            post.title = fetchData.body.title;
+            post.body = fetchData.body.body;
+            post.userId = fetchData.body.userId
+            return true;
+          }
+        });
+        //const info = (response.ok) ? 'Changes in post was saved.' : 'Error!'
+        //this.setState({info})
+      });
+  }
+}

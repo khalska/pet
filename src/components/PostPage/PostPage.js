@@ -15,7 +15,8 @@ import {
   setPostUser,
   getPostData,
   getPostComments,
-  addPost
+  addPost,
+  updatePost
 } from '../../actions/postPage';
 
 class PostPage extends React.Component {
@@ -33,7 +34,7 @@ class PostPage extends React.Component {
     getPostData: PropTypes.func.isRequired,
     getPostComments: PropTypes.func.isRequired,
     addPost: PropTypes.func.isRequired,
-
+    updatePost: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -50,38 +51,20 @@ class PostPage extends React.Component {
     if (postId) {
       this.props.getPostData(postId);
       this.props.getPostComments(postId);
+    } else {
+      this.clearForm();
     }
+  }
+
+  clearForm() {
+    this.props.setTitle('');
+    this.props.setBody('');
+    this.props.setUser('');
   }
 
   handleSubmit() {
     const postId = this.props.params.postId;
-    postId ? this.__updatePost(postId) : this.props.addPost();
-  }
-
-  __updatePost(postId) {
-    const data = {
-      id: postId,
-      title: this.state.inputTitleValue,
-      body: this.state.textareaBodyValue,
-      userId: this.state.userValue
-    };
-
-    const fetchData = { 
-      method: 'PUT', 
-      body: data,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    }
-
-    const url = `${config.url}/${postId}`;
-
-    fetch(url, fetchData)
-      .then( (response) => {
-        const info = (response.ok) ? 'Changes in post was saved.' : 'Error!'
-        this.setState({info})
-      });
+    postId ? this.props.updatePost(postId) : this.props.addPost();
   }
 
   handleTitleChange(event) {
@@ -219,7 +202,8 @@ const mapDispatchToProps = (dispatch) => {
     setUser: (user) => dispatch(setPostUser(user)),
     getPostData: (postId) => dispatch(getPostData(postId)),
     getPostComments: (postId) => dispatch(getPostComments(postId)),
-    addPost: () => dispatch(addPost())
+    addPost: () => dispatch(addPost()),
+    updatePost: (postId) => dispatch(updatePost(postId))
   };
 }
 
