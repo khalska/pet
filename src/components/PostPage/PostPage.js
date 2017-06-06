@@ -17,6 +17,7 @@ import {
   addPost,
   updatePost
 } from '../../actions/postPage';
+import Layout from "../Layout/Layout";
 
 class PostPage extends React.Component {
   static propTypes = {
@@ -175,13 +176,15 @@ class PostPage extends React.Component {
 
   render() {
     return (
-      <div className="PostPage">
-        {this.__renderBreadcrumbs()}
-        {this.__renderTitle()}
-        {this.__renderForm()}
-        {this.__renderInfo()}
-        {this.__renderComments()}
-      </div>
+      <Layout>
+        <div className="PostPage">
+          {this.__renderBreadcrumbs()}
+          {this.__renderTitle()}
+          {this.__renderForm()}
+          {this.__renderInfo()}
+          {this.__renderComments()}
+        </div>
+      </Layout>
     );
   }
 }

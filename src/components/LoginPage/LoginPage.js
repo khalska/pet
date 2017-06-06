@@ -7,6 +7,7 @@ import {
   signIn
 } from '../../actions/auth';
 import { browserHistory } from 'react-router';
+import Layout from "../Layout/Layout";
 
 
 class LoginPage extends React.Component {
@@ -36,28 +37,29 @@ class LoginPage extends React.Component {
 
   render() {
     return (
-      <div className={classNames('LoginPage')}>
-        <h4>Login: </h4>
+      <Layout>
+        <div className={classNames('LoginPage')}>
+          <h4>Login: </h4>
 
-        login: {this.props.login}
+          login: {this.props.login}
 
-        <br/>
-        <input type="text" name="myLoginReact" autoComplete="on"
-          placeholder="Enter your login"
-          onChange={ (event) => this.setState({ login: event.target.value }) }
-        />
-        <br/>
-        <input type="password"
-          placeholder="Enter your password"
-          onChange={ (event) => this.setState({ password: event.target.value }) }
-        />
-        <br/>
-        <button onClick={ () => this.onHandleButton() }>Sign in</button>
+          <br/>
+          <input type="text" name="myLoginReact" autoComplete="on"
+            placeholder="Enter your login"
+            onChange={ (event) => this.setState({ login: event.target.value }) }
+          />
+          <br/>
+          <input type="password"
+            placeholder="Enter your password"
+            onChange={ (event) => this.setState({ password: event.target.value }) }
+          />
+          <br/>
+          <button onClick={ () => this.onHandleButton() }>Sign in</button>
 
-        <br/>
-        luannhayes@qualitern.com
-
-      </div>
+          <br/>
+          luannhayes@qualitern.com
+          </div>
+      </Layout>
     );
   }
 }

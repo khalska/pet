@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import './Page.css';
 import Post from '../Post/Post';
 import Modal from '../Modal/Modal';
+import Layout from '../Layout/Layout';
 import Search from '../Search/Search';
 import { config } from '../../config.js';
 import classNames from 'classnames';
@@ -103,32 +104,34 @@ class Page extends React.Component {
     const { searchedPhrase, getSearchedPosts, changePhrase } = this.props;
 
     return (
-      <div className={classNames('Page')}>
-        {this.__renderAddPostButton()}
+      <Layout>
+        <div className={classNames('Page')}>
+          {this.__renderAddPostButton()}
 
-        <div>post to delete: {this.props.postToDelete} , number of posts: {this.props.posts.length}</div>
+          <div>post to delete: {this.props.postToDelete} , number of posts: {this.props.posts.length}</div>
 
-        <br/>
+          <br/>
 
-        <Search
-          phrase={ searchedPhrase }
+          <Search
+            phrase={ searchedPhrase }
 
-          onFilterTextInput={ (e) => debounce(500, changePhrase(e)) }
-          onFilterTextButton={ (e) => getSearchedPosts(e) }
-        />
+            onFilterTextInput={ (e) => debounce(500, changePhrase(e)) }
+            onFilterTextButton={ (e) => getSearchedPosts(e) }
+          />
 
-        <Modal 
-          isOpen={this.state.isModalOpen} 
-          onClose={ () => this.closeModal() } 
-          onConfirm={ () => this.onConfirmDelete(this.props.postToDelete) }
-          buttonCloseLabel="No"
-          buttonConfirmLabel="Yes"
-        >
-          <p>Are you sure to delete post #{this.props.postToDelete}?</p>
-        </Modal>
+          <Modal
+            isOpen={this.state.isModalOpen}
+            onClose={ () => this.closeModal() }
+            onConfirm={ () => this.onConfirmDelete(this.props.postToDelete) }
+            buttonCloseLabel="No"
+            buttonConfirmLabel="Yes"
+          >
+            <p>Are you sure to delete post #{this.props.postToDelete}?</p>
+          </Modal>
 
-        {this.__renderPosts()}
-      </div>
+          {this.__renderPosts()}
+        </div>
+      </Layout>
     );
   }
 }
