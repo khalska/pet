@@ -5,16 +5,14 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from "react-redux";
 import {
-  fetchUserData
+  logOut
 } from '../../actions/auth';
 
 class UserPanel extends React.Component {
   static propTypes = {
     isLogged: PropTypes.bool.isRequired,
-    login: PropTypes.string,
     userData: PropTypes.object,
-    getUserData: PropTypes.func,
-
+    logOut: PropTypes.func
   }
 
   constructor(props) {
@@ -22,25 +20,36 @@ class UserPanel extends React.Component {
     this.state = { isModalOpen: false }
   }
 
-  render() {
-    return (
-      <div className={ classNames('UserPanel') }>
+  __renderUserData() {
+    return(
+      <div>
         <span className={ classNames('glyphicon glyphicon-user') }></span>
         <span> { this.props.userData.firstName } { this.props.userData.lastName } </span>
         <span> ({ this.props.userData.email }) </span>
         <br/>
 
-        <Link to="login" className={classNames('btn btn-success')}>
-          Zaloguj
-        </Link>
-
         <Link
           to={''}
-          onClick={() => this.props.getUserData()}
+          onClick={() => this.props.logOut()}
           className={classNames('btn btn-default')}>
-          Wyloguj
+          Log out
         </Link>
+      </div>
+    )
+  }
 
+  render() {
+    return (
+      <div className={ classNames('UserPanel text-right') }>
+        {
+          this.props.isLogged &&
+          this.__renderUserData()
+        }
+        { !this.props.isLogged &&
+          <Link to="login" className={classNames('btn btn-success')}>
+            Log in
+          </Link>
+        }
       </div>
     );
   }
@@ -49,14 +58,13 @@ class UserPanel extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isLogged: state.isLogged,
-    login: state.login,
     userData: state.userData
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUserData: () => dispatch(fetchUserData())
+    logOut: () => dispatch(logOut())
   };
 }
 

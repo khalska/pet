@@ -8,16 +8,6 @@ export function isLogged(state = false, action) {
   }
 }
 
-export function login(state = '', action) {
-  switch (action.type) {
-    case 'SET_LOGIN':
-      return action.login;
-
-    default:
-      return state;
-  }
-}
-
 export function token(state = '', action) {
   switch (action.type) {
     case 'SET_TOKEN':

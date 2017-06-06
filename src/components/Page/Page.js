@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import './Page.css';
 import Post from '../Post/Post';
 import Modal from '../Modal/Modal';
-import UserPanel from '../UserPanel/UserPanel';
 import Search from '../Search/Search';
 import { config } from '../../config.js';
 import classNames from 'classnames';
@@ -35,8 +34,7 @@ class Page extends React.Component {
     setPostToDelete: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired,
 
-    isLogged: PropTypes.bool.isRequired,
-    login: PropTypes.string
+    isLogged: PropTypes.bool.isRequired
   }
 
   constructor(props) {
@@ -91,11 +89,13 @@ class Page extends React.Component {
 
   __renderAddPostButton() {
     return(
+      this.props.isLogged &&
       <div className="addPostButton pull-right">
         <Link to="add-post" className={classNames('btn pull-right btn-success')}>
-          Add new post 
+          Add new post
         </Link>
       </div>
+
     );
   }
 
@@ -104,8 +104,6 @@ class Page extends React.Component {
 
     return (
       <div className={classNames('Page')}>
-        <UserPanel />
-
         {this.__renderAddPostButton()}
 
         <div>post to delete: {this.props.postToDelete} , number of posts: {this.props.posts.length}</div>
@@ -148,8 +146,7 @@ const mapStateToProps = (state) => {
     isLoading: state.postsIsLoading,
     postToDelete: state.postToDelete,
 
-    isLogged: state.isLogged,
-    login: state.login
+    isLogged: state.isLogged
   };
 }
 

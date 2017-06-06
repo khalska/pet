@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import logo from './logo.svg';
 import classNames from 'classnames';
 import { connect } from "react-redux";
+import UserPanel from '../UserPanel/UserPanel';
 import {
   signIn
 } from '../../actions/auth';
@@ -13,13 +14,14 @@ class Header extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     isLogged: PropTypes.bool.isRequired,
-    login: PropTypes.string
   }
+
   render() {
     return (
       <div className={classNames('Header page-header')}>
         <Logo src={logo} />
-        <h1>{this.props.title} </h1>
+        <h1>{this.props.title}</h1>
+        <UserPanel />
       </div>
 
     );
@@ -30,7 +32,6 @@ class Header extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isLogged: state.isLogged,
-    login: state.login
   };
 }
 

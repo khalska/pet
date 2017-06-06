@@ -1,14 +1,8 @@
-export function setIsLogged(isLogged) {
-  return {
-    type: 'SET_IS_LOGING',
-    isLogged
-  };
-}
+export function setIsLogged(bool) {
 
-export function setLogin(login) {
   return {
-    type: 'SET_LOGIN',
-    login
+    type: 'SET_IS_LOGGED',
+    isLogged: bool
   };
 }
 
@@ -28,7 +22,6 @@ export function setUserData(userData) {
 
 export function signIn(login, password) {
   return (dispatch) => {
-
     dispatch(fetchSignIn(login,password));
   }
 }
@@ -69,8 +62,7 @@ export function fetchSignIn(login, password) {
       .then( (json) => {
         dispatch(setToken(json.token));
         dispatch(setIsLogged(true));
-        dispatch(setLogin(login));
-        dispatch(fetchUserData(json.token))
+        dispatch(fetchUserData(json.token));
       });
 
   }
@@ -101,26 +93,10 @@ export function fetchUserData(token) {
   };
 }
 
-// export function postsFetchData(url) {
-//   return (dispatch) => {
-//     dispatch(postsIsLoading(true));
-//
-//     fetch(url)
-//       .then((response) => {
-//
-//         if (!response.ok) {
-//           throw Error(response.statusText);
-//         }
-//
-//         dispatch(postsIsLoading(false));
-//         return response;
-//       })
-//       .then((response) => response.json())
-//       .then((posts) => {
-//         dispatch(setPosts(posts))
-//         dispatch(postsFilter(posts))
-//         dispatch({ type: 'SET_LAST_POST_ID', lastPostId: 100 })
-//       })
-//       .catch(() => dispatch(postsHasErrored(true)));
-//   };
-// }
+export function logOut() {
+  return (dispatch) => {
+    dispatch(setToken(''));
+    dispatch(setIsLogged(false));
+    dispatch(setUserData({}));
+  }
+}
