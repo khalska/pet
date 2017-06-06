@@ -15,7 +15,8 @@ import {
   getPostData,
   getPostComments,
   addPost,
-  updatePost
+  updatePost,
+  fetchUsers
 } from '../../actions/postPage';
 import Layout from "../Layout/Layout";
 
@@ -34,7 +35,9 @@ class PostPage extends React.Component {
     getPostData: PropTypes.func.isRequired,
     getPostComments: PropTypes.func.isRequired,
     addPost: PropTypes.func.isRequired,
-    updatePost: PropTypes.func.isRequired
+    updatePost: PropTypes.func.isRequired,
+    getUsers: PropTypes.func.isRequired,
+    users: PropTypes.array.isRequired
   }
 
   constructor(props) {
@@ -47,6 +50,7 @@ class PostPage extends React.Component {
 
   componentDidMount() {
     const postId = this.props.params.postId;
+    this.props.getUsers();
 
     if (postId) {
       this.props.getPostData(postId);
@@ -96,7 +100,7 @@ class PostPage extends React.Component {
       <div className="users_container">
         <h5>User</h5>
         <ul className="panel" onChange={ (e) => this.handleUserChange(e)} >    
-          {config.users.map(
+          {this.props.users.map(
             user => <User key={user.id} {...user} />
           )}
         </ul>
@@ -193,7 +197,8 @@ const mapStateToProps = (state) => {
     inputTitleValue: state.inputTitleValue,
     textareaBodyValue: state.textareaBodyValue,
     userValue: state.userValue,
-    comments: state.comments
+    comments: state.comments,
+    users: state.users
   };
 }
 
@@ -205,7 +210,8 @@ const mapDispatchToProps = (dispatch) => {
     getPostData: (postId) => dispatch(getPostData(postId)),
     getPostComments: (postId) => dispatch(getPostComments(postId)),
     addPost: () => dispatch(addPost()),
-    updatePost: (postId) => dispatch(updatePost(postId))
+    updatePost: (postId) => dispatch(updatePost(postId)),
+    getUsers: () => dispatch(fetchUsers())
   };
 }
 

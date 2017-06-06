@@ -152,3 +152,37 @@ export function updatePost(postId) {
       });
   }
 }
+
+export function setUsers(users) {
+  return {
+    type: 'SET_USERS',
+    users
+  }
+}
+
+export function fetchUsers() {
+  return (dispatch, getState) => {
+    const url = 'http://localhost:3003/authors';
+    const token = getState().token;
+
+    const fetchData = {
+      method: 'GET',
+      headers: {
+        authorization: token,
+      },
+    }
+
+    fetch(url, fetchData)
+      .then((response) => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch(setUsers(json));
+        console.log(getState().users)
+      });
+  };
+}

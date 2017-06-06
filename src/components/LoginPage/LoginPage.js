@@ -30,7 +30,8 @@ class LoginPage extends React.Component {
   
   onHandleButton() {
     console.log('a')
-    this.props.signIn(this.state.login, this.state.password);
+    this.props.signIn('luannhayes@qualitern.com', 'lesa');
+    // this.props.signIn(this.state.login, this.state.password);
     browserHistory.push('/');
     //this.props.history.push('/some/path');
   }
@@ -57,7 +58,7 @@ class LoginPage extends React.Component {
           <button onClick={ () => this.onHandleButton() }>Sign in</button>
 
           <br/>
-          luannhayes@qualitern.com
+
           </div>
       </Layout>
     );
