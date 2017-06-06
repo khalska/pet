@@ -27,3 +27,13 @@ export function token(state = '', action) {
       return state;
   }
 }
+
+export function userData(state = {}, action) {
+  switch (action.type) {
+    case 'SET_USER_DATA':
+      return action.userData;
+
+    default:
+      return state;
+  }
+}

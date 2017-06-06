@@ -19,6 +19,13 @@ export function setToken(token) {
   };
 }
 
+export function setUserData(userData) {
+  return {
+    type: 'SET_USER_DATA',
+    userData
+  };
+}
+
 export function signIn(login, password) {
   return (dispatch) => {
 
@@ -63,9 +70,35 @@ export function fetchSignIn(login, password) {
         dispatch(setToken(json.token));
         dispatch(setIsLogged(true));
         dispatch(setLogin(login));
+        dispatch(fetchUserData(json.token))
       });
 
   }
+}
+
+export function fetchUserData(token) {
+  return (dispatch) => {
+    const url = 'http://localhost:3003/auth/me';
+
+    const fetchData = {
+      method: 'GET',
+      headers: {
+        authorization: token,
+      },
+    }
+
+    fetch(url, fetchData)
+      .then((response) => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch(setUserData(json))
+      });
+  };
 }
 
 // export function postsFetchData(url) {

@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import './Page.css';
 import Post from '../Post/Post';
 import Modal from '../Modal/Modal';
+import UserPanel from '../UserPanel/UserPanel';
 import Search from '../Search/Search';
 import { config } from '../../config.js';
 import classNames from 'classnames';
@@ -103,19 +104,11 @@ class Page extends React.Component {
 
     return (
       <div className={classNames('Page')}>
-
+        <UserPanel />
 
         {this.__renderAddPostButton()}
 
-        <Link to="login" className={classNames('btn pull-right btn-success')}>
-          Zaloguj
-        </Link>
-
         <div>post to delete: {this.props.postToDelete} , number of posts: {this.props.posts.length}</div>
-
-
-        <br/>
-        login: {this.props.login}
 
         <br/>
 
