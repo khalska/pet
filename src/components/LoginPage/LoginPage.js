@@ -4,8 +4,7 @@ import classNames from 'classnames';
 import './LoginPage.css';
 import { connect } from "react-redux";
 import {
-  signIn,
-  setLogin
+  signIn
 } from '../../actions/auth';
 import { browserHistory } from 'react-router';
 
@@ -45,12 +44,12 @@ class LoginPage extends React.Component {
         <br/>
         <input type="text" name="myLoginReact" autoComplete="on"
           placeholder="Enter your login"
-          onChange = { (event) => this.setState({login: event.target.value}) }
+          onChange={ (event) => this.setState({ login: event.target.value }) }
         />
         <br/>
         <input type="password"
           placeholder="Enter your password"
-          onChange = { (event) => this.setState({password: event.target.value}) }
+          onChange={ (event) => this.setState({ password: event.target.value }) }
         />
         <br/>
         <button onClick={ () => this.onHandleButton() }>Sign in</button>

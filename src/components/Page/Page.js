@@ -46,7 +46,7 @@ class Page extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.posts.length == 0) {
+    if (this.props.posts.length === 0) {
       this.props.fetchData(config.url);
     }
 

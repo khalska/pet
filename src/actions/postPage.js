@@ -138,13 +138,14 @@ export function updatePost(postId) {
       .then( (response) => {
         let posts = getState().posts;
 
-        posts = posts.filter( (post) => {
-          if (post.id == postId) {
+        posts.filter( (post) => {
+          if (post.id === postId) {
             post.title = fetchData.body.title;
             post.body = fetchData.body.body;
-            post.userId = fetchData.body.userId
+            post.userId = fetchData.body.userId;
             return true;
           }
+          else return false;
         });
         //const info = (response.ok) ? 'Changes in post was saved.' : 'Error!'
         //this.setState({info})

@@ -6,7 +6,6 @@ import { config } from '../../config.js';
 import Comment from '../Comment/Comment';
 import User from '../User/User';
 import './PostPage.css';
-import fetch from 'isomorphic-fetch';
 import { IndexLink } from 'react-router'
 import {connect} from "react-redux";
 import {
