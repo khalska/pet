@@ -32,7 +32,10 @@ class Page extends React.Component {
     changePhrase: PropTypes.func.isRequired,
     getSearchedPosts: PropTypes.func.isRequired,
     setPostToDelete: PropTypes.func.isRequired,
-    deletePost: PropTypes.func.isRequired
+    deletePost: PropTypes.func.isRequired,
+
+    isLogged: PropTypes.bool.isRequired,
+    login: PropTypes.string
   }
 
   constructor(props) {
@@ -103,9 +106,19 @@ class Page extends React.Component {
 
 
         {this.__renderAddPostButton()}
+
+        <Link to="login" className={classNames('btn pull-right btn-success')}>
+          Zaloguj
+        </Link>
+
         <div>post to delete: {this.props.postToDelete} , number of posts: {this.props.posts.length}</div>
 
-        searhced phrase:{ searchedPhrase }
+
+        <br/>
+        login: {this.props.login}
+
+        <br/>
+
         <Search
           phrase={ searchedPhrase }
 
@@ -141,6 +154,9 @@ const mapStateToProps = (state) => {
     hasErrored: state.postsHasErrored,
     isLoading: state.postsIsLoading,
     postToDelete: state.postToDelete,
+
+    isLogged: state.isLogged,
+    login: state.login
   };
 }
 
