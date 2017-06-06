@@ -24,41 +24,31 @@ class LoginPage extends React.Component {
     login: PropTypes.string
   }
 
-  onChangeLogin() {
-
-  }
-  
   onHandleButton() {
     console.log('a')
     this.props.signIn('luannhayes@qualitern.com', 'lesa');
     // this.props.signIn(this.state.login, this.state.password);
     browserHistory.push('/');
-    //this.props.history.push('/some/path');
   }
 
   render() {
     return (
       <Layout>
-        <div className={classNames('LoginPage')}>
-          <h4>Login: </h4>
-
-          login: {this.props.login}
-
-          <br/>
+        <div className={classNames('LoginPage text-center')}>
+          <h4> Log in </h4>
           <input type="text" name="myLoginReact" autoComplete="on"
-            placeholder="Enter your login"
+            placeholder="Enter your login" className="form-control"
             onChange={ (event) => this.setState({ login: event.target.value }) }
           />
-          <br/>
-          <input type="password"
+
+          <input type="password" className="form-control"
             placeholder="Enter your password"
             onChange={ (event) => this.setState({ password: event.target.value }) }
           />
-          <br/>
-          <button onClick={ () => this.onHandleButton() }>Sign in</button>
 
-          <br/>
-
+          <button className={classNames('btn btn-block btn-success')}
+            onClick={ () => this.onHandleButton() }>Sign in
+          </button>
           </div>
       </Layout>
     );
