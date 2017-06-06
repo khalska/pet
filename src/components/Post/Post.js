@@ -11,7 +11,8 @@ class Post extends React.Component {
     title: PropTypes.string,
     body: PropTypes.string,
     handleDelete: PropTypes.func.isRequired,
-    isLogged: PropTypes.bool.isRequired
+    isLogged: PropTypes.bool.isRequired,
+    myId: PropTypes.number
   }
 
   constructor(props) {
@@ -21,8 +22,9 @@ class Post extends React.Component {
 
   render() {
     return (
-      <li className={classNames('Post list-group-item panel row')}>
-        <div className={classNames('Post_data col-md-10')}>
+      <li className={ classNames('Post list-group-item panel row',
+                    (this.props.userId === this.props.myId) ? 'Post--my-post' : '') }>
+        <div className={ classNames('Post_data col-md-10') }>
           <h3>{this.props.title}</h3>
           <div>{this.props.body}</div>
         </div>
@@ -49,7 +51,8 @@ class Post extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLogged: state.isLogged
+    isLogged: state.isLogged,
+    myId: state.userData.id
   };
 }
 
