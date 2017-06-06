@@ -29,7 +29,7 @@ class UserPanel extends React.Component {
         <br/>
 
         <Link
-          to={''}
+          to={'/login'}
           onClick={() => this.props.logOut()}
           className={classNames('btn btn-default')}>
           Log out
@@ -46,8 +46,8 @@ class UserPanel extends React.Component {
           this.__renderUserData()
         }
         { !this.props.isLogged &&
-          <Link to="login" className={classNames('btn btn-success')}>
-            Log in
+          <Link to="/login" className={classNames('btn btn-success')}>
+            Sign in
           </Link>
         }
       </div>
