@@ -57,9 +57,9 @@ class PostPage extends React.Component {
   }
 
   clearForm() {
-    this.props.setTitle('');
-    this.props.setBody('');
-    this.props.setUser('');
+    this.setTitle('');
+    this.setBody('');
+    this.setUser('');
   }
 
   handleSubmit() {
@@ -68,15 +68,15 @@ class PostPage extends React.Component {
   }
 
   handleTitleChange(event) {
-    this.props.setTitle(event.target.value);
+    this.setTitle(event.target.value);
   }
 
   handleBodyChange(event) {
-    this.props.setBody(event.target.value);
+    this.setBody(event.target.value);
   }
 
   handleUserChange(event) {
-    this.props.setUser(event.target.value);
+    this.setUser(event.target.value);
   }
 
   __validateForm() {
