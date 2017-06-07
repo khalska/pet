@@ -88,9 +88,7 @@ export function deletePostAction(postId) {
 
     fetch(url, {method: 'DELETE'})
       .then( () => {
-        postId = getState().postToDelete;
-
-        let posts = getState().posts;
+        const posts = getState().posts;
 
         posts.forEach((item, index) => {
           if (item.id === postId) {
@@ -102,4 +100,11 @@ export function deletePostAction(postId) {
         dispatch(setPosts(posts));
       });
   }
+}
+
+export  function choosePostToDelete(postToDelete) {
+  return {
+    type: 'CHOOSE_POST_TO_DELETE',
+    postToDelete
+  };
 }

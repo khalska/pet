@@ -43,7 +43,7 @@ class Page extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.posts.length == 0) {
+    if (this.props.posts.length === 0) {
       this.props.fetchData(config.url);
     }
 
@@ -66,6 +66,14 @@ class Page extends React.Component {
   }
 
   __renderPosts() {
+    return(
+      this.props.filteredPosts.map(
+        post => <Post key={post.id} {...post} handleDelete={ () => this.openModal(post.id)}/>
+      )
+    );
+  }
+
+  __renderPostsContainer() {
     if (this.props.hasErrored) {
       return <p>Sorry! There was an error loading the items</p>;
     }
@@ -77,9 +85,7 @@ class Page extends React.Component {
     return(
       <div className="post-content">
         <ul className="list-group">
-          { this.props.filteredPosts.map(
-            post => <Post key={post.id} {...post} handleDelete={ () => this.openModal(post.id)}/>
-          )}
+          { this.__renderPosts() }
         </ul>
       </div>
     );
@@ -123,7 +129,7 @@ class Page extends React.Component {
           <p>Are you sure to delete post #{this.props.postToDelete}?</p>
         </Modal>
 
-        {this.__renderPosts()}
+        {this.__renderPostsContainer()}
       </div>
     );
   }
