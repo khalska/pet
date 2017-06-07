@@ -22,7 +22,7 @@ class Post extends React.Component {
 
   render() {
     return (
-      <li className={ classNames('Post list-group-item panel row',
+      <li id={`post${this.props.id}`} className={ classNames('Post list-group-item panel row',
                     (this.props.userId === this.props.myId) ? 'Post--my-post' : '') }>
         <div className={ classNames('Post_data col-md-10') }>
           <h3>{this.props.title}</h3>

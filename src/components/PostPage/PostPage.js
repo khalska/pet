@@ -28,7 +28,7 @@ class PostPage extends React.Component {
 
     inputTitleValue: PropTypes.string,
     textareaBodyValue: PropTypes.string,
-   // userValue: PropTypes.number,
+    userValue: PropTypes.number,
     setBody: PropTypes.func.isRequired,
     setTitle: PropTypes.func.isRequired,
     setUser: PropTypes.func.isRequired,
@@ -63,7 +63,7 @@ class PostPage extends React.Component {
   clearForm() {
     this.props.setTitle('');
     this.props.setBody('');
-    this.props.setUser('');
+    this.props.setUser(null);
   }
 
   handleSubmit() {
@@ -80,7 +80,7 @@ class PostPage extends React.Component {
   }
 
   handleUserChange(event) {
-    this.props.setUser(event.target.value);
+    this.props.setUser(Number(event.target.value));
   }
 
   __validateForm() {

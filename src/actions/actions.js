@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { config } from '../config.js';
+import {browserHistory} from 'react-router';
 /*
  * action creators
  */
@@ -84,6 +85,32 @@ export function changeSearchedPhrase(searchedPhrase) {
   };
 }
 
+function fetchDelete(postId) {
+  const url = `${config.url.posts}/${postId}`;
+
+  return fetch(url, {method: 'DELETE'}).then(response => {
+    return response.json();
+  }).catch(error => {
+    return error;
+  });
+}
+
+export function deleteCatSuccess(postId) {
+  return {type: 'DELETE_SUCCESS', postId}
+}
+
+export function deleteCat(postId) {
+  return function (dispatch) {
+    return fetchDelete(postId).then(() => {
+      console.log(`Deleted ${postId}`)
+      dispatch(deleteCatSuccess(postId));
+      return;
+    }).catch(error => {
+      throw(error);
+    })
+  }
+}
+
 export function deletePostAction(postId) {
   return (dispatch, getState) => {
     const url = `${config.url.posts}/${postId}`;
@@ -102,6 +129,14 @@ export function deletePostAction(postId) {
 
         dispatch(postsFilter(posts));
         dispatch(setPosts(posts));
+        browserHistory.push('/');
       });
   }
+}
+
+export function choosePostToDelete(postToDelete) {
+  return {
+    type: 'CHOOSE_POST_TO_DELETE',
+    postToDelete
+  };
 }

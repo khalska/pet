@@ -53,7 +53,7 @@ class Page extends React.Component {
 
   openModal(postId) {
     this.props.setPostToDelete(postId);
-    this.setState({ 
+    this.setState({
       isModalOpen: true
     })
   }
@@ -107,10 +107,6 @@ class Page extends React.Component {
         <div className={classNames('Page')}>
           {this.__renderAddPostButton()}
 
-          <div>post to delete: {this.props.postToDelete} , number of posts: {this.props.posts.length}</div>
-
-          <br/>
-
           <Search
             phrase={ searchedPhrase }
 
@@ -134,8 +130,6 @@ class Page extends React.Component {
     );
   }
 }
-
-//export default Page;
 
 const mapStateToProps = (state) => {
   return {

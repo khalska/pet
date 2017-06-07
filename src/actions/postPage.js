@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { config } from '../config.js';
+import {browserHistory} from 'react-router';
 
 export function setPostTitle(title) {
   return {
@@ -101,7 +102,7 @@ export function addPost() {
         dispatch({ type: 'INCREMENT_LAST_POST_ID' })
 
         clearForm(dispatch);
-
+        browserHistory.push('/');
         //this.setState({info: `Post #${json.id} was saved.`})
       });
 
@@ -146,6 +147,7 @@ export function updatePost(postId) {
             return true;
           }
         });
+        browserHistory.push('/');
         //const info = (response.ok) ? 'Changes in post was saved.' : 'Error!'
         //this.setState({info})
       });
@@ -168,7 +170,7 @@ export function fetchUsers() {
       method: 'GET',
       headers: {
         authorization: token,
-      },
+      }
     }
 
     fetch(url, fetchData)
@@ -181,7 +183,6 @@ export function fetchUsers() {
       .then((response) => response.json())
       .then((json) => {
         dispatch(setUsers(json));
-        console.log(getState().users)
       });
   };
 }
