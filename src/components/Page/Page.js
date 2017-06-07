@@ -5,7 +5,6 @@ import Post from '../Post/Post';
 import Modal from '../Modal/Modal';
 import Layout from '../Layout/Layout';
 import Search from '../Search/Search';
-import { config } from '../../config.js';
 import classNames from 'classnames';
 import { debounce } from 'throttle-debounce';
 import PropTypes from 'prop-types';
@@ -47,7 +46,7 @@ class Page extends React.Component {
 
   componentDidMount() {
     if (this.props.posts.length === 0) {
-      this.props.fetchData(config.url);
+      this.props.fetchData();
     }
 
   }

@@ -25,9 +25,10 @@ export function setPosts(posts) {
   };
 }
 
-export function postsFetchData(url) {
+export function postsFetchData() {
   return (dispatch) => {
     dispatch(postsIsLoading(true));
+    const url = config.url.posts;
 
     fetch(url)
       .then((response) => {
@@ -85,7 +86,7 @@ export function changeSearchedPhrase(searchedPhrase) {
 
 export function deletePostAction(postId) {
   return (dispatch, getState) => {
-    const url = `${config.url}/${postId}`;
+    const url = `${config.url.posts}/${postId}`;
 
     fetch(url, {method: 'DELETE'})
       .then( () => {

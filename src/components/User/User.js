@@ -13,12 +13,12 @@ class User extends React.Component {
 
   render() {
     return (
-      <li className={classNames('User col-xs-6', (this.props.id === this.props.myId) ? 'actual' : '')}>
+      <li className={classNames('User', (this.props.id === this.props.myId) ? 'actual' : '')}>
         <input type="radio"
                id={ `input${this.props.id}` }
                value={ this.props.id }
                name="userRadio"
-               checked={this.props.id === this.props.myId}
+
         />
         <label htmlFor={ `input${this.props.id}` }>
           {this.props.firstName} { this.props.lastName }

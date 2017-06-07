@@ -1,3 +1,4 @@
+import {config} from "../config";
 export function setIsLogged(bool) {
 
   return {
@@ -48,7 +49,7 @@ export function fetchSignIn(login, password) {
         }
     }
 
-    const url = 'http://localhost:3003/auth/login';
+    const url = config.url.login;
 
     fetch(url, fetchData)
       .then((response) => {
@@ -70,7 +71,7 @@ export function fetchSignIn(login, password) {
 
 export function fetchUserData(token) {
   return (dispatch) => {
-    const url = 'http://localhost:3003/auth/me';
+    const url = config.url.auth;
 
     const fetchData = {
       method: 'GET',

@@ -1,6 +1,13 @@
-export const config = { 
-  url: 'http://jsonplaceholder.typicode.com/posts',
-  commentsUrl: 'http://jsonplaceholder.typicode.com',
+const baseApiUrl = 'http://localhost:3003'
+
+export const config = {
+  //url: 'http://jsonplaceholder.typicode.com/posts',
+  url: {
+    posts: `${baseApiUrl}/posts`,
+    users: `${baseApiUrl}/authors`,
+    login: `${baseApiUrl}/auth/login`,
+    auth:  `${baseApiUrl}/auth/me`
+  },
   users: [
     {
       id: 0,

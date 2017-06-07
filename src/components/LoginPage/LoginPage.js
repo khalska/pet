@@ -25,7 +25,6 @@ class LoginPage extends React.Component {
   }
 
   onHandleButton() {
-    console.log('a')
     this.props.signIn('luannhayes@qualitern.com', 'lesa');
     // this.props.signIn(this.state.login, this.state.password);
     browserHistory.push('/');
