@@ -19,6 +19,7 @@ import {
   fetchUsers
 } from '../../actions/postPage';
 import Layout from "../Layout/Layout";
+import Info from "../Info/Info";
 
 class PostPage extends React.Component {
   static propTypes = {
@@ -37,7 +38,8 @@ class PostPage extends React.Component {
     addPost: PropTypes.func.isRequired,
     updatePost: PropTypes.func.isRequired,
     getUsers: PropTypes.func.isRequired,
-    users: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired,
+    formPostIsValid: PropTypes.bool.isRequired
   }
 
   constructor(props) {
@@ -81,10 +83,6 @@ class PostPage extends React.Component {
 
   handleUserChange(event) {
     this.props.setUser(Number(event.target.value));
-  }
-
-  __validateForm() {
-    return !(this.props.inputTitleValue && this.props.textareaBodyValue && this.props.userValue)
   }
 
   __renderTitle() {
@@ -141,16 +139,18 @@ class PostPage extends React.Component {
           </div>
           {this.__renderUsers()}
         </form>
-          <div className="form_buttons">
-            <button onClick={ () => this.handleSubmit() } 
-              className={'btn btn-success button_save'}
-              disabled={ this.__validateForm() } >
-              Save changes
-            </button>
-            <Link to='/' className={'btn btn-default button_cancel'}>
-              Cancel
-            </Link>
-          </div>
+
+        <Info />
+
+        <div className="form_buttons">
+          <button onClick={ () => this.handleSubmit() }
+            className={'btn btn-success button_save'}>
+            Save changes
+          </button>
+          <Link to='/' className={'btn btn-default button_cancel'}>
+            Cancel
+          </Link>
+        </div>
       </div>
     );
   }
@@ -198,7 +198,8 @@ const mapStateToProps = (state) => {
     textareaBodyValue: state.textareaBodyValue,
     userValue: state.userValue,
     comments: state.comments,
-    users: state.users
+    users: state.users,
+    formPostIsValid: state.formPostIsValid
   };
 }
 

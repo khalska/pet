@@ -9,6 +9,9 @@ export const config = {
   },
   messages: {
     empty_login: 'Login is empty',
-    empty_password: 'Password is empty'
+    empty_password: 'Password is empty',
+    empty_title: 'Title is empty',
+    empty_body: 'Body is empty',
+    empty_user: 'User is not selected'
   }
 };

@@ -11,6 +11,7 @@ import {
 } from '../../actions/validation';
 import { browserHistory } from 'react-router';
 import Layout from "../Layout/Layout";
+import Info from "../Info/Info";
 
 
 class LoginPage extends React.Component {
@@ -31,23 +32,8 @@ class LoginPage extends React.Component {
   }
 
   onHandleButton() {
-    //this.props.signIn('luannhayes@qualitern.com', 'lesa');
-    this.props.signIn(this.state.login, this.state.password);
-  }
-
-  __renderInfo() {
-    return(
-      this.props.info.map((i, index) => <li key={index}> {i} </li>)
-    )
-  }
-
-  __renderInfoContainer() {
-    return(
-      this.props.info.length > 0 &&
-      <ul className="info alert alert-danger">
-        { this.__renderInfo() }
-      </ul>
-    )
+    this.props.signIn('luannhayes@qualitern.com', 'lesa');
+    //this.props.signIn(this.state.login, this.state.password);
   }
 
   render() {
@@ -65,7 +51,7 @@ class LoginPage extends React.Component {
                  onChange={ (event) => this.setState({ password: event.target.value }) }
           />
 
-          { this.__renderInfoContainer() }
+          <Info />
 
           <button className={classNames('btn btn-block btn-success')}
                   onClick={ () => this.onHandleButton() }>Sign in

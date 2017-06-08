@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { config } from '../config.js';
 import {browserHistory} from 'react-router';
+import { validateNewPostForm } from './validation';
 
 export function setPostTitle(title) {
   return {
@@ -74,37 +75,46 @@ export function setFilteredPosts(filteredPosts) {
 
 export function addPost() {
   return (dispatch, getState) => {
+    dispatch(validateNewPostForm());
 
-    const data = {
-      title: getState().inputTitleValue,
-      body: getState().textareaBodyValue,
-      userId: getState().userValue,
-      id: getState().lastPostId + 1
-    }
+    const isValid = getState().formPostIsValid;
 
-    const fetchData = {
-      method: 'POST',
-      body: data,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+    if(isValid) {
+      const data = {
+        title: getState().inputTitleValue,
+        body: getState().textareaBodyValue,
+        userId: getState().userValue,
+        id: getState().lastPostId + 1
       }
+
+      const fetchData = {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      }
+
+      fetch(config.url.posts, fetchData)
+        .then( (response) => response.json() )
+        .then( (json) => {
+          const posts = getState().posts;
+          posts.push(fetchData.body);
+
+          dispatch(setPostsAfterAdding(posts));
+          dispatch(setFilteredPosts(posts))
+          dispatch({ type: 'INCREMENT_LAST_POST_ID' })
+
+          clearForm(dispatch);
+          browserHistory.push('/');
+          //this.setState({info: `Post #${json.id} was saved.`})
+        });
+    } else {
+      console.log('form is not valid')
     }
 
-    fetch(config.url.posts, fetchData)
-      .then( (response) => response.json() )
-      .then( (json) => {
-        const posts = getState().posts;
-        posts.push(fetchData.body);
 
-        dispatch(setPostsAfterAdding(posts));
-        dispatch(setFilteredPosts(posts))
-        dispatch({ type: 'INCREMENT_LAST_POST_ID' })
-
-        clearForm(dispatch);
-        browserHistory.push('/');
-        //this.setState({info: `Post #${json.id} was saved.`})
-      });
 
   }
 }

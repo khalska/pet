@@ -65,3 +65,12 @@ export function users(state = [], action) {
   }
 }
 
+export function formPostIsValid(state = false, action) {
+  switch (action.type) {
+    case 'SET_POST_FORM_VALID':
+      return action.formPostIsValid;
+
+    default:
+      return state;
+  }
+}
