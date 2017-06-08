@@ -44,8 +44,7 @@ class PostPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      info: ''
+      title: ''
     };
   }
 
@@ -169,14 +168,6 @@ class PostPage extends React.Component {
     );
   }
 
-  __renderInfo() {
-    return (
-      <div className={ (this.state.info) ? 'info alert alert-success' : 'info'}>
-        {this.state.info}
-      </div>
-    )
-  }
-
   render() {
     return (
       <Layout>
@@ -184,7 +175,6 @@ class PostPage extends React.Component {
           {this.__renderBreadcrumbs()}
           {this.__renderTitle()}
           {this.__renderForm()}
-          {this.__renderInfo()}
           {this.__renderComments()}
         </div>
       </Layout>
