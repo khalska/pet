@@ -1,4 +1,7 @@
 import {config} from "../config";
+import { validateLoginForm,
+  setLoginFormValidation
+} from './validation.js';
 export function setIsLogged(bool) {
 
   return {

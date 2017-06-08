@@ -1,7 +1,6 @@
-const baseApiUrl = 'http://localhost:3003'
+const baseApiUrl = 'http://localhost:3003';
 
 export const config = {
-  //url: 'http://jsonplaceholder.typicode.com/posts',
   url: {
     posts: `${baseApiUrl}/posts`,
     users: `${baseApiUrl}/authors`,

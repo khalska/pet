@@ -27,3 +27,23 @@ export function userData(state = {}, action) {
       return state;
   }
 }
+
+export function formLoginIsValid(state = false, action) {
+  switch (action.type) {
+    case 'SET_LOGIN_FORM_VALID':
+      return action.formLoginIsValid;
+
+    default:
+      return state;
+  }
+}
+
+export function info(state = [], action) {
+  switch (action.type) {
+    case 'SET_INFO':
+      return action.info;
+
+    default:
+      return state;
+  }
+}
