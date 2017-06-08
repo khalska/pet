@@ -1,7 +1,7 @@
-import { config } from "../../../src/config";
-import { setInfo,
-
-} from '../../../src/actions/actions.js';
+import { config } from "../config";
+import {
+  setInfo
+} from './actions.js';
 
 export function setLoginFormValidation(formLoginIsValid, error) {
   return {

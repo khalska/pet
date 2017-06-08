@@ -7,16 +7,8 @@ export const config = {
     login: `${baseApiUrl}/auth/login`,
     auth:  `${baseApiUrl}/auth/me`
   },
-  users: [
-    {
-      id: 0,
-      name: 'User 1'
-    },{
-      id: 1,
-      name: 'User 2'
-    },{
-      id: 2,
-      name: 'User 3'
-    }
-  ]
+  messages: {
+    empty_login: 'Login is empty',
+    empty_password: 'Password is empty'
+  }
 };

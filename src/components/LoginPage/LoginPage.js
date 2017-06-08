@@ -6,6 +6,9 @@ import { connect } from "react-redux";
 import {
   signIn
 } from '../../actions/auth';
+import {
+  validateLoginForm
+} from '../../actions/validation';
 import { browserHistory } from 'react-router';
 import Layout from "../Layout/Layout";
 
@@ -21,13 +24,30 @@ class LoginPage extends React.Component {
 
   static propTypes = {
     isLogged: PropTypes.bool.isRequired,
-    login: PropTypes.string
+    signIn: PropTypes.func.isRequired,
+    validateForm: PropTypes.func.isRequired,
+    formLoginIsValid: PropTypes.bool.isRequired,
+    info: PropTypes.array
   }
 
   onHandleButton() {
-    this.props.signIn('luannhayes@qualitern.com', 'lesa');
-    // this.props.signIn(this.state.login, this.state.password);
-    browserHistory.push('/');
+    //this.props.signIn('luannhayes@qualitern.com', 'lesa');
+    this.props.signIn(this.state.login, this.state.password);
+  }
+
+  __renderInfo() {
+    return(
+      this.props.info.map((i, index) => <li key={index}> {i} </li>)
+    )
+  }
+
+  __renderInfoContainer() {
+    return(
+      this.props.info.length > 0 &&
+      <ul className="info alert alert-danger">
+        { this.__renderInfo() }
+      </ul>
+    )
   }
 
   render() {
@@ -36,19 +56,21 @@ class LoginPage extends React.Component {
         <div className={classNames('LoginPage text-center')}>
           <h4> Log in </h4>
           <input type="text" name="myLoginReact" autoComplete="on"
-            placeholder="Enter your login" className="form-control"
-            onChange={ (event) => this.setState({ login: event.target.value }) }
+                 placeholder="Enter your login (email)" className="form-control"
+                 onChange={ (event) => this.setState({ login: event.target.value }) }
           />
 
           <input type="password" className="form-control"
-            placeholder="Enter your password"
-            onChange={ (event) => this.setState({ password: event.target.value }) }
+                 placeholder="Enter your password"
+                 onChange={ (event) => this.setState({ password: event.target.value }) }
           />
 
+          { this.__renderInfoContainer() }
+
           <button className={classNames('btn btn-block btn-success')}
-            onClick={ () => this.onHandleButton() }>Sign in
+                  onClick={ () => this.onHandleButton() }>Sign in
           </button>
-          </div>
+        </div>
       </Layout>
     );
   }
@@ -57,13 +79,16 @@ class LoginPage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isLogged: state.isLogged,
-    login: state.login
+    login: state.login,
+    formLoginIsValid: state.formLoginIsValid,
+    info: state.info
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (login, password) => dispatch(signIn(login, password))
+    signIn: (login, password) => dispatch(signIn(login, password)),
+    validateForm: (login, password) => dispatch(validateLoginForm(login, password))
   };
 }
 

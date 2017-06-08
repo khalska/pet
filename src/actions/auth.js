@@ -30,45 +30,93 @@ export function signIn(login, password) {
   }
 }
 
+// export function fetchSignIn(login, password) {
+//   return (dispatch, getState) => {
+//     const data = {
+//       login,
+//       password
+//     }
+//
+//     const myParams = Object.keys(data).map((key) => {
+//       return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
+//     }).join('&');
+//
+//     const fetchData = {
+//       method: 'POST',
+//       body: myParams,
+//       //credentials: 'include',
+//       headers: {
+//         //"Content-Type": "application/json"
+//         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+//         'Access-Control-Allow-Origin': 'http://localhost:3003'
+//         }
+//     }
+//
+//     const url = config.url.login;
+//
+//     fetch(url, fetchData)
+//       .then((response) => {
+//
+//         if (!response.ok) {
+//           throw Error(response.statusText);
+//         }
+//         return response;
+//       })
+//       .then( (response) => response.json() )
+//       .then( (json) => {
+//         dispatch(setToken(json.token));
+//         dispatch(setIsLogged(true));
+//         dispatch(fetchUserData(json.token));
+//       });
+//
+//   }
+// }
+
 export function fetchSignIn(login, password) {
   return (dispatch, getState) => {
-    const data = {
-      login,
-      password
-    }
 
-    const myParams = Object.keys(data).map((key) => {
-      return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
-    }).join('&');
+    dispatch(validateLoginForm(login, password));
+    const isValid = getState.formLoginIsValid;
+    //console.log(`isValid: ${isValid}`)
 
-    const fetchData = {
-      method: 'POST',
-      body: myParams,
-      //credentials: 'include',
-      headers: {
-        //"Content-Type": "application/json"
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        'Access-Control-Allow-Origin': 'http://localhost:3003'
+    if (isValid) {
+      const data = {
+        login,
+        password
+      }
+
+      const myParams = Object.keys(data).map((key) => {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
+      }).join('&');
+
+      const fetchData = {
+        method: 'POST',
+        body: myParams,
+        //credentials: 'include',
+        headers: {
+          //"Content-Type": "application/json"
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+          'Access-Control-Allow-Origin': 'http://localhost:3003'
         }
+      }
+
+      const url = config.url.login;
+
+      fetch(url, fetchData)
+        .then((response) => {
+
+          if (!response.ok) {
+            throw Error(response.statusText);
+          }
+          return response;
+        })
+        .then((response) => response.json())
+        .then((json) => {
+          dispatch(setToken(json.token));
+          dispatch(setIsLogged(true));
+          dispatch(fetchUserData(json.token));
+        });
     }
-
-    const url = config.url.login;
-
-    fetch(url, fetchData)
-      .then((response) => {
-
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response;
-      })
-      .then( (response) => response.json() )
-      .then( (json) => {
-        dispatch(setToken(json.token));
-        dispatch(setIsLogged(true));
-        dispatch(fetchUserData(json.token));
-      });
-
   }
 }
 

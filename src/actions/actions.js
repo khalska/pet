@@ -140,3 +140,10 @@ export function choosePostToDelete(postToDelete) {
     postToDelete
   };
 }
+
+export function setInfo(info) {
+  return {
+    type: 'SET_INFO',
+    info
+  };
+}
