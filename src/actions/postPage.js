@@ -150,7 +150,7 @@ export function updatePost(postId) {
         let posts = getState().posts;
 
         posts = posts.filter( (post) => {
-          if (post.id == postId) {
+          if (post.id === postId) {
             post.title = fetchData.body.title;
             post.body = fetchData.body.body;
             post.userId = fetchData.body.userId
@@ -184,12 +184,6 @@ export function fetchUsers() {
     }
 
     fetch(url, fetchData)
-      .then((response) => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response;
-      })
       .then((response) => response.json())
       .then((json) => {
         dispatch(setUsers(json));

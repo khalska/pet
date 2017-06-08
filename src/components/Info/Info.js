@@ -9,7 +9,7 @@ import {
 
 class Info extends React.Component {
   static propTypes = {
-    info: PropTypes.string
+    info: PropTypes.array
   }
 
   __renderInfo() {

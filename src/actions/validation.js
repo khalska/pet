@@ -57,14 +57,22 @@ export function validateNewPostForm() {
       errors.push(config.messages.empty_body);
     }
 
-    // const userIsValid = validateInputText(getState().userValue)
+    const userIsValid = validateRadioButton(getState().userValue);
+    if (!userIsValid) {
+      result = false;
+      errors.push(config.messages.empty_user);
+    }
+
     dispatch(setInfo(errors));
     dispatch(setPostFormValidation(result));
-
     return result;
   }
 }
 
 export function validateInputText(value) {
   return !(value.length === 0);
+}
+
+export function validateRadioButton(value) {
+  return (value !== null);
 }

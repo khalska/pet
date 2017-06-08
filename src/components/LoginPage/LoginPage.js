@@ -9,7 +9,6 @@ import {
 import {
   validateLoginForm
 } from '../../actions/validation';
-import { browserHistory } from 'react-router';
 import Layout from "../Layout/Layout";
 import Info from "../Info/Info";
 
@@ -32,8 +31,7 @@ class LoginPage extends React.Component {
   }
 
   onHandleButton() {
-    this.props.signIn('luannhayes@qualitern.com', 'lesa');
-    //this.props.signIn(this.state.login, this.state.password);
+    this.props.signIn(this.state.login, this.state.password);
   }
 
   render() {

@@ -1,7 +1,5 @@
 import { config } from "../config";
-import { validateLoginForm,
-  setLoginFormValidation
-} from './validation.js';
+import { validateLoginForm } from './validation.js';
 import {browserHistory} from 'react-router';
 
 export function setIsLogged(bool) {
