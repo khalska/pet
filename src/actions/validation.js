@@ -1,7 +1,7 @@
-import { config } from "../../../src/config";
-import { setInfo,
+import { config } from "../config";
+import {
 
-} from '../../../src/actions/actions.js';
+} from './actions.js';
 
 export function setLoginFormValidation(formLoginIsValid, error) {
   return {
@@ -27,7 +27,7 @@ export function validateLoginForm(login, password) {
       result = false;
       errors.push(config.messages.empty_password);
     }
-    dispatch(setInfo(errors));
+    //dispatch(setInfo(errors));
     dispatch(setLoginFormValidation(true));
     return result;
   }
