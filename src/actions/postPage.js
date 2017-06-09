@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 import { config } from '../config.js';
 import {browserHistory} from 'react-router';
 import { validateNewPostForm } from './validation';
+import {postsFilter, setPosts} from "./actions";
 
 export function setPostTitle(title) {
   return {
@@ -25,7 +26,7 @@ export function setPostUser(user) {
 }
 
 export  function getPostData(postId) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     const url = `${config.url.posts}/${postId}`;
     fetch(url)
       .then( (response) => response.json() )
@@ -76,7 +77,6 @@ export function setFilteredPosts(filteredPosts) {
 export function addPost() {
   return (dispatch, getState) => {
     dispatch(validateNewPostForm());
-
     const isValid = getState().formPostIsValid;
 
     if(isValid) {
@@ -110,12 +110,7 @@ export function addPost() {
           browserHistory.push('/');
           //this.setState({info: `Post #${json.id} was saved.`})
         });
-    } else {
-      console.log('form is not valid')
     }
-
-
-
   }
 }
 
@@ -127,40 +122,45 @@ function clearForm(dispatch) {
 
 export function updatePost(postId) {
   return (dispatch, getState) => {
-    const data = {
-      id: postId,
-      title: getState().inputTitleValue,
-      body: getState().textareaBodyValue,
-      userId: getState().userValue,
-    };
+    dispatch(validateNewPostForm());
+    const isValid = getState().formPostIsValid;
 
-    const fetchData = {
-      method: 'PUT',
-      body: data,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+    if(isValid) {
+      const data = {
+        id: postId,
+        title: getState().inputTitleValue,
+        body: getState().textareaBodyValue,
+        userId: getState().userValue,
+      };
+
+      const fetchData = {
+        method: 'PUT',
+        body: data,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
       }
-    }
 
-    const url = `${config.url.posts}/${postId}`;
+      const url = `${config.url.posts}/${postId}`;
 
-    fetch(url, fetchData)
-      .then( (response) => {
-        let posts = getState().posts;
+      fetch(url, fetchData)
+        .then(() => {
+          let posts = getState().posts;
 
-        posts = posts.filter( (post) => {
-          if (post.id === postId) {
-            post.title = fetchData.body.title;
-            post.body = fetchData.body.body;
-            post.userId = fetchData.body.userId
-            return true;
-          }
+          posts.forEach((post) => {
+            if (post.id === postId) {
+              post.title = fetchData.body.title;
+              post.body = fetchData.body.body;
+              post.userId = fetchData.body.userId
+            }
+          });
+          dispatch(setPosts(posts));
+          dispatch(postsFilter(posts));
+
+          browserHistory.push('/');
         });
-        browserHistory.push('/');
-        //const info = (response.ok) ? 'Changes in post was saved.' : 'Error!'
-        //this.setState({info})
-      });
+    }
   }
 }
 

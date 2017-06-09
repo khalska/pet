@@ -31,7 +31,8 @@ class LoginPage extends React.Component {
   }
 
   onHandleButton() {
-    this.props.signIn(this.state.login, this.state.password);
+    // this.props.signIn(this.state.login, this.state.password);
+    this.props.signIn('piercesantiago@qualitern.com', 'brigitte');
   }
 
   render() {

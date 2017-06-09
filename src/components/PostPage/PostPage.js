@@ -67,7 +67,7 @@ class PostPage extends React.Component {
   }
 
   handleSubmit() {
-    const postId = this.props.params.postId;
+    const postId = Number(this.props.params.postId);
     postId ? this.props.updatePost(postId) : this.props.addPost();
   }
 
