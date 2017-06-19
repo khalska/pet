@@ -95,7 +95,6 @@ class Page extends React.Component {
           Add new post
         </Link>
       </div>
-
     );
   }
 
@@ -109,7 +108,6 @@ class Page extends React.Component {
 
           <Search
             phrase={ searchedPhrase }
-
             onFilterTextInput={ (e) => debounce(500, changePhrase(e)) }
             onFilterTextButton={ (e) => getSearchedPosts(e) }
           />
