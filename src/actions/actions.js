@@ -70,7 +70,6 @@ export function getFilteredPosts() {
           const body = post.body.toLowerCase();
           return (title.indexOf(searchedPhrase) >= 0 || body.indexOf(searchedPhrase) >= 0);
         }
-        else return false;
       });
     }
 
@@ -83,32 +82,6 @@ export function changeSearchedPhrase(searchedPhrase) {
     type: 'CHANGE_SEARCHED_PHRASE',
     searchedPhrase
   };
-}
-
-function fetchDelete(postId) {
-  const url = `${config.url.posts}/${postId}`;
-
-  return fetch(url, {method: 'DELETE'}).then(response => {
-    return response.json();
-  }).catch(error => {
-    return error;
-  });
-}
-
-export function deleteCatSuccess(postId) {
-  return {type: 'DELETE_SUCCESS', postId}
-}
-
-export function deleteCat(postId) {
-  return function (dispatch) {
-    return fetchDelete(postId).then(() => {
-      console.log(`Deleted ${postId}`)
-      dispatch(deleteCatSuccess(postId));
-      return;
-    }).catch(error => {
-      throw(error);
-    })
-  }
 }
 
 export function deletePostAction(postId) {

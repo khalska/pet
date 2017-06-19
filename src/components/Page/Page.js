@@ -95,7 +95,6 @@ class Page extends React.Component {
           Add new post
         </Link>
       </div>
-
     );
   }
 
@@ -124,9 +123,8 @@ class Page extends React.Component {
             <p>Are you sure to delete post #{this.props.postToDelete}?</p>
           </Modal>
 
-          {this.__renderPosts()}
-        </div>
-      </Layout>
+        {this.__renderPosts()}
+      </div>
     );
   }
 }
