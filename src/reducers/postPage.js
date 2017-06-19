@@ -55,3 +55,22 @@ export function lastPostId(state = -1, action) {
   }
 }
 
+export function users(state = [], action) {
+  switch (action.type) {
+    case 'SET_USERS':
+      return  action.users;
+
+    default:
+      return state;
+  }
+}
+
+export function formPostIsValid(state = false, action) {
+  switch (action.type) {
+    case 'SET_POST_FORM_VALID':
+      return action.formPostIsValid;
+
+    default:
+      return state;
+  }
+}

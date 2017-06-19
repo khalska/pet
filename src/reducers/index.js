@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { posts, postsHasErrored, postsIsLoading, searchedPhrase, filteredPosts, postToDelete } from './posts';
-import { inputTitleValue, textareaBodyValue, userValue, comments, lastPostId } from './postPage';
+import { inputTitleValue, textareaBodyValue, userValue, comments, lastPostId, users, formPostIsValid } from './postPage';
+import { isLogged, token, userData, formLoginIsValid, info } from './auth';
 
 export default combineReducers({
   posts,
@@ -13,5 +14,14 @@ export default combineReducers({
   textareaBodyValue,
   userValue,
   comments,
-  lastPostId
+  lastPostId,
+
+  isLogged,
+  token,
+  userData,
+  users,
+
+  formLoginIsValid,
+  formPostIsValid,
+  info
 });
