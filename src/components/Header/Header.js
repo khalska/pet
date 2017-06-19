@@ -4,19 +4,44 @@ import Logo from '../Logo/Logo';
 import PropTypes from 'prop-types';
 import logo from './logo.svg';
 import classNames from 'classnames';
+import { connect } from "react-redux";
+import UserPanel from '../UserPanel/UserPanel';
+import {
+  signIn
+} from '../../actions/auth';
 
 class Header extends React.Component {
   static propTypes = {
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    isLogged: PropTypes.bool.isRequired,
   }
+
   render() {
     return (
       <div className={classNames('Header page-header')}>
         <Logo src={logo} />
-        <h1>{this.props.title} </h1>
+        <h1>{this.props.title}</h1>
+        <UserPanel />
       </div>
 
     );
   }
 }
-export default Header;
+//export default Header;
+
+const mapStateToProps = (state) => {
+  return {
+    isLogged: state.isLogged,
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (login) => dispatch(signIn(login))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);
