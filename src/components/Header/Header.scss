@@ -3,4 +3,8 @@
 .Header{
   padding: $padding 0;
   color: $baseColor;
+
+  a{
+    text-decoration: none;
+  }
 }

@@ -3,8 +3,8 @@ import { Link } from 'react-router';
 import './Page.css';
 import Post from '../Post/Post';
 import Modal from '../Modal/Modal';
+import Layout from '../Layout/Layout';
 import Search from '../Search/Search';
-import { config } from '../../config.js';
 import classNames from 'classnames';
 import { debounce } from 'throttle-debounce';
 import PropTypes from 'prop-types';
@@ -32,7 +32,9 @@ class Page extends React.Component {
     changePhrase: PropTypes.func.isRequired,
     getSearchedPosts: PropTypes.func.isRequired,
     setPostToDelete: PropTypes.func.isRequired,
-    deletePost: PropTypes.func.isRequired
+    deletePost: PropTypes.func.isRequired,
+
+    isLogged: PropTypes.bool.isRequired
   }
 
   constructor(props) {
@@ -44,14 +46,14 @@ class Page extends React.Component {
 
   componentDidMount() {
     if (this.props.posts.length === 0) {
-      this.props.fetchData(config.url);
+      this.props.fetchData();
     }
 
   }
 
   openModal(postId) {
     this.props.setPostToDelete(postId);
-    this.setState({ 
+    this.setState({
       isModalOpen: true
     })
   }
@@ -66,14 +68,6 @@ class Page extends React.Component {
   }
 
   __renderPosts() {
-    return(
-      this.props.filteredPosts.map(
-        post => <Post key={post.id} {...post} handleDelete={ () => this.openModal(post.id)}/>
-      )
-    );
-  }
-
-  __renderPostsContainer() {
     if (this.props.hasErrored) {
       return <p>Sorry! There was an error loading the items</p>;
     }
@@ -85,7 +79,9 @@ class Page extends React.Component {
     return(
       <div className="post-content">
         <ul className="list-group">
-          { this.__renderPosts() }
+          { this.props.filteredPosts.map(
+            post => <Post key={post.id} {...post} handleDelete={ () => this.openModal(post.id)}/>
+          )}
         </ul>
       </div>
     );
@@ -93,9 +89,10 @@ class Page extends React.Component {
 
   __renderAddPostButton() {
     return(
+      this.props.isLogged &&
       <div className="addPostButton pull-right">
         <Link to="add-post" className={classNames('btn pull-right btn-success')}>
-          Add new post 
+          Add new post
         </Link>
       </div>
     );
@@ -105,37 +102,32 @@ class Page extends React.Component {
     const { searchedPhrase, getSearchedPosts, changePhrase } = this.props;
 
     return (
-      <div className={classNames('Page')}>
+      <Layout>
+        <div className={classNames('Page')}>
+          {this.__renderAddPostButton()}
 
+          <Search
+            phrase={ searchedPhrase }
+            onFilterTextInput={ (e) => debounce(500, changePhrase(e)) }
+            onFilterTextButton={ (e) => getSearchedPosts(e) }
+          />
 
-        {this.__renderAddPostButton()}
-        <div>post to delete: {this.props.postToDelete} , number of posts: {this.props.posts.length}</div>
+          <Modal
+            isOpen={this.state.isModalOpen}
+            onClose={ () => this.closeModal() }
+            onConfirm={ () => this.onConfirmDelete(this.props.postToDelete) }
+            buttonCloseLabel="No"
+            buttonConfirmLabel="Yes"
+          >
+            <p>Are you sure to delete post #{this.props.postToDelete}?</p>
+          </Modal>
 
-        searhced phrase:{ searchedPhrase }
-        <Search
-          phrase={ searchedPhrase }
-
-          onFilterTextInput={ (e) => debounce(500, changePhrase(e)) }
-          onFilterTextButton={ (e) => getSearchedPosts(e) }
-        />
-
-        <Modal 
-          isOpen={this.state.isModalOpen} 
-          onClose={ () => this.closeModal() } 
-          onConfirm={ () => this.onConfirmDelete(this.props.postToDelete) }
-          buttonCloseLabel="No"
-          buttonConfirmLabel="Yes"
-        >
-          <p>Are you sure to delete post #{this.props.postToDelete}?</p>
-        </Modal>
-
-        {this.__renderPostsContainer()}
-      </div>
+          {this.__renderPosts()}
+        </div>
+      </Layout>
     );
   }
 }
-
-//export default Page;
 
 const mapStateToProps = (state) => {
   return {
@@ -147,6 +139,8 @@ const mapStateToProps = (state) => {
     hasErrored: state.postsHasErrored,
     isLoading: state.postsIsLoading,
     postToDelete: state.postToDelete,
+
+    isLogged: state.isLogged
   };
 }
 

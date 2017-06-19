@@ -2,11 +2,9 @@ import React from 'react';
 import { Link } from 'react-router'
 import './PostPage.css';
 import PropTypes from 'prop-types';
-import { config } from '../../config.js';
 import Comment from '../Comment/Comment';
 import User from '../User/User';
 import './PostPage.css';
-import fetch from 'isomorphic-fetch';
 import { IndexLink } from 'react-router'
 import {connect} from "react-redux";
 import {
@@ -16,8 +14,11 @@ import {
   getPostData,
   getPostComments,
   addPost,
-  updatePost
+  updatePost,
+  fetchUsers
 } from '../../actions/postPage';
+import Layout from "../Layout/Layout";
+import Info from "../Info/Info";
 
 class PostPage extends React.Component {
   static propTypes = {
@@ -27,26 +28,29 @@ class PostPage extends React.Component {
 
     inputTitleValue: PropTypes.string,
     textareaBodyValue: PropTypes.string,
-   // userValue: PropTypes.number,
+    userValue: PropTypes.number,
     setBody: PropTypes.func.isRequired,
     setTitle: PropTypes.func.isRequired,
     setUser: PropTypes.func.isRequired,
     getPostData: PropTypes.func.isRequired,
     getPostComments: PropTypes.func.isRequired,
     addPost: PropTypes.func.isRequired,
-    updatePost: PropTypes.func.isRequired
+    updatePost: PropTypes.func.isRequired,
+    getUsers: PropTypes.func.isRequired,
+    users: PropTypes.array.isRequired,
+    formPostIsValid: PropTypes.bool.isRequired,
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      info: ''
+      title: ''
     };
   }
 
   componentDidMount() {
     const postId = this.props.params.postId;
+    this.props.getUsers();
 
     if (postId) {
       this.props.getPostData(postId);
@@ -57,30 +61,26 @@ class PostPage extends React.Component {
   }
 
   clearForm() {
-    this.setTitle('');
-    this.setBody('');
-    this.setUser('');
+    this.props.setTitle('');
+    this.props.setBody('');
+    this.props.setUser(null);
   }
 
   handleSubmit() {
-    const postId = this.props.params.postId;
+    const postId = Number(this.props.params.postId);
     postId ? this.props.updatePost(postId) : this.props.addPost();
   }
 
   handleTitleChange(event) {
-    this.setTitle(event.target.value);
+    this.props.setTitle(event.target.value);
   }
 
   handleBodyChange(event) {
-    this.setBody(event.target.value);
+    this.props.setBody(event.target.value);
   }
 
   handleUserChange(event) {
-    this.setUser(event.target.value);
-  }
-
-  __validateForm() {
-    return !(this.props.inputTitleValue && this.props.textareaBodyValue && this.props.userValue)
+    this.props.setUser(Number(event.target.value));
   }
 
   __renderTitle() {
@@ -95,8 +95,8 @@ class PostPage extends React.Component {
     return(
       <div className="users_container">
         <h5>User</h5>
-        <ul className="panel" onChange={ (e) => this.handleUserChange(e)} >    
-          {config.users.map(
+        <ul className="panel" onChange={ (e) => this.handleUserChange(e)} >
+          {this.props.users.map(
             user => <User key={user.id} {...user} />
           )}
         </ul>
@@ -137,16 +137,21 @@ class PostPage extends React.Component {
           </div>
           {this.__renderUsers()}
         </form>
-          <div className="form_buttons">
-            <button onClick={ () => this.handleSubmit() } 
-              className={'btn btn-success button_save'}
-              disabled={ this.__validateForm() } >
-              Save changes
-            </button>
-            <Link to='/' className={'btn btn-default button_cancel'}>
-              Cancel
-            </Link>
-          </div>
+
+        {
+          !this.formPostIsValid &&
+            <Info />
+        }
+
+        <div className="form_buttons">
+          <button onClick={ () => this.handleSubmit() }
+            className={'btn btn-success button_save'}>
+            Save changes
+          </button>
+          <Link to='/' className={'btn btn-default button_cancel'}>
+            Cancel
+          </Link>
+        </div>
       </div>
     );
   }
@@ -166,23 +171,16 @@ class PostPage extends React.Component {
     );
   }
 
-  __renderInfo() {
-    return (
-      <div className={ (this.state.info) ? 'info alert alert-success' : 'info'}>
-        {this.state.info}
-      </div>
-    )
-  }
-
   render() {
     return (
-      <div className="PostPage">
-        {this.__renderBreadcrumbs()}
-        {this.__renderTitle()}
-        {this.__renderForm()}
-        {this.__renderInfo()}
-        {this.__renderComments()}
-      </div>
+      <Layout>
+        <div className="PostPage">
+          {this.__renderBreadcrumbs()}
+          {this.__renderTitle()}
+          {this.__renderForm()}
+          {this.__renderComments()}
+        </div>
+      </Layout>
     );
   }
 }
@@ -191,7 +189,9 @@ const mapStateToProps = (state) => {
     inputTitleValue: state.inputTitleValue,
     textareaBodyValue: state.textareaBodyValue,
     userValue: state.userValue,
-    comments: state.comments
+    comments: state.comments,
+    users: state.users,
+    formPostIsValid: state.formPostIsValid
   };
 }
 
@@ -203,7 +203,8 @@ const mapDispatchToProps = (dispatch) => {
     getPostData: (postId) => dispatch(getPostData(postId)),
     getPostComments: (postId) => dispatch(getPostComments(postId)),
     addPost: () => dispatch(addPost()),
-    updatePost: (postId) => dispatch(updatePost(postId))
+    updatePost: (postId) => dispatch(updatePost(postId)),
+    getUsers: () => dispatch(fetchUsers())
   };
 }
 
