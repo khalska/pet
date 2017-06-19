@@ -8,25 +8,38 @@ import User from '../User/User';
 import './PostPage.css';
 import fetch from 'isomorphic-fetch';
 import { IndexLink } from 'react-router'
+import {connect} from "react-redux";
+import {
+  setPostTitle,
+  setPostBody,
+  setPostUser,
+  getPostData,
+  getPostComments,
+  addPost,
+  updatePost
+} from '../../actions/postPage';
 
 class PostPage extends React.Component {
   static propTypes = {
     params: PropTypes.object,
     comments: PropTypes.array,
-    location: PropTypes.object
-  }
+    location: PropTypes.object,
 
-  static contextTypes = {
-    router: PropTypes.object.isRequired
+    inputTitleValue: PropTypes.string,
+    textareaBodyValue: PropTypes.string,
+   // userValue: PropTypes.number,
+    setBody: PropTypes.func.isRequired,
+    setTitle: PropTypes.func.isRequired,
+    setUser: PropTypes.func.isRequired,
+    getPostData: PropTypes.func.isRequired,
+    getPostComments: PropTypes.func.isRequired,
+    addPost: PropTypes.func.isRequired,
+    updatePost: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      inputTitleValue: '',
-      textareaBodyValue: '',
-      comments: [],
-      userValue: '',
       title: '',
       info: ''
     };
@@ -36,102 +49,38 @@ class PostPage extends React.Component {
     const postId = this.props.params.postId;
 
     if (postId) {
-      this.__getPostData(postId);
-      this.__getComments(postId);
+      this.props.getPostData(postId);
+      this.props.getPostComments(postId);
+    } else {
+      this.clearForm();
     }
   }
 
-  __getPostData(postId) {
-    const url = `${config.url}/${postId}`;
-    fetch(url)
-      .then( (response) => response.json() )   
-      .then( (json) => 
-        this.setState({
-          inputTitleValue: json.title,
-          textareaBodyValue: json.body,
-          userValue: json.userId
-        })
-      );
-  }
-
-  __getComments(postId) {
-    const url = `${config.url}/${postId}/comments`;
-    fetch(url)
-      .then( (response) => response.json() )   
-      .then( (json) => this.setState({comments: json}) );
+  clearForm() {
+    this.setTitle('');
+    this.setBody('');
+    this.setUser('');
   }
 
   handleSubmit() {
     const postId = this.props.params.postId;
-    postId ? this.__updatePost(postId) : this.__addNewPost();
-  }
-
-  __addNewPost() {
-    const data = {
-      title: this.state.inputTitleValue,
-      body: this.state.textareaBodyValue,
-      userId: this.state.userValue
-    }
-
-    const fetchData = { 
-      method: 'POST', 
-      body: data,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    }
-
-    fetch(config.url, fetchData)
-      .then( (response) => response.json() )   
-      .then( (json) => {
-        this.setState({info: `Post #${json.id} was saved.`})
-        //this.context.router.push(`/update-post/${json.id}`)
-      });
-  }
-
-  __updatePost(postId) {
-    const data = {
-      id: postId,
-      title: this.state.inputTitleValue,
-      body: this.state.textareaBodyValue,
-      userId: this.state.userValue
-    };
-
-    const fetchData = { 
-      method: 'PUT', 
-      body: data,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    }
-
-    const url = `${config.url}/${postId}`;
-
-    fetch(url, fetchData)
-      .then( (response) => {
-        const info = (response.ok) ? 'Changes in post was saved.' : 'Error!'
-        this.setState({info})
-      });
+    postId ? this.props.updatePost(postId) : this.props.addPost();
   }
 
   handleTitleChange(event) {
-    this.setState({inputTitleValue: event.target.value});
+    this.setTitle(event.target.value);
   }
 
   handleBodyChange(event) {
-    this.setState({textareaBodyValue: event.target.value});
+    this.setBody(event.target.value);
   }
 
   handleUserChange(event) {
-    this.setState({
-       userValue: event.target.value
-     });
+    this.setUser(event.target.value);
   }
 
   __validateForm() {
-    return !(this.state.inputTitleValue && this.state.textareaBodyValue && this.state.userValue)
+    return !(this.props.inputTitleValue && this.props.textareaBodyValue && this.props.userValue)
   }
 
   __renderTitle() {
@@ -161,8 +110,8 @@ class PostPage extends React.Component {
         <div className="comments_container">
           <h4>Comments</h4>
           <ul>
-            {this.state.comments.map(
-              comment => <Comment key={comment.id} name={comment.name} body={comment.body}/>
+            {this.props.comments.map(
+              comment => <Comment key={comment.id} {...comment} />
             )}
           </ul>
         </div>
@@ -175,14 +124,14 @@ class PostPage extends React.Component {
       <div>
         <form onSubmit={ () => this.handleSubmit() }>
           <div className="form_title_input">
-            <input type="text" required className="form-control"
-              value={this.state.inputTitleValue} 
+             <input type="text" required className="form-control"
+              value={this.props.inputTitleValue}
               onChange={ (e) => this.handleTitleChange(e) } 
               placeholder="Title" />
           </div>
           <div className="form_body_textarea">
             <textarea required className="form-control"
-              value={this.state.textareaBodyValue} 
+              value={this.props.textareaBodyValue}
               onChange={ (e) => this.handleBodyChange(e) } 
               placeholder="Body" />
           </div>
@@ -237,4 +186,28 @@ class PostPage extends React.Component {
     );
   }
 }
-export default PostPage;
+const mapStateToProps = (state) => {
+  return {
+    inputTitleValue: state.inputTitleValue,
+    textareaBodyValue: state.textareaBodyValue,
+    userValue: state.userValue,
+    comments: state.comments
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setTitle: (title) => dispatch(setPostTitle(title)),
+    setBody: (body) => dispatch(setPostBody(body)),
+    setUser: (user) => dispatch(setPostUser(user)),
+    getPostData: (postId) => dispatch(getPostData(postId)),
+    getPostComments: (postId) => dispatch(getPostComments(postId)),
+    addPost: () => dispatch(addPost()),
+    updatePost: (postId) => dispatch(updatePost(postId))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PostPage);

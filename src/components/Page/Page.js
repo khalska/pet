@@ -6,63 +6,53 @@ import Modal from '../Modal/Modal';
 import Search from '../Search/Search';
 import { config } from '../../config.js';
 import classNames from 'classnames';
-import fetch from 'isomorphic-fetch';
 import { debounce } from 'throttle-debounce';
+import PropTypes from 'prop-types';
+import { connect } from "react-redux";
+import {
+  postsFetchData,
+  changeSearchedPhrase,
+  getFilteredPosts,
+  deletePostAction,
+  choosePostToDelete
+} from '../../actions/actions';
 
 class Page extends React.Component {
+  static propTypes = {
+    posts: PropTypes.array.isRequired,
+    filteredPosts: PropTypes.array.isRequired,
+    searchedPhrase: PropTypes.string,
+    postToDelete: PropTypes.number.isRequired,
+
+    hasErrored: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+
+    getPosts: PropTypes.func,
+    fetchData: PropTypes.func.isRequired,
+    changePhrase: PropTypes.func.isRequired,
+    getSearchedPosts: PropTypes.func.isRequired,
+    setPostToDelete: PropTypes.func.isRequired,
+    deletePost: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],
-      filteredPosts: [],
-      phrase: '',
-      isModalOpen: false,
-      postToDelete: 0
+      isModalOpen: false
     };
   }
 
-  handleFilterTextInput(phrase) {
-    this.setState({
-      phrase
-    });
-  }
-
-  handleFilterTextButton() {
-    const phrase = this.state.phrase.toLowerCase();
-    let filteredPosts = this.state.posts;
-
-    filteredPosts = filteredPosts.filter( (post) => {
-      if (post.hasOwnProperty('title') && post.hasOwnProperty('body')) {
-        const title = post.title.toLowerCase();
-        const body = post.body.toLowerCase();
-        return (title.indexOf(phrase) >= 0 || body.indexOf(phrase) >= 0);
-      } 
-    });
-
-    this.setState({
-      filteredPosts
-    }); 
-  }
-
   componentDidMount() {
-    this.__getPosts();
-  }
+    if (this.props.posts.length === 0) {
+      this.props.fetchData(config.url);
+    }
 
-  __getPosts() {
-    fetch(config.url)
-      .then( (response) => response.json() )   
-      .then( (json) =>  
-        this.setState({
-          posts: json, 
-          filteredPosts: json
-        }) 
-      );
   }
 
   openModal(postId) {
+    this.props.setPostToDelete(postId);
     this.setState({ 
-      isModalOpen: true,
-      postToDelete: postId
+      isModalOpen: true
     })
   }
 
@@ -71,37 +61,31 @@ class Page extends React.Component {
   }
 
   onConfirmDelete(postId) {
-    this.deletePost(postId);
+    this.props.deletePost(postId);
     this.closeModal();
-  }
-
-  deletePost(postId) {
-    const url = `${config.url}/${postId}`;
-    fetch(url, {method: 'DELETE'})
-    .then(this.deletePostLocally(postId));
-  }
-
-  deletePostLocally(postId) {
-    let posts = this.state.posts;
-
-    posts.forEach((item, index) => {
-      if (item.id === postId) {
-        posts.splice(index,1);
-      }
-    });
-
-    this.setState({
-      posts
-    })
   }
 
   __renderPosts() {
     return(
+      this.props.filteredPosts.map(
+        post => <Post key={post.id} {...post} handleDelete={ () => this.openModal(post.id)}/>
+      )
+    );
+  }
+
+  __renderPostsContainer() {
+    if (this.props.hasErrored) {
+      return <p>Sorry! There was an error loading the items</p>;
+    }
+
+    if (this.props.isLoading) {
+      return <p>Loading…</p>;
+    }
+
+    return(
       <div className="post-content">
         <ul className="list-group">
-          { this.state.filteredPosts.map(
-            post => <Post key={post.id} {...post} handleDelete={ () => this.openModal(post.id)}/>
-          )}
+          { this.__renderPosts() }
         </ul>
       </div>
     );
@@ -118,30 +102,65 @@ class Page extends React.Component {
   }
 
   render() {
+    const { searchedPhrase, getSearchedPosts, changePhrase } = this.props;
+
     return (
       <div className={classNames('Page')}>
-        {this.__renderAddPostButton()}
 
-        <Search 
-          phrase={this.state.phrase.toLowerCase()}
-          onFilterTextInput={ (e) => debounce(500, this.handleFilterTextInput(e)) }
-          onFilterTextButton={ (e) => this.handleFilterTextButton(e) }
+
+        {this.__renderAddPostButton()}
+        <div>post to delete: {this.props.postToDelete} , number of posts: {this.props.posts.length}</div>
+
+        searhced phrase:{ searchedPhrase }
+        <Search
+          phrase={ searchedPhrase }
+
+          onFilterTextInput={ (e) => debounce(500, changePhrase(e)) }
+          onFilterTextButton={ (e) => getSearchedPosts(e) }
         />
-      
+
         <Modal 
           isOpen={this.state.isModalOpen} 
           onClose={ () => this.closeModal() } 
-          onConfirm={ () => this.onConfirmDelete(this.state.postToDelete) }
+          onConfirm={ () => this.onConfirmDelete(this.props.postToDelete) }
           buttonCloseLabel="No"
           buttonConfirmLabel="Yes"
         >
-          <p>Are you sure to delete post #{this.state.postToDelete}?</p>
+          <p>Are you sure to delete post #{this.props.postToDelete}?</p>
         </Modal>
 
-        {this.__renderPosts()}
+        {this.__renderPostsContainer()}
       </div>
     );
   }
 }
 
-export default Page;
+//export default Page;
+
+const mapStateToProps = (state) => {
+  return {
+    posts: state.posts,
+    filteredPosts: state.filteredPosts,
+    searchedPhrase: state.searchedPhrase,
+    counter: state.counter,
+
+    hasErrored: state.postsHasErrored,
+    isLoading: state.postsIsLoading,
+    postToDelete: state.postToDelete,
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchData: (url) => dispatch(postsFetchData(url)),
+    changePhrase: (phrase) => dispatch(changeSearchedPhrase(phrase)),
+    getSearchedPosts: (searchedPhrase) => dispatch(getFilteredPosts(searchedPhrase)),
+    deletePost: (postId) => dispatch(deletePostAction(postId)),
+    setPostToDelete: (postId) => dispatch(choosePostToDelete(postId))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Page);
