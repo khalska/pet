@@ -12,6 +12,7 @@ export const config = {
     empty_password: 'Password is empty',
     empty_title: 'Title is empty',
     empty_body: 'Body is empty',
-    empty_user: 'User is not selected'
+    empty_user: 'User is not selected',
+    unauthorized: 'Not correct login or password'
   }
 };

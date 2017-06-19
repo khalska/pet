@@ -38,7 +38,7 @@ class PostPage extends React.Component {
     updatePost: PropTypes.func.isRequired,
     getUsers: PropTypes.func.isRequired,
     users: PropTypes.array.isRequired,
-    formPostIsValid: PropTypes.bool.isRequired
+    formPostIsValid: PropTypes.bool.isRequired,
   }
 
   constructor(props) {
@@ -138,7 +138,10 @@ class PostPage extends React.Component {
           {this.__renderUsers()}
         </form>
 
-        <Info />
+        {
+          !this.formPostIsValid &&
+            <Info />
+        }
 
         <div className="form_buttons">
           <button onClick={ () => this.handleSubmit() }

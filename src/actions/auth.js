@@ -1,6 +1,8 @@
 import { config } from "../config";
 import { validateLoginForm } from './validation.js';
+import { setInfo } from './actions';
 import {browserHistory} from 'react-router';
+import fetch from 'isomorphic-fetch';
 
 export function setIsLogged(bool) {
 
@@ -43,7 +45,7 @@ export function fetchSignIn(login, password) {
       }
 
       const myParams = Object.keys(data).map((key) => {
-        return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
+        return `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`;
       }).join('&');
 
       const fetchData = {
@@ -61,9 +63,8 @@ export function fetchSignIn(login, password) {
 
       fetch(url, fetchData)
         .then((response) => {
-
-          if (!response.ok) {
-            throw Error(response.statusText);
+          if (response.status === 401) {
+            dispatch(setInfo([config.messages.unauthorized]))
           }
           return response;
         })
@@ -108,6 +109,7 @@ export function logOut() {
     dispatch(setToken(''));
     dispatch(setIsLogged(false));
     dispatch(setUserData({}));
+    dispatch(setInfo([]));
   }
 }
 

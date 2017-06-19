@@ -12,7 +12,6 @@ import {
 import Layout from "../Layout/Layout";
 import Info from "../Info/Info";
 
-
 class LoginPage extends React.Component {
   constructor(props){
     super(props);
@@ -31,8 +30,8 @@ class LoginPage extends React.Component {
   }
 
   onHandleButton() {
-    // this.props.signIn(this.state.login, this.state.password);
-    this.props.signIn('piercesantiago@qualitern.com', 'brigitte');
+    this.props.signIn(this.state.login, this.state.password);
+    //this.props.signIn('piercesantiago@qualitern.com', 'brigitte');
   }
 
   render() {

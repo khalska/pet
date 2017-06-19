@@ -6,6 +6,7 @@ import logo from './logo.svg';
 import classNames from 'classnames';
 import { connect } from "react-redux";
 import UserPanel from '../UserPanel/UserPanel';
+import { Link } from 'react-router';
 import {
   signIn
 } from '../../actions/auth';
@@ -19,11 +20,13 @@ class Header extends React.Component {
   render() {
     return (
       <div className={classNames('Header page-header')}>
-        <Logo src={logo} />
-        <h1>{this.props.title}</h1>
+        <Link to={'/'}>
+          <Logo src={logo} />
+          <h1>{this.props.title}</h1>
+        </Link>
+
         <UserPanel />
       </div>
-
     );
   }
 }

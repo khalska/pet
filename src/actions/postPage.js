@@ -34,7 +34,8 @@ export  function getPostData(postId) {
         {
           dispatch(setPostTitle(json.title));
           dispatch(setPostBody(json.body));
-          dispatch(setPostUser(json.userId))
+          dispatch(setPostUser(json.userId));
+          dispatch(validateNewPostForm());
         }
       );
   }
