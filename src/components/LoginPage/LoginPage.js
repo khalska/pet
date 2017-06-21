@@ -35,7 +35,7 @@ class LoginPage extends React.Component {
       <Layout>
         <div className={classNames('LoginPage text-center')}>
           <h4> Log in </h4>
-          <input type="text" name="myLoginReact" autoComplete="on"
+          <input type="text" name="myLoginReact"
             placeholder="Enter your login" className="form-control"
             onChange={ (event) => this.setState({ login: event.target.value }) }
           />

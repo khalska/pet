@@ -92,7 +92,7 @@ export function deletePostAction(postId) {
       .then( () => {
         postId = getState().postToDelete;
 
-        let posts = getState().posts;
+        const posts = getState().posts;
 
         posts.forEach((item, index) => {
           if (item.id === postId) {

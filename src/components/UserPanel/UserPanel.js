@@ -42,13 +42,11 @@ class UserPanel extends React.Component {
     return (
       <div className={ classNames('UserPanel text-right') }>
         {
-          this.props.isLogged &&
-          this.__renderUserData()
-        }
-        { !this.props.isLogged &&
-          <Link to="/login" className={classNames('btn btn-success')}>
-            Sign in
-          </Link>
+          this.props.isLogged
+            ? this.__renderUserData()
+            : <Link to="/login" className={classNames('btn btn-success')}>
+                Sign in
+              </Link>
         }
       </div>
     );

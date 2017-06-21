@@ -8,12 +8,14 @@ class User extends React.Component {
   static propTypes = {
     name: PropTypes.string,
     id: PropTypes.number.isRequired,
-    myId: PropTypes.node
+    myId: PropTypes.node,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string
   }
 
   render() {
     return (
-      <li className={classNames('User', (this.props.id === this.props.myId) ? 'actual' : '')}>
+      <li className={ classNames('User', {'actual': this.props.id === this.props.myId}) }>
         <input type="radio"
                id={ `input${this.props.id}` }
                value={ this.props.id }
@@ -21,7 +23,7 @@ class User extends React.Component {
 
         />
         <label htmlFor={ `input${this.props.id}` }>
-          {this.props.firstName} { this.props.lastName }
+          { this.props.firstName } { this.props.lastName }
         </label>
       </li>
     );

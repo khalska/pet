@@ -12,7 +12,8 @@ class Post extends React.Component {
     body: PropTypes.string,
     handleDelete: PropTypes.func.isRequired,
     isLogged: PropTypes.bool.isRequired,
-    myId: PropTypes.number
+    myId: PropTypes.number,
+    userId: PropTypes.number
   }
 
   constructor(props) {
@@ -23,7 +24,8 @@ class Post extends React.Component {
   render() {
     return (
       <li id={`post${this.props.id}`} className={ classNames('Post list-group-item panel row',
-                    (this.props.userId === this.props.myId) ? 'Post--my-post' : '') }>
+        {'Post--my-post': this.props.userId === this.props.myId}
+        ) }>
         <div className={ classNames('Post_data col-md-10') }>
           <h3>{this.props.title}</h3>
           <div>{this.props.body}</div>

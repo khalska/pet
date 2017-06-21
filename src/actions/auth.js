@@ -38,7 +38,7 @@ export function fetchSignIn(login, password) {
     }
 
     const myParams = Object.keys(data).map((key) => {
-      return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
+      return `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`;
     }).join('&');
 
     const fetchData = {
