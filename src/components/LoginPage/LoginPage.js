@@ -21,12 +21,12 @@ class LoginPage extends React.Component {
 
   static propTypes = {
     isLogged: PropTypes.bool.isRequired,
-    login: PropTypes.string
+    login: PropTypes.string,
+    signIn: PropTypes.func.isRequired
   }
 
   onHandleButton() {
-    this.props.signIn('luannhayes@qualitern.com', 'lesa');
-    // this.props.signIn(this.state.login, this.state.password);
+    this.props.signIn(this.state.login, this.state.password);
     browserHistory.push('/');
   }
 

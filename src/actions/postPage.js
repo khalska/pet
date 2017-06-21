@@ -162,6 +162,7 @@ export function setUsers(users) {
 }
 
 export function fetchUsers() {
+  console.log('get authors')
   return (dispatch, getState) => {
     const url = config.url.users;
     const token = getState().token;

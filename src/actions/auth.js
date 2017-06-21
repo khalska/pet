@@ -2,6 +2,8 @@ import {config} from "../config";
 import { validateLoginForm,
   setLoginFormValidation
 } from './validation.js';
+import { browserHistory } from 'react-router';
+
 export function setIsLogged(bool) {
 
   return {
@@ -67,8 +69,23 @@ export function fetchSignIn(login, password) {
         dispatch(setToken(json.token));
         dispatch(setIsLogged(true));
         dispatch(fetchUserData(json.token));
+        localStorage.setItem('reactAppToken', json.token);
       });
 
+  }
+}
+
+export function checkIfLogged() {
+  return (dispatch) => {
+    const token = localStorage.getItem('reactAppToken');
+
+    if (token !== 'null') {
+      dispatch(setIsLogged(true));
+      dispatch(setToken(token));
+      dispatch(fetchUserData(token))
+    } else {
+      dispatch(setIsLogged(false));
+    }
   }
 }
 
@@ -86,6 +103,7 @@ export function fetchUserData(token) {
     fetch(url, fetchData)
       .then((response) => {
         if (!response.ok) {
+
           throw Error(response.statusText);
         }
         return response;
@@ -99,6 +117,7 @@ export function fetchUserData(token) {
 
 export function logOut() {
   return (dispatch) => {
+    localStorage.removeItem('reactAppToken');
     dispatch(setToken(''));
     dispatch(setIsLogged(false));
     dispatch(setUserData({}));
