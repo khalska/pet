@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { config } from '../config.js';
+import {browserHistory} from 'react-router';
 
 export function setPostTitle(title) {
   return {
@@ -24,7 +25,7 @@ export function setPostUser(user) {
 
 export  function getPostData(postId) {
   return (dispatch) => {
-    const url = `${config.url}/${postId}`;
+    const url = `${config.url.posts}/${postId}`;
     fetch(url)
       .then( (response) => response.json() )
       .then( (json) =>
@@ -46,7 +47,7 @@ export function setPostComments(comments) {
 
 export function getPostComments(postId) {
   return (dispatch) => {
-    const url = `${config.url}/${postId}/comments`;
+    const url = `${config.url.posts}/${postId}/comments`;
     fetch(url)
       .then( (response) => response.json() )
       .then( (json) =>
@@ -90,7 +91,7 @@ export function addPost() {
       }
     }
 
-    fetch(config.url, fetchData)
+    fetch(config.url.posts, fetchData)
       .then( (response) => response.json() )
       .then( (json) => {
         const posts = getState().posts;
@@ -101,7 +102,7 @@ export function addPost() {
         dispatch({ type: 'INCREMENT_LAST_POST_ID' })
 
         clearForm(dispatch);
-
+        browserHistory.push('/');
         //this.setState({info: `Post #${json.id} was saved.`})
       });
 
@@ -132,22 +133,57 @@ export function updatePost(postId) {
       }
     }
 
-    const url = `${config.url}/${postId}`;
+    const url = `${config.url.posts}/${postId}`;
 
     fetch(url, fetchData)
       .then( (response) => {
         let posts = getState().posts;
 
-        posts = posts.filter( (post) => {
-          if (post.id == postId) {
+        posts.filter( (post) => {
+          if (post.id === postId) {
             post.title = fetchData.body.title;
             post.body = fetchData.body.body;
             post.userId = fetchData.body.userId
             return true;
           }
+          else return false;
         });
+        browserHistory.push('/');
         //const info = (response.ok) ? 'Changes in post was saved.' : 'Error!'
         //this.setState({info})
       });
   }
+}
+
+export function setUsers(users) {
+  return {
+    type: 'SET_USERS',
+    users
+  }
+}
+
+export function fetchUsers() {
+  return (dispatch, getState) => {
+    const url = config.url.users;
+    const token = getState().token;
+
+    const fetchData = {
+      method: 'GET',
+      headers: {
+        authorization: token,
+      }
+    }
+
+    fetch(url, fetchData)
+      .then((response) => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch(setUsers(json));
+      });
+  };
 }

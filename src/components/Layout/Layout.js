@@ -1,17 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import getRoutes from '../../routes';
 
-class App extends React.Component {
+class Layout extends React.Component {
+  static propTypes = {
+    children: PropTypes.node
+  }
+
   render() {
     return (
       <div className="container">
         <Header title="Welcome to React" />
-        { getRoutes() }
+        { this.props.children }
         <Footer />
       </div>
     );
   }
 }
-export default App;
+export default Layout;

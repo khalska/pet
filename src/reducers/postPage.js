@@ -55,3 +55,13 @@ export function lastPostId(state = -1, action) {
   }
 }
 
+export function users(state = [], action) {
+  switch (action.type) {
+    case 'SET_USERS':
+      return  action.users;
+
+    default:
+      return state;
+  }
+}
+

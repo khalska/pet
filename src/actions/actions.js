@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { config } from '../config.js';
+import {browserHistory} from 'react-router';
 /*
  * action creators
  */
@@ -25,9 +26,10 @@ export function setPosts(posts) {
   };
 }
 
-export function postsFetchData(url) {
+export function postsFetchData() {
   return (dispatch) => {
     dispatch(postsIsLoading(true));
+    const url = config.url.posts;
 
     fetch(url)
       .then((response) => {
@@ -67,7 +69,8 @@ export function getFilteredPosts() {
           const title = post.title.toLowerCase();
           const body = post.body.toLowerCase();
           return (title.indexOf(searchedPhrase) >= 0 || body.indexOf(searchedPhrase) >= 0);
-        }
+        } else
+          return false;
       });
     }
 
@@ -84,10 +87,12 @@ export function changeSearchedPhrase(searchedPhrase) {
 
 export function deletePostAction(postId) {
   return (dispatch, getState) => {
-    const url = `${config.url}/${postId}`;
+    const url = `${config.url.posts}/${postId}`;
 
     fetch(url, {method: 'DELETE'})
       .then( () => {
+        postId = getState().postToDelete;
+
         const posts = getState().posts;
 
         posts.forEach((item, index) => {
@@ -98,11 +103,12 @@ export function deletePostAction(postId) {
 
         dispatch(postsFilter(posts));
         dispatch(setPosts(posts));
+        browserHistory.push('/');
       });
   }
 }
 
-export  function choosePostToDelete(postToDelete) {
+export function choosePostToDelete(postToDelete) {
   return {
     type: 'CHOOSE_POST_TO_DELETE',
     postToDelete
