@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router'
 import './PostPage.css';
 import PropTypes from 'prop-types';
-import { config } from '../../config.js';
 import Comment from '../Comment/Comment';
 import User from '../User/User';
 import './PostPage.css';
@@ -67,7 +66,7 @@ class PostPage extends React.Component {
   }
 
   handleSubmit() {
-    const postId = this.props.params.postId;
+    const postId = Number(this.props.params.postId);
     postId ? this.props.updatePost(postId) : this.props.addPost();
   }
 

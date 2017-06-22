@@ -69,7 +69,8 @@ export function getFilteredPosts() {
           const title = post.title.toLowerCase();
           const body = post.body.toLowerCase();
           return (title.indexOf(searchedPhrase) >= 0 || body.indexOf(searchedPhrase) >= 0);
-        }
+        } else
+          return false;
       });
     }
 

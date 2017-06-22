@@ -139,13 +139,14 @@ export function updatePost(postId) {
       .then( (response) => {
         let posts = getState().posts;
 
-        posts = posts.filter( (post) => {
-          if (post.id == postId) {
+        posts.filter( (post) => {
+          if (post.id === postId) {
             post.title = fetchData.body.title;
             post.body = fetchData.body.body;
             post.userId = fetchData.body.userId
             return true;
           }
+          else return false;
         });
         browserHistory.push('/');
         //const info = (response.ok) ? 'Changes in post was saved.' : 'Error!'
@@ -162,7 +163,6 @@ export function setUsers(users) {
 }
 
 export function fetchUsers() {
-  console.log('get authors')
   return (dispatch, getState) => {
     const url = config.url.users;
     const token = getState().token;
